@@ -1,0 +1,76 @@
+body {
+  background-color: black;
+  /* background image for the page body; change path to another file if desired */
+  background-image: url("../../img/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
+
+
+.modal-body, .modal-header, .modal-footer{
+color: white;
+background-color: black;
+border: solid 1px yellowgreen;
+  box-shadow: 0 0 20px yellowgreen;
+}
+
+
+.produto1 {
+  border: solid 2px yellowgreen;
+  color: white;
+  backdrop-filter: blur(10px);
+  margin-top: 15px;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: auto;
+  width: 350px;
+  padding: 20px;
+  box-shadow: 0 0 20px yellowgreen;
+}
+
+@media (max-width: 480px) {
+  /*resonsividade*/
+  .produto1 {
+    color: white;
+    backdrop-filter: blur(10px);
+    margin-top: 15px;
+    display: flexbox;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.imagemProduto1 {
+  border-radius: 5px;
+}
+
+h3,
+p {
+  text-align: center;
+}
+
+.butao {
+  margin-top: 5px;
+  background-color: black;
+  color: bisque;
+  display: block;
+  margin: auto;
+  border-radius: 5px;
+}
+
+span {
+  font-size: large;
+  font-style: italic;
+}
+
+.valorTotal {
+  color: red;
+}
