@@ -13,7 +13,8 @@
     <style>
         /* Estilo visual do bloco de cada item do carrinho */
         .item-carrinho {
-            background: #bddcdfff;
+            background: #000000ff;
+            color:white;
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 10px;
@@ -24,6 +25,23 @@
             background: red;
             color: white;
         }
+
+        h1,h2,h3{
+            color: white;
+        }
+
+
+body {
+  background-color: black;
+  /* background image for the page body; change path to another file if desired */
+  background-image: url("../../img/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
     </style>
 </head>
 <body class="container mt-4">
