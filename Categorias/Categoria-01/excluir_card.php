@@ -69,7 +69,7 @@ $result = $conn->query($sql);
     <div class="produto1">
       <img
         class="imagemProduto1"
-        src="../../img/hamburger-7191898_1280.jpg"
+        src="../../uploads/<?php echo $row['imagem']; ?>"
         width="310px"
         alt="Hamburguer de carne de sol"
       />
