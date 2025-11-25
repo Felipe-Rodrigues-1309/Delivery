@@ -57,6 +57,11 @@ h1 {
   color: white;
 }
 
+.senha_incorreta{
+  color: rgb(255, 0, 0);
+  margin-bottom: -5px;
+}
+
 button {
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);

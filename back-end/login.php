@@ -15,7 +15,7 @@ if ($user && $senha == $user['senha']) { // Verifica se o usuário foi encontrad
     header("Location: ../Cadastro_de_produto/cadastro.php"); // Redireciona para a página inicial após login bem-sucedido
     exit(); // Encerra o script após o redirecionamento
 } else {
-    echo "<h2>❌ Usuário ou senha incorretos!</h2>"; // Se o usuário não existir ou a senha estiver incorreta, exibe mensagem de erro
+    header("Location: ../login_incorreto.html");  // Se o usuário não existir ou a senha estiver incorreta, exibe mensagem de erro
 }
 
 $stmt->close(); // Fecha o statement/declaração preparada, liberando os recursos
