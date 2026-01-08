@@ -15,11 +15,11 @@
     ></script>
     <script src="./carrinho.js"></script>
     <!--final bootstrap-->
-    <link rel="stylesheet" href="../Categoria-01/Categoria-01.css" />
+    <link rel="stylesheet" href="" />
     <!--css-->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>categoria 01</title>
+    <title>Produto</title>
   </head>
   <body>
     <!--Inicio nav bar-->
@@ -49,39 +49,6 @@
         </div>
       </div>
     </nav>
-    <!--final nav bar-->
-  
-    <!--inicio produtos-->
-
-<?php
-include '../../conexao.php';  // faz a conexão com o banco
-
-$sql = "SELECT * FROM produtos ORDER BY id DESC"; //seleciona os itens da tabela produtos 
-// se usar a opção de ORDER BY id DESC ira criar um card
-//  para pada item da tabela - tambem e possivel criar um expecifico pelo id ou nome
-$result = $conn->query($sql);
-?>
-
-<a href="./abrir_produto.php"><div class="container mt-3">  <!--inicio container-->
-  <div class="row">
-
-<?php while($row = $result->fetch_assoc()): ?>   
-    <div class="produto1">
-      <div class="item"><?php echo $row['item']; ?></div>
-      <!--Cod: <?php echo $row['cod']; ?>-->
-      <div class="valor">R$ <?php echo number_format($row['valor'],2,",","."); ?></div>
-      <!--<button class="butao btn-add-carrinho"
-        data-id="<?php echo $row['id']; ?>"
-        data-nome="<?php echo htmlspecialchars($row['item'], ENT_QUOTES); ?>"
-        data-total="<?php echo $row['valor']; ?>">
-        Adicionar ao Carrinho
-      </button>-->
-    </div>
-    <?php endwhile; ?>
-  </div>
-</div>
-</a>
-<!--final container-->
    <script src="script.js"></script>
   </body>
 </html>
