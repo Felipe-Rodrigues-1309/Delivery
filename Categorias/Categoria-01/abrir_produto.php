@@ -2,6 +2,7 @@
 <html lang="pt-br">
   <head>
     <!--inicio bootstrap-->
+    <link rel="stylesheet" href="./abrir_produto.css">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,7 +17,6 @@
     <script src="./carrinho.js"></script>
     <!--final bootstrap-->
     <link rel="stylesheet" href="" />
-    <!--css-->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Produto</title>
@@ -46,9 +46,34 @@
             <a class="nav-link active" href="#">Suporte</a>
             <a class="nav-link active" aria-disabled="true">Teste</a>
           </div>
+          <img src="img/seta.png" alt="">
         </div>
       </div>
     </nav>
+    <?php
+
+    include '../../conexao.php';  // faz a conexão com o banco
+    
+    if(isset($_GET['id'])) {
+        $id = intval($_GET['id']);
+        $sql = "SELECT item, valor, descricao FROM produtos WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if($row = $result->fetch_assoc()) {
+            echo "<h1>" . htmlspecialchars($row['item']) . "</h1>";
+            echo "<p>R$ " . number_format($row['valor'], 2, ",", ".") . "</p>";
+            echo "<h3>" . htmlspecialchars($row['descricao']) . "</h3>";
+        } else {
+            echo "<h1>Produto não encontrado</h1>";
+        }
+        $stmt->close();
+    } else {
+        echo "<h1>Nenhum produto selecionado</h1>";
+    }
+    ?>
    <script src="script.js"></script>
   </body>
 </html>

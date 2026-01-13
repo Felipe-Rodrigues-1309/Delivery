@@ -62,11 +62,11 @@ $sql = "SELECT * FROM produtos ORDER BY id DESC"; //seleciona os itens da tabela
 $result = $conn->query($sql);
 ?>
 
-<a href="./abrir_produto.php"><div class="container mt-3">  <!--inicio container-->
+<div class="container mt-3">  <!--inicio container-->
   <div class="row">
 
 <?php while($row = $result->fetch_assoc()): ?>   
-    <div class="produto1">
+    <a href="./abrir_produto.php?id=<?php echo $row['id']; ?>"><div class="produto1">
       <div class="item"><?php echo $row['item']; ?></div>
       <!--Cod: <?php echo $row['cod']; ?>-->
       <div class="valor">R$ <?php echo number_format($row['valor'],2,",","."); ?></div>
@@ -76,11 +76,10 @@ $result = $conn->query($sql);
         data-total="<?php echo $row['valor']; ?>">
         Adicionar ao Carrinho
       </button>-->
-    </div>
+    </div></a>
     <?php endwhile; ?>
   </div>
 </div>
-</a>
 <!--final container-->
    <script src="script.js"></script>
   </body>
