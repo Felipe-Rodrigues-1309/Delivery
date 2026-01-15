@@ -50,22 +50,28 @@
         </div>
       </div>
     </nav>
+    <div class="container mt-3">
     <?php
 
     include '../../conexao.php';  // faz a conexão com o banco
+
     
     if(isset($_GET['id'])) {
         $id = intval($_GET['id']);
-        $sql = "SELECT item, valor, descricao FROM produtos WHERE id = ?";
+        $sql = "SELECT item, valor, descricao, imagem FROM produtos WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         
         if($row = $result->fetch_assoc()) {
+          
+               if(!empty($row['imagem'])) {
+            echo "<img src='../../uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";}
             echo "<h1>" . htmlspecialchars($row['item']) . "</h1>";
+            echo "<h6>" . htmlspecialchars($row['descricao']) . "</h6>";
+            echo "<hr>";
             echo "<p>R$ " . number_format($row['valor'], 2, ",", ".") . "</p>";
-            echo "<h3>" . htmlspecialchars($row['descricao']) . "</h3>";
         } else {
             echo "<h1>Produto não encontrado</h1>";
         }
@@ -74,6 +80,10 @@
         echo "<h1>Nenhum produto selecionado</h1>";
     }
     ?>
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg">Add no carrinho</button>
+    </div>
+    </div>
    <script src="script.js"></script>
   </body>
 </html>
