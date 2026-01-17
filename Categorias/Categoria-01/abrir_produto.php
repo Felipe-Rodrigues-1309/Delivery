@@ -25,7 +25,7 @@
     <!--Inicio nav bar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
       <div class="container-fluid">
-        <a class="navbar-brand" href="./carrinho.php">Logo</a>
+        <a class="navbar-brand" href="./carrinho.php">voltar</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -68,22 +68,53 @@
           
                if(!empty($row['imagem'])) {
             echo "<img src='../../uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";}
-            echo "<h1>" . htmlspecialchars($row['item']) . "</h1>";
-            echo "<h6>" . htmlspecialchars($row['descricao']) . "</h6>";
+            echo "<h1 style='color: #ffffff;'>" . htmlspecialchars($row['item']) . "</h1>";
+            echo "<h6 style='color: #ffffff;'>". htmlspecialchars($row['descricao']) . "</h6>";
             echo "<hr>";
-            echo "<p>R$ " . number_format($row['valor'], 2, ",", ".") . "</p>";
+            echo "<p id='preco' data-valor='" . $row['valor'] . "'>R$ " . number_format($row['valor'], 2, ",", ".") . "</p>";
         } else {
-            echo "<h1>Produto não encontrado</h1>";
+            echo "<h1 style='color: #ffffff;'>Produto não encontrado</h1>";
         }
         $stmt->close();
     } else {
-        echo "<h1>Nenhum produto selecionado</h1>";
+        echo "<h1 style='color: #ffffff;'>Nenhum produto selecionado</h1>";
     }
     ?>
+    <!-- contador de quanidade -->
     <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary btn-lg">Add no carrinho</button>
+        <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+            <button type="button" class="btn btn-danger" id="btnMenos" onclick="diminuirQuantidade()">−</button>
+            <h3 id="quantidade" style="color: #ffffff; margin: 0; min-width: 30px; text-align: center;">1</h3>
+            <button type="button" class="btn btn-success" id="btnMais" onclick="aumentarQuantidade()">+</button>
+        </div>
+        <button type="submit" class="btn btn-success btn-lg">Add no carrinho</button>
     </div>
     </div>
    <script src="script.js"></script>
+   <script>
+       let quantidade = 1;
+       let precoUnitario = parseFloat(document.getElementById('preco')?.getAttribute('data-valor') || 0);
+
+       function atualizarPreco() {
+           const precoTotal = (precoUnitario * quantidade).toFixed(2);
+           const precoFormatado = precoTotal.replace('.', ',');
+           document.getElementById('preco').textContent = 'R$ ' + precoFormatado;
+       }
+
+       function aumentarQuantidade() {
+           quantidade++;
+           document.getElementById('quantidade').textContent = quantidade;
+           atualizarPreco();
+       }
+
+       function diminuirQuantidade() {
+           if (quantidade > 1) {
+               quantidade--;
+               document.getElementById('quantidade').textContent = quantidade;
+               atualizarPreco();
+           }
+       }
+   </script>
+   <!-- final contador de quantidade -->
   </body>
 </html>
