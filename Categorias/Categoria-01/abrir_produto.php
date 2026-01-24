@@ -58,7 +58,18 @@
     
     if(isset($_GET['id'])) {
         $id = intval($_GET['id']);
-        $sql = "SELECT item, valor, descricao, imagem FROM produtos WHERE id = ?";
+        $sql = "SELECT item, valor, descricao, imagem, 
+        adicional1, adicional2, 
+        adicional3, adicional4,
+        adicional5, adicional6,
+        adicional7, adicional8,
+        adicional9, adicional10,
+        valoradicional1, valoradicional2,
+        valoradicional3, valoradicional4,
+        valoradicional5, valoradicional6,
+        valoradicional7, valoradicional8,
+        valoradicional9, valoradicional10
+         FROM produtos WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -71,6 +82,7 @@
             echo "<h1 style='color: #ffffff;'>" . htmlspecialchars($row['item']) . "</h1>";
             echo "<h6 style='color: #ffffff;'>". htmlspecialchars($row['descricao']) . "</h6>";
             echo "<hr>";
+            echo "<h2 style='color: #ffffff;'>". htmlspecialchars($row['adicional1']) . "</h2>";
             echo "<p id='preco' data-valor='" . $row['valor'] . "'>R$ " . number_format($row['valor'], 2, ",", ".") . "</p>";
         } else {
             echo "<h1 style='color: #ffffff;'>Produto não encontrado</h1>";
