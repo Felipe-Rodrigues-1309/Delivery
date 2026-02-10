@@ -83,6 +83,7 @@
             echo "<h6 style='color: #ffffff;'>". htmlspecialchars($row['descricao']) . "</h6>";
             echo "<hr>";
             echo "<h2 style='color: #ffffff;'>". htmlspecialchars($row['adicional1']) . "</h2>";
+            echo "<h2 style='color: #1500ff;'>". htmlspecialchars($row['valoradicional1']) . "</h2>";
             echo "<p id='preco' data-valor='" . $row['valor'] . "'>R$ " . number_format($row['valor'], 2, ",", ".") . "</p>";
         } else {
             echo "<h1 style='color: #ffffff;'>Produto não encontrado</h1>";
