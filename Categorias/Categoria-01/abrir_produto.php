@@ -25,7 +25,7 @@
     <!--Inicio nav bar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
       <div class="container-fluid">
-        <a class="navbar-brand" href="./carrinho.php">voltar</a>
+        <a class="navbar-brand" href="../../carrinho.php">carrinho</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -55,6 +55,9 @@
 
     include '../../conexao.php';  // faz a conexão com o banco
 
+    $produtoId = null;
+    $nomeProduto = null;
+    $precoProduto = null;
     
     if(isset($_GET['id'])) {
         $id = intval($_GET['id']);
@@ -76,15 +79,37 @@
         $result = $stmt->get_result();
         
         if($row = $result->fetch_assoc()) {
+            $produtoId = $id;
+            $nomeProduto = htmlspecialchars($row['item']);
+            $precoProduto = $row['valor'];
           
-               if(!empty($row['imagem'])) {
-            echo "<img src='../../uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";}
-            echo "<h1 style='color: #ffffff;'>" . htmlspecialchars($row['item']) . "</h1>";
+            if(!empty($row['imagem'])) {
+                echo "<img src='../../uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";
+            }
+            echo "<h1 style='color: #ffffff;'>" . $nomeProduto . "</h1>";
             echo "<h6 style='color: #ffffff;'>". htmlspecialchars($row['descricao']) . "</h6>";
             echo "<hr>";
-            echo "<h2 style='color: #ffffff;'>". htmlspecialchars($row['adicional1']) . "</h2>";
-            echo "<h2 style='color: #1500ff;'>". htmlspecialchars($row['valoradicional1']) . "</h2>";
-            echo "<p id='preco' data-valor='" . $row['valor'] . "'>R$ " . number_format($row['valor'], 2, ",", ".") . "</p>";
+            echo "<p id='preco' data-valor='" . $precoProduto . "' style='color: #1500ff; font-size: 24px; font-weight: bold;'>R$ " . number_format($precoProduto, 2, ",", ".") . "</p>";
+            
+            // Mostrar adicionais como checkboxes
+            echo "<h5 style='color: #ffffff; margin-top: 20px;'>Adicionais:</h5>";
+            echo "<div id='adicionaisContainer'>";
+            
+            for($i = 1; $i <= 10; $i++) {
+                $adicionalKey = 'adicional' . $i;
+                $valorAdicionalKey = 'valoradicional' . $i;
+                
+                if(!empty($row[$adicionalKey])) {
+                    $valorAd = floatval($row[$valorAdicionalKey]);
+                    echo "<div class='form-check' style='margin-bottom: 10px;'>";
+                    echo "<input class='form-check-input adicional-checkbox' type='checkbox' id='adicional" . $i . "' data-valor='" . $valorAd . "' onchange='atualizarPreco()'>";
+                    echo "<label class='form-check-label' for='adicional" . $i . "' style='color: #ffffff;'>";
+                    echo htmlspecialchars($row[$adicionalKey]) . " - R$ " . number_format($valorAd, 2, ",", ".");
+                    echo "</label>";
+                    echo "</div>";
+                }
+            }
+            echo "</div>";
         } else {
             echo "<h1 style='color: #ffffff;'>Produto não encontrado</h1>";
         }
@@ -100,17 +125,29 @@
             <h3 id="quantidade" style="color: #ffffff; margin: 0; min-width: 30px; text-align: center;">1</h3>
             <button type="button" class="btn btn-success" id="btnMais" onclick="aumentarQuantidade()">+</button>
         </div>
-        <button type="submit" class="btn btn-success btn-lg">Add no carrinho</button>
+        <button type="button" class="btn btn-success btn-lg" onclick="adicionarNoCarrinho()">Add no carrinho</button>
     </div>
     </div>
    <script src="script.js"></script>
    <script>
        let quantidade = 1;
        let precoUnitario = parseFloat(document.getElementById('preco')?.getAttribute('data-valor') || 0);
+       const produtoId = <?php echo $produtoId; ?>;
+       const nomeProduto = "<?php echo $nomeProduto ?? ''; ?>";
 
        function atualizarPreco() {
-           const precoTotal = (precoUnitario * quantidade).toFixed(2);
-           const precoFormatado = precoTotal.replace('.', ',');
+           // Pegar preço base
+           let precoTotal = precoUnitario;
+           
+           // Somar adicionais selecionados
+           const checkboxes = document.querySelectorAll('.adicional-checkbox:checked');
+           checkboxes.forEach(checkbox => {
+               precoTotal += parseFloat(checkbox.getAttribute('data-valor'));
+           });
+           
+           // Multiplicar pela quantidade
+           precoTotal = (precoTotal * quantidade).toFixed(2);
+           const precoFormatado = precoTotal.toString().replace('.', ',');
            document.getElementById('preco').textContent = 'R$ ' + precoFormatado;
        }
 
@@ -126,6 +163,47 @@
                document.getElementById('quantidade').textContent = quantidade;
                atualizarPreco();
            }
+       }
+
+       function adicionarNoCarrinho() {
+           // Coletar os adicionais selecionados
+           const adicionais = [];
+           const checkboxes = document.querySelectorAll('.adicional-checkbox');
+           checkboxes.forEach((checkbox, index) => {
+               if(checkbox.checked) {
+                   const label = document.querySelector('label[for="' + checkbox.id + '"]');
+                   const valor = parseFloat(checkbox.getAttribute('data-valor'));
+                   adicionais.push({
+                       nome: label.textContent.split(' - R$')[0].trim(),
+                       valor: valor
+                   });
+               }
+           });
+
+           // Calcular preço final
+           let precoFinal = precoUnitario;
+           adicionais.forEach(adic => {
+               precoFinal += adic.valor;
+           });
+           precoFinal = precoFinal * quantidade;
+
+           // Criar objeto do item
+           const item = {
+               id: produtoId,
+               nome: nomeProduto,
+               quantidade: quantidade,
+               precoUnitario: precoUnitario,
+               adicionais: adicionais,
+               precoFinal: precoFinal
+           };
+
+           // Adicionar ao localStorage
+           let carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+           carrinho.push(item);
+           localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+           // Redirecionar para carrinho
+           window.location.href = '../../carrinho.php';
        }
    </script>
    <!-- final contador de quantidade -->
