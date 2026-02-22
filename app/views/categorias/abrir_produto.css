@@ -1,0 +1,45 @@
+body{
+  background-image: url(../../img/background.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+h1{
+  padding-top: 15px;
+  padding-bottom: 5px;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+h5{
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+h6{
+  text-align: center;
+}
+
+p{
+  color: #ff0000;
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.container{
+  background-color: #000000da;
+  border-radius: 15px;
+  border: solid 1px rgb(76, 0, 255);
+  padding: 10px;
+  box-shadow: 0 8px 12px rgba(76, 0, 255, 0.603);
+}
+
+img {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
