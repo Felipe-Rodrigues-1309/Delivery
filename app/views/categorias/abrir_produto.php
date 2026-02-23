@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <!--inicio bootstrap-->
-    <link rel="stylesheet" href="./abrir_produto.css">
+    <link rel="stylesheet" href="/css/abrir_produto.css">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -53,7 +53,7 @@
     <div class="container mt-3">
     <?php
 
-    include '../../conexao.php';  // faz a conexão com o banco
+   require_once __DIR__ . '/../../config/conexao.php';
 
     $produtoId = null;
     $nomeProduto = null;
@@ -203,7 +203,7 @@
            localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
            // Redirecionar para carrinho
-           window.location.href = '../../carrinho.php';
+           window.location.href = '?action=carrinho';
        }
    </script>
    <!-- final contador de quantidade -->

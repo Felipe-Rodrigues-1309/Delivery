@@ -1,5 +1,5 @@
 <?php
-include '../../conexao.php'; // ajuste o caminho se necessário
+require_once __DIR__ . '/../conexao.php';
 
 // Verifica se o ID foi enviado
 if (!isset($_POST['id'])) {

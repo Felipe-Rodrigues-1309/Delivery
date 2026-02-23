@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-include "../conexao.php";
+require_once __DIR__ . '/../../config/conexao.php';
 
 if (!isset($_POST['email'], $_POST['senha'])) {
     die("Dados incompletos.");

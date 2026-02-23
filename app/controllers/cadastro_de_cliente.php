@@ -1,5 +1,5 @@
 <?php
-include "../conexao.php";
+require_once __DIR__ . '/../../config/conexao.php';
 
 $usuario = trim($_POST['usuario'] ?? '');
 $email   = trim($_POST['email'] ?? '');

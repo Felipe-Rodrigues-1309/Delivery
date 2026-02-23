@@ -54,7 +54,7 @@
     <!--inicio produtos-->
 
 <?php
-include '../../conexao.php';  // faz a conexão com o banco
+require_once __DIR__ . '/../../config/conexao.php';
 
 $sql = "SELECT * FROM produtos ORDER BY id DESC"; //seleciona os itens da tabela produtos 
 // se usar a opção de ORDER BY id DESC ira criar um card
@@ -66,7 +66,7 @@ $result = $conn->query($sql);
   <div class="row">
 
 <?php while($row = $result->fetch_assoc()): ?>   
-    <a href="./abrir_produto.php?id=<?php echo $row['id']; ?>"><div class="produto1">
+    <a href="index.php?action=produto&id=<?php echo $row['id']; ?>"><div class="produto1">
       <div class="item"><?php echo $row['item']; ?></div>
       <!--Cod: <?php echo $row['cod']; ?>-->
       <div class="valor">R$ <?php echo number_format($row['valor'],2,",","."); ?></div>

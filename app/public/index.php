@@ -30,6 +30,10 @@ switch ($action) {
         require __DIR__ . '/../views/categorias/abrir_produto.php';
         break;
 
+    case 'carrinho':    
+        require __DIR__ . '/../views/carrinho/index.php';
+        break;
+
     default:
         echo "Página não encontrada";
 
