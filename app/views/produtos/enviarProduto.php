@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../conexao.php';
+   require_once __DIR__ . '/../../config/conexao.php';
 
 // Recebe dados comuns
 $cod = $_POST['cod'];

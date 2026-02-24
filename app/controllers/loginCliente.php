@@ -1,8 +1,7 @@
-
 <?php
 session_start();
 
-require_once __DIR__ . '/../../config/conexao.php';
+require_once __DIR__ . '/../config/conexao.php';
 
 if (!isset($_POST['email'], $_POST['senha'])) {
     die("Dados incompletos.");
@@ -24,7 +23,7 @@ if ($user && password_verify($senhaDigitada, $user['senha'])) {
     $_SESSION['id_usuario'] = $user['id'];
     $_SESSION['usuario']    = $user['nome'];
 
-    header("Location: ../Pagina_inicial/Pagina_inicial.html");
+    header("Location: ?action=paginaInicial");
     exit();
 
 } else {

@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: index.php?action=loginCliente");
+    exit();
+}
+
+$id_usuario = $_SESSION['id_usuario'];
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

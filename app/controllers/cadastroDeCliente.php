@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../config/conexao.php';
+require_once __DIR__ . '/../config/conexao.php';
 
 $usuario = trim($_POST['usuario'] ?? '');
 $email   = trim($_POST['email'] ?? '');
@@ -38,7 +38,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("sss", $usuario, $senhaHash, $email);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Usuário cadastrado com sucesso!'); window.location.href='../pagina_de_login.html';</script>";
+    echo "<script>alert('Usuário cadastrado com sucesso!'); window.location.href='?action=login';</script>";
 } else {
     echo "<script>alert('Erro ao cadastrar usuário.'); window.history.back();</script>";
 }
