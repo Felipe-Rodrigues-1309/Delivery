@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<form action="?action=enviarProduto" method="post" enctype="multipart/form-data">
+<form action="index.php?action=enviarProduto" method="post" enctype="multipart/form-data">
   <h1>Cadastro de Produtos</h1>
 
   <label for="Codigo">Código:</label>

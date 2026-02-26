@@ -1,55 +1,62 @@
 <?php
-   require_once __DIR__ . '/../../config/conexao.php';
+require_once __DIR__ . '/../../config/conexao.php';
 
-// Recebe dados comuns
-$cod = $_POST['cod'];
-$produto = $_POST['produto'];
-$valor = $_POST['valor'];
-$descricao = $_POST['descricao'];
-
-$adicional_nome1 = $_POST['adicional_nome1'];
-$adicional_nome2 = $_POST['adicional_nome2'];
-$adicional_nome3 = $_POST['adicional_nome3'];
-$adicional_nome4 = $_POST['adicional_nome4'];
-$adicional_nome5 = $_POST['adicional_nome5'];
-$adicional_nome6 = $_POST['adicional_nome6'];
-$adicional_nome7 = $_POST['adicional_nome7'];
-$adicional_nome8 = $_POST['adicional_nome8'];
-$adicional_nome9 = $_POST['adicional_nome9'];
-$adicional_nome10 = $_POST['adicional_nome10'];
-
-$adicional_valor1 = $_POST['adicional_valor1'];
-$adicional_valor2 = $_POST['adicional_valor2'];
-$adicional_valor3 = $_POST['adicional_valor3'];
-$adicional_valor4 = $_POST['adicional_valor4'];
-$adicional_valor5 = $_POST['adicional_valor5'];
-$adicional_valor6 = $_POST['adicional_valor6'];
-$adicional_valor7 = $_POST['adicional_valor7'];
-$adicional_valor8 = $_POST['adicional_valor8'];
-$adicional_valor9 = $_POST['adicional_valor9'];
-$adicional_valor10 = $_POST['adicional_valor10'];
-
-
-// ---------------------
-// UPLOAD DA IMAGEM
-// ---------------------
-$imagem = $_FILES['imagem']['name'];
-$tmp = $_FILES['imagem']['tmp_name'];
-
-// Criar pasta caso não exista
-if (!is_dir("../uploads")) {
-    mkdir("../uploads", 0777, true);
+// 🔒 garante que só roda via POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    exit('Acesso inválido');
 }
 
-// Gerar nome único
-$novoNomeImagem = uniqid() . "_" . $imagem;
+// ---------------------
+// RECEBENDO DADOS SEGUROS
+// ---------------------
+$cod = $_POST['cod'] ?? null;
+$produto = $_POST['produto'] ?? '';
+$valor = $_POST['valor'] ?? 0;
+$descricao = $_POST['descricao'] ?? '';
 
-// Mover arquivo
-move_uploaded_file($tmp, "../uploads/" . $novoNomeImagem);
-
+// adicionais nomes
+for ($i = 1; $i <= 10; $i++) {
+    ${"adicional_nome$i"} = $_POST["adicional_nome$i"] ?? '';
+    ${"adicional_valor$i"} = $_POST["adicional_valor$i"] ?? 0;
+}
 
 // ---------------------
-// QUERY COM CAMPO IMAGEM
+// UPLOAD DA IMAGEM (SEGURO)
+// ---------------------
+$novoNomeImagem = null;
+$novoNomeImagem = null;
+
+if (isset($_FILES['imagem'])) {
+    $error = $_FILES['imagem']['error'];
+    if ($error === 0) {
+        $imagem = $_FILES['imagem']['name'];
+        $tmp = $_FILES['imagem']['tmp_name'];
+
+        // criar pasta
+        $pastaUpload = __DIR__ . '/../../public/uploads';
+
+        if (!is_dir($pastaUpload)) {
+            mkdir($pastaUpload, 0777, true);
+        }
+
+        // nome único
+        $novoNomeImagem = uniqid() . "_" . basename($imagem);
+
+        if (move_uploaded_file($tmp, $pastaUpload . '/' . $novoNomeImagem)) {
+            echo "Imagem enviada com sucesso: " . $novoNomeImagem . "<br>";
+        } else {
+            $novoNomeImagem = null;
+            echo "Erro ao mover o arquivo da imagem.<br>";
+        }
+    } else {
+        echo "Erro no upload da imagem: " . $error . "<br>";
+    }
+} else {
+    echo "Nenhuma imagem foi enviada.<br>";
+}
+
+// ---------------------
+// INSERT
 // ---------------------
 $sql = "INSERT INTO produtos (
     cod, item, valor, descricao,
@@ -75,8 +82,7 @@ $stmt->bind_param(
     $novoNomeImagem
 );
 
-
-// Executa
+// executar
 if ($stmt->execute()) {
     echo "Dados salvos com sucesso!";
 } else {

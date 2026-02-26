@@ -95,7 +95,7 @@ $id_usuario = $_SESSION['id_usuario'];
 
         <div id="carrinho-vazio" style="display: none; text-align: center;">
             <h3>Seu carrinho está vazio</h3>
-            <a href="./Pagina_inicial/Pagina_inicial.html" class="btn btn-primary mt-3">Continuar Comprando</a>
+            <a href="?action=categoria" class="btn btn-primary mt-3">Continuar Comprando</a>
         </div>
 
         <div id="carrinho-itens">
