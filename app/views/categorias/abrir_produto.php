@@ -84,7 +84,7 @@
             $precoProduto = $row['valor'];
           
             if(!empty($row['imagem'])) {
-                echo "<img src='/public/uploads" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";
+                echo "<img src='/uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";
             }
             echo "<h1 style='color: #ffffff;'>" . $nomeProduto . "</h1>";
             echo "<h6 style='color: #ffffff;'>". htmlspecialchars($row['descricao']) . "</h6>";
