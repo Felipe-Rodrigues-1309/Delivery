@@ -45,13 +45,13 @@ Contribuições são bem-vindas. Faça um fork e envie um pull request.
 ## 📸 Preview do sistema
 
 ### 🏠 Tela inicial
-![Home](app/public/img/produtos.png)
+![Home](app/public/img/login.png)
 
-### 🔐 Tela de login
-![Login](app/public/img/login.png)
+### Produtos
+![Login](app/public/img/produtos.png)
 
 ### 🛒 Produtos / Carrinho
-![Produtos](app/public/img/carrinhoDeCompras.png)
+![Produtos](app/public/img/carrinhoDeCompra.png)
 
 ## Licença
 Este projeto está sob a licença MIT.
