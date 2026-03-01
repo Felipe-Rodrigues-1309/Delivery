@@ -45,7 +45,7 @@ Contribuições são bem-vindas. Faça um fork e envie um pull request.
 ## 📸 Preview do sistema
 
 ### 🏠 Tela inicial
-![Home](./img/home.png)
+![Home](/../img/login.png)
 
 ### 🔐 Tela de login
 ![Login](./img/login.png)
