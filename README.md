@@ -42,16 +42,13 @@ Este é um sistema de delivery desenvolvido em PHP, permitindo o cadastro de cli
 ## Contribuição
 Contribuições são bem-vindas. Faça um fork e envie um pull request.
 
-## 📸 Preview do sistema
+## 📸 Preview
 
-### 🏠 Tela inicial
-![Home](app/public/img/login.png)
-
-### 🔐 Tela de login
-![Login](app/public/img/login.png)
-
-### 🛒 Produtos / Carrinho
-![Produtos](app/public/img/produtos.png)
+<p align="center">
+  <img src="app/public/img/home.png" width="30%">
+  <img src="app/public/img/login.png" width="30%">
+  <img src="app/public/img/produtos.png" width="30%">
+</p>
 
 ## Licença
 Este projeto está sob a licença MIT.
