@@ -1,5 +1,5 @@
 # Delivery-Felvic
-
+> 🚧 Projeto em desenvolvimento ativo
 ## Descrição
 Este é um sistema de delivery desenvolvido em PHP, permitindo o cadastro de clientes, login, gerenciamento de produtos, categorias e carrinho de compras.
 
