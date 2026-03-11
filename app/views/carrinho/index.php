@@ -70,6 +70,18 @@ $id_usuario = $_SESSION['id_usuario'];
             color: #1500ff;
             font-weight: bold;
         }
+
+        button {
+        margin-top: 50px;
+        display: block;
+        margin: 25px auto;
+        border-radius: 10px;
+        padding:10px;
+        border: solid 2px black;
+        background-color: #00ff00;
+        color: black;
+        }
+
     </style>
 </head>
 <body>
@@ -107,6 +119,7 @@ $id_usuario = $_SESSION['id_usuario'];
                 <h5 id="total-preco">Total da Compra: R$ 0,00</h5>
             </div>
         </div>
+        <button onclick="enviarWhatsApp()">Finalizar Compra</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -183,6 +196,51 @@ $id_usuario = $_SESSION['id_usuario'];
         document.addEventListener('DOMContentLoaded', function() {
             carregarCarrinho();
         });
+
+
+// enviar para o whatsapp
+
+function enviarWhatsApp(){
+
+    const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+
+    if(carrinho.length === 0){
+        alert("Carrinho vazio!");
+        return;
+    }
+
+    let mensagem = "🛒 *NOVO PEDIDO*\n\n";
+
+    let total = 0;
+
+    carrinho.forEach(item => {
+
+        mensagem += "🍔 " + item.nome + "\n";
+        mensagem += "Quantidade: " + item.quantidade + "\n";
+        mensagem += "Preço: R$ " + item.precoFinal.toFixed(2).replace('.', ',') + "\n";
+
+        if(item.adicionais && item.adicionais.length > 0){
+            mensagem += "Adicionais:\n";
+            item.adicionais.forEach(ad => {
+                mensagem += " - " + ad.nome + " (R$ " + ad.valor.toFixed(2).replace('.', ',') + ")\n";
+            });
+        }
+
+        mensagem += "\n";
+
+        total += item.precoFinal;
+
+    });
+
+    mensagem += " *Total: R$ " + total.toFixed(2).replace('.', ',') + "*";
+
+    const numero = "5588988188728"; // coloque o número do whatsapp da loja
+
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+
+    window.open(url, '_blank');
+
+}
     </script>
 </body>
 </html>
