@@ -125,6 +125,8 @@ $id_usuario = $_SESSION['id_usuario'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     
     <script>
+        const idUsuario = <?= json_encode($id_usuario); ?>;
+
         function carregarCarrinho() {
             const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
             const carrinhoVazio = document.getElementById('carrinho-vazio');
@@ -237,6 +239,39 @@ function enviarWhatsApp(){
     const numero = "5588988188728"; // coloque o número do whatsapp da loja
 
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+
+    // Envia o pedido para o servidor (salva no banco)
+    // Enviamos apenas o nome do produto + valor + usuário + data.
+    // O texto completo da mensagem fica apenas para o WhatsApp.
+    const produtoNome = carrinho
+        .map(item => `${item.quantidade}x ${item.nome}`)
+        .join(', ');
+
+    const formData = new FormData();
+    formData.append('id_usuario', idUsuario);
+    formData.append('produto', produtoNome);
+    formData.append('valor', total.toFixed(2));
+
+    fetch('index.php?action=enviarPedido', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Pedido salvo:', data);
+
+            if (data.success) {
+                localStorage.removeItem('carrinho');
+                alert('Pedido registrado com sucesso! O carrinho foi limpo.');
+                carregarCarrinho();
+            } else {
+                alert('Erro ao salvar pedido: ' + (data.message || 'Tente novamente.'));
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao enviar pedido:', error);
+            alert('Erro ao enviar pedido. Verifique sua conexão e tente novamente.');
+        });
 
     window.open(url, '_blank');
 

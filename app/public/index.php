@@ -59,6 +59,10 @@ switch ($action) {
         require __DIR__ . '/../views/produtos/enviarProduto.php';
         break;
 
+    case 'enviarPedido':
+        require __DIR__ . '/../views/pedidos/enviarPedido.php';
+        break;
+
 
 
 
