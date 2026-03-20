@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Endereço</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        body {
+            background: black;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .card {
+            width: 100%;
+            max-width: 620px;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(7, 206, 83, 0.15);
+        }
+        .form-title {
+            font-weight: 700;
+            letter-spacing: .2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title form-title mb-3">Cadastro de Endereço</h2>
+            <form class="row g-3" method="post" action="/cadastrar-endereco">
+                <div class="col-12">
+                    <label for="logradouro" class="form-label">Rua</label>
+                    <input type="text" class="form-control" id="logradouro" name="logradouro" placeholder="Rua Exemplo" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="numero" class="form-label">Número</label>
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="123" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="bairro" class="form-label">Bairro</label>
+                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Centro" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="cidade" class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="São Paulo" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="complemento" class="form-label">Ponto de referencia </label>
+                    <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Apto 101 / Bloco B">
+                </div>
+                <div class="col-12 text-center pt-2">
+                    <button type="submit" class="btn btn-primary">Salvar Endereço</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
