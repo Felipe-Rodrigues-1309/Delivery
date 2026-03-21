@@ -30,10 +30,10 @@
     <div class="card">
         <div class="card-body">
             <h2 class="card-title form-title mb-3">Cadastro de Endereço</h2>
-            <form class="row g-3" method="post" action="/cadastrar-endereco">
+            <form class="row g-3" method="post" action="?action=enviarEndereco">
                 <div class="col-12">
                     <label for="logradouro" class="form-label">Rua</label>
-                    <input type="text" class="form-control" id="logradouro" name="logradouro" placeholder="Rua Exemplo" required>
+                    <input type="text" class="form-control" id="logradouro" name="rua" placeholder="Rua Exemplo" required>
                 </div>
                 <div class="col-md-6">
                     <label for="numero" class="form-label">Número</label>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="complemento" class="form-label">Ponto de referencia </label>
-                    <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Apto 101 / Bloco B">
+                    <input type="text" class="form-control" id="complemento" name="ponto_de_referencia" placeholder="Apto 101 / Bloco B">
                 </div>
                 <div class="col-12 text-center pt-2">
                     <button type="submit" class="btn btn-primary">Salvar Endereço</button>

@@ -66,7 +66,11 @@ switch ($action) {
     case 'cadastroDeEndereco':
         require __DIR__ . '/../views/auth/cadastroDeEndereco.html';
         break;
-    default:
+
+    case 'enviarEndereco':
+        require __DIR__ . '/../views/produtos/cadastroDeEndereco.php';
+        break;
+        default:
         echo "Página não encontrada";
 
 }
