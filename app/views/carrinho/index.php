@@ -5,10 +5,12 @@ session_start();
 
 // Se não houver usuário logado, redireciona para a página de login.
 // Isso impede que pessoas acessem o carrinho diretamente sem se autenticar.
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: index.php?action=loginCliente");
+
+/*if (!isset($_SESSION['id_usuario'])) {
+    header("Location: index.php?action=login");
     exit();
-}
+}*/
+
 
 // Guardamos o ID do usuário para usar no JavaScript e no envio do pedido.
 $id_usuario = $_SESSION['id_usuario'];
@@ -231,6 +233,13 @@ function enviarWhatsApp(){
     // Se o carrinho estiver vazio, não faz nada e avisa o usuário.
     if(carrinho.length === 0){
         alert("Carrinho vazio!");
+        return;
+    }
+
+        // 🔥 NOVO: verifica login aqui
+    if (!idUsuario) {
+        alert("Você precisa fazer login para finalizar o pedido!");
+        window.location.href = "index.php?action=login&redirect=carrinho";
         return;
     }
 

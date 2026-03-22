@@ -3,6 +3,12 @@ session_start();
 
 require_once __DIR__ . '/../config/conexao.php';
 
+// retorna para a pagina onde o cliente esta 
+// salva pra onde voltar
+if (!empty($_POST['redirect'])) {
+    $_SESSION['redirect_after_login'] = $_POST['redirect'];
+}
+
 if (!isset($_POST['email'], $_POST['senha'])) {
     die("Dados incompletos.");
 }
@@ -23,11 +29,21 @@ if ($user && password_verify($senhaDigitada, $user['senha'])) {
     $_SESSION['id_usuario'] = $user['id'];
     $_SESSION['usuario']    = $user['nome'];
 
-    header("Location: ?action=paginaInicial");
+if (isset($_SESSION['redirect_after_login'])) {
+
+    $redirect = $_SESSION['redirect_after_login'];
+    unset($_SESSION['redirect_after_login']);
+
+    header("Location: index.php?action=$redirect");
     exit();
 
-} else {
-    echo "<script>alert('Usuário ou senha incorretos!'); window.location.href='../pagina_de_login.html';</script>";
+}   else {
+    header("Location: ?action=paginaInicial");
+    exit();
+}
+
+}   else {
+    echo "<script>alert('Usuário ou senha incorretos!'); window.location.href='?action=login';</script>";
 }
 
 $stmt->close();

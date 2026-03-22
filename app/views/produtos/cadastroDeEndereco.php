@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../config/conexao.php';
 
 session_start();
-
+    // aceita somente POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
     
     // PEGA O ID E USUARIO LOGADO
@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die ("usuario não esta logado");
     }
 
-    // aceita somente POST
 
+    // pega os dados do front
     $rua = $_POST['rua'] ?? '';   // ?? ''usado para verificar se a variavel existe 
     $numero = $_POST['numero'] ?? '';
     $bairro = $_POST['bairro'] ?? '';
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($rua) || empty($numero) || empty($cidade)) {
         die("Preencha os campos obrigatórios!");
     }
-
+    //insere no banco
     $sql = "INSERT INTO endereco (id, usuario, rua, numero, bairro, cidade, ponto_de_referencia)
             VALUES (?,?,?, ?, ?, ?, ?)";
 
