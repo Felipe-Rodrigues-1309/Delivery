@@ -18,7 +18,9 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 // criptografa senha
-$senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+$senhaHash =
+
+password_hash($senha, PASSWORD_DEFAULT);
 
 // verifica se o e-mail já existe
 $sqlCheck = "SELECT id FROM usuarios WHERE email = ?";

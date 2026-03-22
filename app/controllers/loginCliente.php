@@ -3,7 +3,6 @@ session_start();
 
 require_once __DIR__ . '/../config/conexao.php';
 
-// retorna para a pagina onde o cliente esta 
 // salva pra onde voltar
 if (!empty($_POST['redirect'])) {
     $_SESSION['redirect_after_login'] = $_POST['redirect'];

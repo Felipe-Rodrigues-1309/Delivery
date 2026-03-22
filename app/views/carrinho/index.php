@@ -324,6 +324,6 @@ function enviarWhatsApp(){
     //    Isso permite que o cliente finalize o envio e veja os detalhes.
     window.open(url, '_blank');
 }
-    </script>
+   </script>
 </body>
 </html>
