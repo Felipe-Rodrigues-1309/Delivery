@@ -13,7 +13,7 @@ session_start();
 
 
 // Guardamos o ID do usuário para usar no JavaScript e no envio do pedido.
-$id_usuario = $_SESSION['id_usuario'];
+$id_usuario = $_SESSION['id_usuario'] ?? null;
 ?>
 
 
