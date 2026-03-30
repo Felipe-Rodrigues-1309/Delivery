@@ -12,7 +12,7 @@ Este é um sistema de delivery desenvolvido em PHP, permitindo o cadastro de cli
 
 ## Tecnologias Utilizadas
 - PHP
-- MySQL
+- MySQL.
 - HTML/CSS/JavaScript
 
 ## Instalação
