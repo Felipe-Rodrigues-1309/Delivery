@@ -5,18 +5,18 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-require_once __DIR__ . '/../controllers/AuthController.php';
+require_once __DIR__ . '/../src/controllers/AuthController.php';
 
 $action = $_GET['action'] ?? 'login';
 
 switch ($action) {
 
     case 'login':
-        require __DIR__ . '/../views/auth/paginaDeLogin.html';
+        require __DIR__ . '/../src/views/auth/paginaDeLogin.html';
         break;
 
     case 'cadastro':
-        require __DIR__ . '/../views/auth/paginaDeCadastro.html';
+        require __DIR__ . '/../src/views/auth/paginaDeCadastro.html';
         break;
 
     case 'logar':
@@ -24,51 +24,51 @@ switch ($action) {
         break;
 
     case 'produto':
-        require __DIR__ . '/../views/categorias/abrir_produto.php';
+        require __DIR__ . '/../src/views/categorias/abrir_produto.php';
         break;
 
     case 'categoria':    
-        require __DIR__ . '/../views/categorias/Categoria-01.php';
+        require __DIR__ . '/../src/views/categorias/Categoria-01.php';
         break;
 
     case 'abrirProduto':    
-        require __DIR__ . '/../views/categorias/abrir_produto.php';
+        require __DIR__ . '/../src/views/categorias/abrir_produto.php';
         break;
 
     case 'paginaInicial':    
-        require __DIR__ . '/../views/home/paginaInicial.html';
+        require __DIR__ . '/../src/views/home/paginaInicial.html';
         break;
 
     case 'carrinho':    
-        require __DIR__ . '/../views/carrinho/index.php';
+        require __DIR__ . '/../src/views/carrinho/index.php';
         break;
 
     case 'cadastroDeCliente':
-        require __DIR__ . '/../controllers/cadastroDeCliente.php';
+        require __DIR__ . '/../src/controllers/cadastroDeCliente.php';
         break;
 
     case 'loginCliente':
-        require __DIR__ . '/../controllers/loginCliente.php';
+        require __DIR__ . '/../src/controllers/loginCliente.php';
         break;
 
     case 'cadastroDeProduto':
-        require __DIR__ . '/../views/produtos/paginaDeCadastroDeProduto.php';
+        require __DIR__ . '/../src/views/produtos/paginaDeCadastroDeProduto.php';
         break;
 
     case 'enviarProduto':
-        require __DIR__ . '/../views/produtos/enviarProduto.php';
+        require __DIR__ . '/../src/views/produtos/enviarProduto.php';
         break;
 
     case 'enviarPedido':
-        require __DIR__ . '/../views/pedidos/enviarPedido.php';
+        require __DIR__ . '/../src/views/pedidos/enviarPedido.php';
         break;
 
     case 'cadastroDeEndereco':
-        require __DIR__ . '/../views/auth/cadastroDeEndereco.html';
+        require __DIR__ . '/../src/views/auth/cadastroDeEndereco.html';
         break;
 
     case 'enviarEndereco':
-        require __DIR__ . '/../views/produtos/cadastroDeEndereco.php';
+        require __DIR__ . '/../src/views/produtos/cadastroDeEndereco.php';
         break;
         default:
         echo "Página não encontrada";
