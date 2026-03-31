@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Salva o endereço na sessão para validação no carrinho
-    $_SESSION['rua'] = $rua;
+    $_SESSION['rua'] = $rua;  // $_SESSION['rua'] = $rua; é usado para salvar o dado vindo do banco na seccão
     $_SESSION['numero'] = $numero;
     $_SESSION['bairro'] = $bairro;
     $_SESSION['cidade'] = $cidade;
