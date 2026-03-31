@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_usuario = $_SESSION['id_usuario'] ?? null;
     $usuario = $_SESSION['usuario'] ?? '';
 
-    // verifica se o usuario esta logado se não tiver da erro
+    /*verifica se o usuario esta logado se não tiver da erro
     if(!$id_usuario){
         die ("usuario não esta logado");
-    }
+    }*/
 
 
     // pega os dados do front
@@ -26,6 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($rua) || empty($numero) || empty($cidade)) {
         die("Preencha os campos obrigatórios!");
     }
+
+    // Salva o endereço na sessão para validação no carrinho
+    $_SESSION['rua'] = $rua;
+    $_SESSION['numero'] = $numero;
+    $_SESSION['bairro'] = $bairro;
+    $_SESSION['cidade'] = $cidade;
+    $_SESSION['ponto_de_referencia'] = $ponto_de_referencia;
+
     //insere no banco
     $sql = "INSERT INTO endereco (id, usuario, rua, numero, bairro, cidade, ponto_de_referencia)
             VALUES (?,?,?, ?, ?, ?, ?)";
@@ -43,11 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     );
 
     if ($stmt->execute()) {
-        echo "Dados salvos com sucesso!";
+        // Redireciona para o carrinho ou página anterior
+        $redirect = $_GET['redirect'] ?? 'carrinho';
+        header("Location: index.php?action=$redirect");
+        exit;
     } else {
         echo "Erro ao salvar: " . $stmt->error;
     }
-
     $stmt->close();
     $conn->close();
 }

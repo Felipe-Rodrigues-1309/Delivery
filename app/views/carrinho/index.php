@@ -14,6 +14,7 @@ session_start();
 
 // Guardamos o ID do usuário para usar no JavaScript e no envio do pedido.
 $id_usuario = $_SESSION['id_usuario'] ?? null;
+$rua = $_SESSION['rua'] ?? null;
 ?>
 
 
@@ -110,7 +111,7 @@ $id_usuario = $_SESSION['id_usuario'] ?? null;
             </div>
         </div>
     </nav>
-
+<h5>endereco</h5>
     <div class="container">
         <h1 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h1>
 
@@ -141,6 +142,7 @@ $id_usuario = $_SESSION['id_usuario'] ?? null;
         // O PHP passa o ID do usuário logado para o JavaScript usando json_encode.
         // Isso permite enviar o ID ao servidor quando o pedido for salvo.
         const idUsuario = <?= json_encode($id_usuario); ?>;
+        const rua = <?= json_encode($rua); ?>;
 
         // ### Função principal que renderiza o carrinho na página
         function carregarCarrinho() {
@@ -240,6 +242,12 @@ function enviarWhatsApp(){
     if (!idUsuario) {
         alert("Você precisa fazer login para finalizar o pedido!");
         window.location.href = "index.php?action=login&redirect=carrinho";
+        return;
+    }
+
+    if(!rua){
+        alert("Você precisa cadastrar um endereço!");
+        window.location.href = "index.php?action=cadastroDeEndereco&redirect=carrinho";
         return;
     }
 
