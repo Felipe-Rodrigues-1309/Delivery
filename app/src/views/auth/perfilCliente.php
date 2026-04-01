@@ -33,6 +33,7 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
     </style>
+
 <nav class="navbar bg-body-tertiary fixed-top minha-navbar">
   <div class="container-fluid">
     <a class="navbar-brand" href="#"><h5>Olá <?= $dados['usuario'] ?? 'Visitante'; ?> !</h5> <!---usado para mostrar no fronto  o nome vindo do bancp--> </a>
@@ -50,20 +51,13 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
+          <a class="nav-link" href="#">Alterar Endereço</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+          <li class="nav-item">
+            <a class = "nav-link" href="php?action=login">Sair</a>
           </li>
         </ul>
       </div>

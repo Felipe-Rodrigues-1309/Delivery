@@ -63,9 +63,9 @@ $sql = "SELECT * FROM produtos ORDER BY id DESC"; //seleciona os itens da tabela
 $result = $conn->query($sql);
 ?>
 
-<div class="container mt-3">  <!--inicio container-->
+<!--inicio container-->
+<div class="container mt-3">  
   <div class="row">
-
 <?php while($row = $result->fetch_assoc()): ?>   
     <a href="index.php?action=produto&id=<?php echo $row['id']; ?>"><div class="produto1">
       <div class="item"><?php echo $row['item']; ?></div>
