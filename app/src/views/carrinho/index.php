@@ -107,15 +107,14 @@ $bairro = $_SESSION['bairro'] ?? null;
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="./Pagina_inicial/Pagina_inicial.html">Pagina inicial</a>
-                    <a class="nav-link active" href="#">Pedidos</a>
+                    <a class="nav-link active" href="#">Perfil</a>
                     <a class="nav-link active" href="#">Suporte</a>
                 </div>
             </div>
         </div>
     </nav>
-<h5>endereco</h5>
     <div class="container">
-        <h1 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h1>
+        <h2 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h2>
 
         <!-- Mensagem exibida quando não há produtos no carrinho -->
         <div id="carrinho-vazio" style="display: none; text-align: center;">
