@@ -64,5 +64,11 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
     </div>
   </div>
 </nav>
+<!--inicio cards-->
+ <div class="card">
+  <div class="card-body">
+    This is some text within a card body.
+  </div>
+</div>
 </body>
 </html>
