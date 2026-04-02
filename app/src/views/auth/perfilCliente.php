@@ -26,11 +26,25 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
 </head>
-<body>
+<body class="pt-5">
     <style>
+    body{
+      background-color:#030604;
+    }
+    .titulo{
+      color:white;
+      margin-top:25px;
+      text-align: center;
+    }
+    .card{
+      border:solid 2px #00ff00;
+      border-radius: 15px;
+      margin: 5px;
+      background:#C0C0C0;
+    }
     .minha-navbar {
     background: linear-gradient(#0000000b);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 10px rgba(0, 8, 249, 0.57);
 }
     </style>
 
@@ -64,10 +78,21 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
     </div>
   </div>
 </nav>
+<h5 class="titulo">Acompanhe Seu Pedido</h5>
+
 <!--inicio cards-->
  <div class="card">
   <div class="card-body">
-    This is some text within a card body.
+    <div class="id">
+      <h5>#ID-130915</h5>
+      Data 02/04/2026
+      <div class="pedido">
+        picanha completa
+        <div class="total">
+          Valor total: R$ 99,98
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </body>
