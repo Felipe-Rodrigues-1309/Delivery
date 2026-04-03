@@ -5,15 +5,26 @@ session_start();
 
 $id = $_SESSION['id_usuario'] ?? null; // usado para pegar o uduario da seccão e colocar para aparrecer no front
 
-$dados = null;
+$usuario = null;  // usado para criar uma varivael para ser possivel fazer os dados do banco virem para o front
+$pedidos = null;
 
 if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario no front
-    $stmt = $conn->prepare("SELECT usuario, rua FROM endereco WHERE id = ?");
+    $stmt = $conn->prepare("SELECT usuario FROM endereco WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
-    $result = $stmt->get_result();
-    $dados = $result->fetch_assoc();
+    $resultUsuario = $stmt->get_result();
+    $usuario = $resultUsuario->fetch_assoc();  // resultUsuario não pode se repetir em outro if
+}
+
+
+if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario no front
+    $stmt = $conn->prepare("SELECT id, usuario, item, valor, data_pedido, status FROM pedido WHERE usuario = ? ORDER BY id DESC");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    $resultPedido = $stmt->get_result();
+    $pedidos= $resultPedido->fetch_assoc();
 }
 ?>
 
@@ -50,7 +61,7 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
 
 <nav class="navbar bg-body-tertiary fixed-top minha-navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><h5>Olá <?= $dados['usuario'] ?? 'Visitante'; ?> !</h5> <!---usado para mostrar no fronto  o nome vindo do bancp--> </a>
+    <a class="navbar-brand" href="#"><h5>Olá <?= $usuario['usuario'] ?? 'Visitante'; ?> !</h5> <!---usado para mostrar no fronto  o nome vindo do bancp--> </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -80,20 +91,24 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
 </nav>
 <h5 class="titulo">Acompanhe Seu Pedido</h5>
 
+
 <!--inicio cards-->
+<?php while($pedidos = $resultPedido->fetch_assoc()): ?>  <!-- while faz buscar todos os dados da tabela a criar em novos cards-->
  <div class="card">
   <div class="card-body">
     <div class="id">
-      <h5>#ID-130915</h5>
-      Data 02/04/2026
+      <h5>#ID-<?= $pedidos['id'] ?? 'vazio'; ?></h5>
+      Data: <?= $pedidos['data_pedido'] ?? 'vazio'; ?>
       <div class="pedido">
-        picanha completa
+        <?= $pedidos['item'] ?? 'vazio'; ?>
         <div class="total">
-          Valor total: R$ 99,98
+          Valor total: R$ <?= $pedidos['valor'] ?? 'vazio'; ?>
+          <div class="status">Status: <?= $pedidos['status'] ?? 'vazio'; ?></div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  </div>
+<?php endwhile; ?>
 </body>
 </html>

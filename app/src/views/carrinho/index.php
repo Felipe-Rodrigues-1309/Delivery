@@ -107,7 +107,7 @@ $bairro = $_SESSION['bairro'] ?? null;
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="./Pagina_inicial/Pagina_inicial.html">Pagina inicial</a>
-                    <a class="nav-link active" href="#">Perfil</a>
+                    <a class="nav-link active" href="?action=perfilCliente">pedidos</a>
                     <a class="nav-link active" href="#">Suporte</a>
                 </div>
             </div>
