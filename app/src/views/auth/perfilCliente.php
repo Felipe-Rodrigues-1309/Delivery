@@ -13,7 +13,7 @@ if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario n
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
-    $resultUsuario = $stmt->get_result();
+    $resultUsuario = $stmt->get_result(); // usado para dar o resultado da consulta executada
     $usuario = $resultUsuario->fetch_assoc();  // resultUsuario não pode se repetir em outro if
 }
 
@@ -24,7 +24,7 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
     $stmt->execute();
 
     $resultPedido = $stmt->get_result();
-    $pedidos= $resultPedido->fetch_assoc();
+    //$pedidos= $resultPedido->fetch_assoc();
 }
 ?>
 
