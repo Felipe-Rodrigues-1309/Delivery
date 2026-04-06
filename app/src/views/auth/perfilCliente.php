@@ -9,7 +9,7 @@ $usuario = null;  // usado para criar uma varivael para ser possivel fazer os da
 $pedidos = null;
 
 if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario no front
-    $stmt = $conn->prepare("SELECT usuario FROM endereco WHERE id = ?");
+    $stmt = $conn->prepare("SELECT usuario, rua, numero, bairro, cidade, ponto_de_referencia FROM endereco WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
@@ -97,8 +97,18 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
  <div class="card">
   <div class="card-body">
     <div class="id">
-      <h5>#ID-<?= $pedidos['id'] ?? 'vazio'; ?></h5>
-      Data: <?= $pedidos['data_pedido'] ?? 'vazio'; ?>
+      <h5>#ID-<?= $pedidos['id'] ?? 'vazio';?></h5>
+
+      <h5><div class="data">Data: <?= $pedidos['data_pedido'] ?? 'vazio'; ?></div></h5>
+      
+      <h6><div class="endereco">
+        Endereço: <?= $usuario['rua'] ?? 'vazio';?>,
+        Nº<?= $usuario['numero'] ?? 'vazio';?>,
+        <?= $usuario['ponto_de_referencia'] ?? 'vazio';?>
+        <?= $usuario['bairro'] ?? 'vazio';?>,
+        <?= $usuario['cidade'] ?? 'vazio';?></h6>
+      </div>
+
       <div class="pedido">
         <?= $pedidos['item'] ?? 'vazio'; ?>
         <div class="total">

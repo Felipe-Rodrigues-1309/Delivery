@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <!--inicio bootstrap-->
-    <link rel="stylesheet" href="/css/abrir_produto.css">
+    <link rel="stylesheet" href="css/abrir_produto.css">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -84,7 +84,7 @@
             $precoProduto = $row['valor'];
           
             if(!empty($row['imagem'])) {
-                echo "<img src='/uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";
+                echo "<img src='uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";
             }
             echo "<h1 style='color: #ffffff;'>" . $nomeProduto . "</h1>";
             echo "<h6 style='color: #ffffff;'>". htmlspecialchars($row['descricao']) . "</h6>";
