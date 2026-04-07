@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../config/conexao.php';
 // Inicia a sessão do usuário. Isso garante que temos acesso ao ID do usuário logado.
 // Sem sessão, não conseguimos saber quem está fazendo o pedido.
 session_start();
@@ -17,8 +18,20 @@ $id_usuario = $_SESSION['id_usuario'] ?? null;
 $rua = $_SESSION['rua'] ?? null;
 $numero = $_SESSION['numero'] ?? null;
 $bairro = $_SESSION['bairro'] ?? null;
-?>
 
+
+
+$endereco = null;
+
+if($id_usuario){
+$stmt = $conn->prepare(" SELECT rua, numero, bairro, cidade, ponto_de_referencia FROM endereco WHERE id = ?");
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+
+$enderecoUsuario = $stmt->get_result();
+$endereco = $enderecoUsuario->fetch_assoc();
+}
+?>
 
 
 <!DOCTYPE html>
@@ -94,6 +107,11 @@ $bairro = $_SESSION['bairro'] ?? null;
         color: black;
         }
 
+        .endereco{
+            background-color:blue;
+        }
+
+
     </style>
 </head>
 <body>
@@ -113,6 +131,17 @@ $bairro = $_SESSION['bairro'] ?? null;
             </div>
         </div>
     </nav>
+    
+    <div class="card endereco">
+        <div class="card-body">
+            <div class="endereco">
+                <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>
+                <?= $endereco['cidade'] ?? '';?>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
         <h2 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h2>
 
