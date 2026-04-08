@@ -107,8 +107,14 @@ $endereco = $enderecoUsuario->fetch_assoc();
         color: black;
         }
 
-        .endereco{
-            background-color:blue;
+        .buttonNavBar{
+        margin: 0px;
+        padding: 5px;
+        }
+
+        .cardEndereco{
+            background-color:#20B2AA;
+            margin-bottom:15px;
         }
 
 
@@ -118,8 +124,8 @@ $endereco = $enderecoUsuario->fetch_assoc();
     <!-- Navegação superior: links de volta à página inicial e página de pedidos -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./Pagina_inicial/Pagina_inicial.html">voltar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="?action=login">voltar</a>
+            <button class="navbar-toggler buttonNavBar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -132,18 +138,17 @@ $endereco = $enderecoUsuario->fetch_assoc();
         </div>
     </nav>
     
-    <div class="card endereco">
-        <div class="card-body">
-            <div class="endereco">
-                <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>
-                <?= $endereco['cidade'] ?? '';?>
-            </div>
-        </div>
-    </div>
-
-
     <div class="container">
         <h2 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h2>
+
+            <div class="card cardEndereco">
+                <div class="card-body">
+                    <div class="endereco">
+                        <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>
+                        <?= $endereco['cidade'] ?? '';?>
+                    </div>
+                </div>
+            </div>
 
         <!-- Mensagem exibida quando não há produtos no carrinho -->
         <div id="carrinho-vazio" style="display: none; text-align: center;">
