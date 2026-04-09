@@ -161,11 +161,14 @@ $endereco = $enderecoUsuario->fetch_assoc();
             <!-- Os itens serão carregados aqui pelo JavaScript -->
         </div>
 
-        <div class="card formaDePagamento">
-            <div class="card-body">
-                <h6>forma de pagamento</h6>
-            </div>
-        </div>
+
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Forma de pagamento</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+  
 
         <!-- Exibe o total do pedido quando houver itens no carrinho -->
         <div id="carrinho-total" style="display: none;">
