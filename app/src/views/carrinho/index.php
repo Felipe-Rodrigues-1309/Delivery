@@ -161,14 +161,14 @@ $endereco = $enderecoUsuario->fetch_assoc();
             <!-- Os itens serão carregados aqui pelo JavaScript -->
         </div>
 
-
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Forma de pagamento</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-  
+        <div id="carrinho-pagamento" style="display: none; margin-top: 20px;"> <!--usado para nao aparecer a forma de pagamento se o carrinho estiver vazio busca pelo id-->
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Forma de pagamento</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
 
         <!-- Exibe o total do pedido quando houver itens no carrinho -->
         <div id="carrinho-total" style="display: none;">
@@ -201,17 +201,20 @@ $endereco = $enderecoUsuario->fetch_assoc();
             const carrinhoVazio = document.getElementById('carrinho-vazio');
             const carrinhoItens = document.getElementById('carrinho-itens');
             const carrinhoTotal = document.getElementById('carrinho-total');
+            const carrinhoPagamento = document.getElementById('carrinho-pagamento'); //usado para nao aparecer a forma de pagamento se o carrinho estiver vazio
 
             if(carrinho.length === 0) {
                 carrinhoVazio.style.display = 'block';
                 carrinhoItens.style.display = 'none';
                 carrinhoTotal.style.display = 'none';
+                carrinhoPagamento.style.display = 'none'; //usado para nao aparecer a forma de pagamento se o carrinho estiver vazio
                 return;
             }
 
             carrinhoVazio.style.display = 'none';
             carrinhoItens.style.display = 'block';
             carrinhoTotal.style.display = 'block';
+            carrinhoPagamento.style.display = 'block'; //usado para nao aparecer a forma de pagamento se o carrinho estiver com itens 
 
             // Limpar itens anteriores
             carrinhoItens.innerHTML = '';
