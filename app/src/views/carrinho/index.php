@@ -161,12 +161,19 @@ $endereco = $enderecoUsuario->fetch_assoc();
             <!-- Os itens serão carregados aqui pelo JavaScript -->
         </div>
 
+        <div class="card formaDePagamento">
+            <div class="card-body">
+                <h6>forma de pagamento</h6>
+            </div>
+        </div>
+
         <!-- Exibe o total do pedido quando houver itens no carrinho -->
         <div id="carrinho-total" style="display: none;">
             <div class="total-section">
                 <h5 id="total-preco">Total da Compra: R$ 0,00</h5>
             </div>
         </div>
+
         <button onclick="enviarWhatsApp()">Finalizar Compra</button>
     </div>
 

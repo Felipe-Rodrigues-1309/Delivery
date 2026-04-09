@@ -51,11 +51,13 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
       border:solid 2px #00ff00;
       border-radius: 15px;
       margin: 5px;
-      background:#C0C0C0;
+      background-color: rgba(0, 0, 0, 0.59);
+      color:white;
     }
+
     .minha-navbar {
-    background: linear-gradient(#0000000b);
-    box-shadow: 0 10px 10px rgba(0, 8, 249, 0.57);
+    background: linear-gradient(#00ff00);
+    box-shadow: 0 10px 10px rgba(0, 255, 0, 0.57);
 }
     </style>
 
