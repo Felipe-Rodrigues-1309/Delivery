@@ -142,7 +142,7 @@ $endereco = $enderecoUsuario->fetch_assoc();
         <h2 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h2>
 
             <div class="card cardEndereco">
-                <div class="card-body">
+                <fdiv class="card-body">
                     <div class="endereco">
                         <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>
                         <?= $endereco['cidade'] ?? '';?>
@@ -162,11 +162,11 @@ $endereco = $enderecoUsuario->fetch_assoc();
         </div>
 
         <div id="carrinho-pagamento" style="display: none; margin-top: 20px;"> <!--usado para nao aparecer a forma de pagamento se o carrinho estiver vazio busca pelo id-->
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Forma de pagamento</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+            <select id="forma_pagamento" class="form-select" aria-label="Default select example">
+                <option value="" selected>Forma de pagamento</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Cartão">Cartão</option>
+                <option value="Vale Alimentação">Vale Alimentação</option>
             </select>
         </div>
 
@@ -342,15 +342,27 @@ function enviarWhatsApp(){
     //    - produto: string com os nomes/resumos dos itens
     //    - valor: total do pedido
     //    - id_usuario: para identificar quem fez
+    //    - pagamento: forma de pagamento selecionada
     //    - data (é gerada no servidor)
     const produtoNome = carrinho
         .map(item => `${item.quantidade}x ${item.nome}`)
         .join(', ');
 
+    const formaPagamentoSelect = document.getElementById('forma_pagamento');
+    const formaPagamento = formaPagamentoSelect ? formaPagamentoSelect.value : '';
+
+    if (!formaPagamento) {
+        alert('Selecione uma forma de pagamento antes de finalizar o pedido.');
+        return;
+    }
+
+    mensagem += "\nForma de Pagamento: " + formaPagamento + "\n";
+
     const formData = new FormData();
     formData.append('id_usuario', idUsuario);
     formData.append('produto', produtoNome);
     formData.append('valor', total.toFixed(2));
+    formData.append('pagamento', formaPagamento);
 
     // Chamada AJAX para endpoint que grava o pedido em DB.
     // A resposta é JSON contendo success/message.
