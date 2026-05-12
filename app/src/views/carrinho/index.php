@@ -301,49 +301,14 @@ function enviarWhatsApp(){
         return;
     }
 
-    // 2) Monta a mensagem que será enviada para o WhatsApp
-    //    A ideia é deixar a mensagem legível para o atendente ou para quem receber.
-    let mensagem = "🛒 *NOVO PEDIDO*\n\n";
-
+    // 2) Salva o pedido no servidor (banco de dados)
     let total = 0;
 
-    // Cada item do carrinho é convertido em linhas de texto.
-    // Exemplo:
-    // 🍔 Hambúrguer
-    // Quantidade: 2
-    // Preço: R$ 20,00
-    // (com adicionais, se houver)
+    // Calcula o total
     carrinho.forEach(item => {
-        mensagem += "🍔 " + item.nome + "\n";
-        mensagem += "Quantidade: " + item.quantidade + "\n";
-        mensagem += "Preço: R$ " + item.precoFinal.toFixed(2).replace('.', ',') + "\n";
-
-        if(item.adicionais && item.adicionais.length > 0){
-            mensagem += "Adicionais:\n";
-            item.adicionais.forEach(ad => {
-                mensagem += " - " + ad.nome + " (R$ " + ad.valor.toFixed(2).replace('.', ',') + ")\n";
-            });
-        }
-
-        mensagem += "\n";
         total += item.precoFinal;
     });
 
-    mensagem += " *Total: R$ " + total.toFixed(2).replace('.', ',') + "*";
-
-    // Número de telefone da loja (WhatsApp). Ajuste para o número real.
-    const numero = "5588988188728";
-
-    // URL do WhatsApp Web/mobile que abre uma conversa com a mensagem pré-preenchida.
-    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
-
-    // 3) Salvamos o pedido no servidor (banco de dados)
-    //    Aqui NÃO enviamos a mensagem completa, apenas os dados importantes:
-    //    - produto: string com os nomes/resumos dos itens
-    //    - valor: total do pedido
-    //    - id_usuario: para identificar quem fez
-    //    - pagamento: forma de pagamento selecionada
-    //    - data (é gerada no servidor)
     const produtoNome = carrinho
         .map(item => `${item.quantidade}x ${item.nome}`)
         .join(', ');
@@ -356,13 +321,12 @@ function enviarWhatsApp(){
         return;
     }
 
-    mensagem += "\nForma de Pagamento: " + formaPagamento + "\n";
-
     const formData = new FormData();
     formData.append('id_usuario', idUsuario);
     formData.append('produto', produtoNome);
     formData.append('valor', total.toFixed(2));
     formData.append('pagamento', formaPagamento);
+    formData.append('rua', rua);
 
     // Chamada AJAX para endpoint que grava o pedido em DB.
     // A resposta é JSON contendo success/message.
@@ -389,10 +353,6 @@ function enviarWhatsApp(){
         console.error('Erro ao enviar pedido:', error);
         alert('Erro ao enviar pedido. Verifique sua conexão e tente novamente.');
     });
-
-    // 4) Abre o WhatsApp em nova aba/janela com a mensagem montada.
-    //    Isso permite que o cliente finalize o envio e veja os detalhes.
-    window.open(url, '_blank');
 }
    </script>
 </body>
