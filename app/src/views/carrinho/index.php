@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../../config/conexao.php';
 // Inicia a sessão do usuário. Isso garante que temos acesso ao ID do usuário logado.
 // Sem sessão, não conseguimos saber quem está fazendo o pedido.
@@ -18,6 +19,8 @@ $id_usuario = $_SESSION['id_usuario'] ?? null;
 $rua = $_SESSION['rua'] ?? null;
 $numero = $_SESSION['numero'] ?? null;
 $bairro = $_SESSION['bairro'] ?? null;
+$cidade = $_SESSION['cidade'] ?? null;
+$ponto_de_referencia = $_SESSION['ponto_de_referencia'] ?? null;
 
 
 
@@ -190,6 +193,8 @@ $endereco = $enderecoUsuario->fetch_assoc();
         const rua = <?=json_encode($rua);?>;
         const numero = <?=json_encode($numero);?>;
         const bairro = <?=json_encode($bairro);?>;
+        const cidade = <?=json_encode($cidade);?>;
+        const ponto_de_referencia = <?=json_encode($ponto_de_referencia);?>;
 
         // ### Função principal que renderiza o carrinho na página
         function carregarCarrinho() {
@@ -327,6 +332,10 @@ function enviarWhatsApp(){
     formData.append('valor', total.toFixed(2));
     formData.append('pagamento', formaPagamento);
     formData.append('rua', rua);
+    formData.append('bairro', bairro);
+    formData.append('numero', numero);
+    formData.append('cidade', cidade);
+    formData.append('ponto_de_referencia', ponto_de_referencia);
 
     // Chamada AJAX para endpoint que grava o pedido em DB.
     // A resposta é JSON contendo success/message.

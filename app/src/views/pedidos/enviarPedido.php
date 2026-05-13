@@ -30,6 +30,10 @@ $produto = isset($_POST['produto']) ? trim($_POST['produto']) : null;
 $valor = isset($_POST['valor']) ? floatval(str_replace(',', '.', $_POST['valor'])) : null;
 $pagamento = isset($_POST['pagamento']) ? trim($_POST['pagamento']) : null;
 $rua = $_POST['rua'] ?? '';
+$bairro = $_POST['bairro'] ?? '';
+$numero = $_POST['numero'] ?? '';
+$cidade = $_POST['cidade'] ?? '';
+$ponto_de_referencia = $_POST['ponto_de_referencia'] ?? '';
 
 // Checamos se todos os dados obrigatórios estão presentes.
 // Se algo estiver faltando, retornamos erro imediatamente.
@@ -46,12 +50,13 @@ $data_pedido = date("Y-m-d H:i:s");
 
 // Query preparada para evitar injeção SQL.
 // Aqui salvamos o nome/descrição do(s) produto(s) e a forma de pagamento.
-$sql = "INSERT INTO pedido (usuario, item, valor, data_pedido, pagamento, rua) VALUES (?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO pedido (usuario, item, valor, data_pedido, pagamento, rua, bairro, numero, cidade, ponto_de_referencia) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 // Preparação do statement com binding de parâmetros:
 // i = inteiro, s = string, d = número (double)
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("isdsss", $id_usuario, $produto, $valor, $data_pedido, $pagamento,$rua);
+$stmt->bind_param("isdssssiss", $id_usuario, $produto, $valor, $data_pedido, $pagamento,$rua, $bairro, $numero, $cidade, $ponto_de_referencia);
 
 // ===============================
 // 3) Execução e resposta JSON
