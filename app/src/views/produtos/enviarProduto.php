@@ -33,7 +33,7 @@ if (isset($_FILES['imagem'])) {
         $tmp = $_FILES['imagem']['tmp_name'];
 
         // criar pasta
-        $pastaUpload = __DIR__ . '/../../public/uploads';
+        $pastaUpload = __DIR__ . '/../../../public/uploads';
 
         if (!is_dir($pastaUpload)) {
             mkdir($pastaUpload, 0777, true);
