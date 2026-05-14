@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../config/conexao.php';
 
 session_start();
 
-$id = $_SESSION['id_usuario'] ?? null; // usado para pegar o uduario da seccão e colocar para aparrecer no front
+$id = $_SESSION['id_usuario'] ?? null; // usado para pegar o usuario da seccão e colocar para aparrecer no front
 
 $usuario = null;  // usado para criar uma varivael para ser possivel fazer os dados do banco virem para o front
 $pedidos = null;

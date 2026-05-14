@@ -1,5 +1,10 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 require_once __DIR__ . '/../../config/conexao.php';
 // Inicia a sessão do usuário. Isso garante que temos acesso ao ID do usuário logado.
 // Sem sessão, não conseguimos saber quem está fazendo o pedido.
@@ -24,15 +29,28 @@ $ponto_de_referencia = $_SESSION['ponto_de_referencia'] ?? null;
 
 
 
-$endereco = null;
 
-if($id_usuario){
+
+// busca para mostrar o endereço no front 
+if($id_usuario){  // o $id_usuario venda do start da secão sempre e usada para buscar pelo id da seção 
 $stmt = $conn->prepare(" SELECT rua, numero, bairro, cidade, ponto_de_referencia FROM endereco WHERE id = ?");
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 
 $enderecoUsuario = $stmt->get_result();
 $endereco = $enderecoUsuario->fetch_assoc();
+}
+
+
+// busca para encontrar o usuario pelo nome na seção 
+if($id_usuario){
+
+    $stmt = $conn->prepare("SELECT nome FROM usuarios WHERE id = ?");
+    $stmt->bind_param("i", $id_usuario);
+    $stmt->execute();
+
+    $ResultadoNomeDoUsuario = $stmt->get_result();
+    $user = $ResultadoNomeDoUsuario->fetch_assoc();
 }
 ?>
 
@@ -145,10 +163,11 @@ $endereco = $enderecoUsuario->fetch_assoc();
         <h2 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h2>
 
             <div class="card cardEndereco">
-                <fdiv class="card-body">
+                <div class="card-body">
                     <div class="endereco">
                         <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>
                         <?= $endereco['cidade'] ?? '';?>
+                        <?= $user['nome'] ?? '';?>
                     </div>
                 </div>
             </div>
@@ -195,6 +214,7 @@ $endereco = $enderecoUsuario->fetch_assoc();
         const bairro = <?=json_encode($bairro);?>;
         const cidade = <?=json_encode($cidade);?>;
         const ponto_de_referencia = <?=json_encode($ponto_de_referencia);?>;
+        const user = <?=json_encode($user);?>;
 
         // ### Função principal que renderiza o carrinho na página
         function carregarCarrinho() {
@@ -336,6 +356,7 @@ function enviarWhatsApp(){
     formData.append('numero', numero);
     formData.append('cidade', cidade);
     formData.append('ponto_de_referencia', ponto_de_referencia);
+    formData.append('nome', user.nome); 
 
     // Chamada AJAX para endpoint que grava o pedido em DB.
     // A resposta é JSON contendo success/message.
