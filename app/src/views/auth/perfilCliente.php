@@ -8,6 +8,7 @@ $id = $_SESSION['id_usuario'] ?? null; // usado para pegar o usuario da seccão 
 $usuario = null;  // usado para criar uma varivael para ser possivel fazer os dados do banco virem para o front
 $pedidos = null;
 
+
 if ($id) {  // vaz a busca do usuario no banco para exibir oque for necessario no front
     $stmt = $conn->prepare("SELECT usuario, rua, numero, bairro, cidade, ponto_de_referencia FROM endereco WHERE id = ?");
     $stmt->bind_param("i", $id);
@@ -110,7 +111,16 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
         <?= $usuario['bairro'] ?? 'vazio';?>,
         <?= $usuario['cidade'] ?? 'vazio';?></h6>
       </div>
+      
 
+      <?php
+      $status = $pedidos['status'] ?? 'vazio';
+      if($status == "Em preparo"){
+        echo "teste de echo com if";
+      }
+      ?>
+      
+      
       <div class="pedido">
         <?= $pedidos['item'] ?? 'vazio'; ?>
         <div class="total">

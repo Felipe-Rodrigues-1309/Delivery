@@ -371,7 +371,8 @@ function enviarWhatsApp(){
         if (data.success) {
             // Pedido gravado com sucesso -> esvazia o carrinho local e atualiza interface.
             localStorage.removeItem('carrinho');
-            alert('Pedido registrado com sucesso! O carrinho foi limpo.');
+            alert('Pedido registrado com sucesso!');
+            window.location.href = "index.php?action=perfilCliente&redirect=carrinho";
             carregarCarrinho();
         } else {
             // Caso o backend retorne erro, mostramos para o usuário.
