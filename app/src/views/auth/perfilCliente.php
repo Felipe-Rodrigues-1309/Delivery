@@ -116,7 +116,7 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
       <?php
       $status = $pedidos['status'] ?? 'vazio';
       if($status == "Em preparo"){
-        echo "teste de echo com if";
+       echo '<img src="https://i.gifer.com/ZZ5H.gif" alt="Carregando..." width="80">';
       }
       ?>
       
