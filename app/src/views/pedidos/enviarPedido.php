@@ -48,16 +48,17 @@ if (!$id_usuario || !$produto || $valor === null || !$pagamento) {
 // ===============================
 // Geramos timestamp para saber quando o pedido foi feito.
 $data_pedido = date("Y-m-d H:i:s");
+$status = "Recebido";
 
 // Query preparada para evitar injeção SQL.
 // Aqui salvamos o nome/descrição do(s) produto(s) e a forma de pagamento.
-$sql = "INSERT INTO pedido (usuario, item, valor, data_pedido, pagamento, rua, bairro, numero, cidade, ponto_de_referencia, nome) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO pedido (status, usuario, item, valor, data_pedido, pagamento, rua, bairro, numero, cidade, ponto_de_referencia, nome) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 // Preparação do statement com binding de parâmetros:
 // i = inteiro, s = string, d = número (double)
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("isdssssisss", $id_usuario, $produto, $valor, $data_pedido, $pagamento,$rua, $bairro, $numero, $cidade, $ponto_de_referencia, $user);
+$stmt->bind_param("sisdssssisss",$status, $id_usuario, $produto, $valor, $data_pedido, $pagamento,$rua, $bairro, $numero, $cidade, $ponto_de_referencia, $user);
 
 // ===============================
 // 3) Execução e resposta JSON

@@ -113,19 +113,28 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
       </div>
       
 
-      <?php
-      $status = $pedidos['status'] ?? 'vazio';
-      if($status == "Em preparo"){
-       echo '<img src="https://i.gifer.com/ZZ5H.gif" alt="Carregando..." width="80">';
-      }
-      ?>
+
       
       
       <div class="pedido">
-        <?= $pedidos['item'] ?? 'vazio'; ?>
+        <?= nl2br(htmlspecialchars($pedidos['item'] ?? 'vazio')); ?>
         <div class="total">
           Valor total: R$ <?= $pedidos['valor'] ?? 'vazio'; ?>
-          <div class="status">Status: <?= $pedidos['status'] ?? 'vazio'; ?></div>
+          <div class="status">Status:
+              <?php
+               $status = $pedidos['status'] ?? 'vazio';
+                
+                if($status == "Recebido"){
+                echo 'Recebido';
+                
+                } else if($status == "Em preparo"){
+                echo "Em preparo";
+                
+                } else if($status == "entregue"){
+                echo "entregue";
+                }
+            ?>
+          </div>
         </div>
       </div>
     </div>

@@ -335,8 +335,17 @@ function enviarWhatsApp(){
     });
 
     const produtoNome = carrinho
-        .map(item => `${item.quantidade}x ${item.nome}`)
-        .join(', ');
+        .map(item => {
+            let descricao = `${item.quantidade}x ${item.nome}`;
+            if (item.adicionais && item.adicionais.length > 0) {
+                descricao += '\nAdicionais:';
+                descricao += item.adicionais
+                    .map(ad => `\n - ${ad.nome} (R$ ${ad.valor.toFixed(2).replace('.', ',')})`)
+                    .join('');
+            }
+            return descricao;
+        })
+        .join('\n\n');
 
     const formaPagamentoSelect = document.getElementById('forma_pagamento');
     const formaPagamento = formaPagamentoSelect ? formaPagamentoSelect.value : '';
