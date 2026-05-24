@@ -249,11 +249,13 @@ if($id_usuario){
             carrinho.forEach((item, index) => {
                 totalGeral += item.precoFinal;
 
+                let produtoHTML = `<small style="display: block; color: #aaa; margin-top: 5px;">✓ Produto (R$ ${(item.precoUnitario * item.quantidade).toFixed(2).replace('.', ',')}) x ${item.quantidade}</small>`;
+                
                 let adicionaisHTML = '';
                 if(item.adicionais && item.adicionais.length > 0) {
-                    adicionaisHTML = '<small style="display: block; color: #aaa; margin-top: 5px;">';
+                    adicionaisHTML = '<small style="display: block; color: #aaa;">';
                     item.adicionais.forEach(ad => {
-                        adicionaisHTML += '✓ ' + ad.nome + ' (R$ ' + ad.valor.toFixed(2).replace('.', ',') + ')<br>';
+                        adicionaisHTML += '✓ ' + item.quantidade + 'x ' + ad.nome + ' (R$ ' + (ad.valor * item.quantidade).toFixed(2).replace('.', ',') + ')<br>';
                     });
                     adicionaisHTML += '</small>';
                 }
@@ -262,7 +264,7 @@ if($id_usuario){
                     <div class="item-carrinho">
                         <div class="item-info" style="flex: 1;">
                             <h6>${item.nome}</h6>
-                            <small>Quantidade: ${item.quantidade} x R$ ${item.precoUnitario.toFixed(2).replace('.', ',')}</small>
+                            ${produtoHTML}
                             ${adicionaisHTML}
                         </div>
                         <div style="text-align: right; margin-right: 20px;">
@@ -336,11 +338,11 @@ function enviarWhatsApp(){
 
     const produtoNome = carrinho
         .map(item => {
-            let descricao = `${item.quantidade}x ${item.nome}`;
+            let descricao = `${item.quantidade}x ${item.nome} (R$ ${(item.precoUnitario * item.quantidade).toFixed(2).replace('.', ',')})`;
             if (item.adicionais && item.adicionais.length > 0) {
                 descricao += '\nAdicionais:';
                 descricao += item.adicionais
-                    .map(ad => `\n - ${ad.nome} (R$ ${ad.valor.toFixed(2).replace('.', ',')})`)
+                    .map(ad => `\n - ${item.quantidade}x ${ad.nome} (R$ ${(ad.valor * item.quantidade).toFixed(2).replace('.', ',')})`)
                     .join('');
             }
             return descricao;

@@ -117,7 +117,28 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
       
       
       <div class="pedido">
-        <?= nl2br(htmlspecialchars($pedidos['item'] ?? 'vazio')); ?>
+        <small style="display: block; color: #aaa; line-height: 1.8;">
+          <?php
+            $item = $pedidos['item'] ?? 'vazio';
+            // Formata o item com checkmarks mantendo a quantidade
+            $item = preg_replace_callback(
+              '/(\d+)x\s+(.+?)\s*\(R\$\s+([\d.,]+)\)/m',
+              function($matches) {
+                return '✓ ' . $matches[1] . 'x ' . $matches[2] . ' (R$ ' . $matches[3] . ')';
+              },
+              $item
+            );
+            // Formata os adicionais com quantidade
+            $item = preg_replace_callback(
+              '/^\s*-\s+(\d+)x\s+(.+?)\s*\(R\$\s+([\d.,]+)\)/m',
+              function($matches) {
+                return '  ✓ ' . $matches[1] . 'x ' . $matches[2] . ' (R$ ' . $matches[3] . ')';
+              },
+              $item
+            );
+            echo nl2br(htmlspecialchars($item));
+          ?>
+        </small>
         <div class="total">
           Valor total: R$ <?= $pedidos['valor'] ?? 'vazio'; ?>
           <div class="status">Status:
