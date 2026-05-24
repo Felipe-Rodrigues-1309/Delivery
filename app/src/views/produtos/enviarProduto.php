@@ -13,7 +13,8 @@ $cod = $_POST['cod'] ?? null;
 $produto = $_POST['produto'] ?? '';
 $valor = $_POST['valor'] ?? 0;
 $descricao = $_POST['descricao'] ?? '';
-
+$categoria = $_POST['categoria'] ?? '';
+ 
 // adicionais nomes
 for ($i = 1; $i <= 10; $i++) {
     ${"adicional_nome$i"} = $_POST["adicional_nome$i"] ?? '';
@@ -65,13 +66,13 @@ $sql = "INSERT INTO produtos (
     valoradicional1, valoradicional2, valoradicional3, valoradicional4,
     valoradicional5, valoradicional6, valoradicional7, valoradicional8,
     valoradicional9, valoradicional10,
-    imagem
-) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    imagem, categoria
+) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 $stmt = $conn->prepare($sql);
 
 $stmt->bind_param(
-    "isdsssssssssssdddddddddds",
+    "isdsssssssssssddddddddddss",
     $cod, $produto, $valor, $descricao,
     $adicional_nome1, $adicional_nome2, $adicional_nome3, $adicional_nome4,
     $adicional_nome5, $adicional_nome6, $adicional_nome7, $adicional_nome8,
@@ -79,7 +80,7 @@ $stmt->bind_param(
     $adicional_valor1, $adicional_valor2, $adicional_valor3, $adicional_valor4,
     $adicional_valor5, $adicional_valor6, $adicional_valor7, $adicional_valor8,
     $adicional_valor9, $adicional_valor10,
-    $novoNomeImagem
+    $novoNomeImagem, $categoria
 );
 
 // executar

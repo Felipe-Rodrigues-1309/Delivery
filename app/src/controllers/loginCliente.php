@@ -54,7 +54,7 @@ if (isset($_SESSION['redirect_after_login'])) {
     exit();
 
 }   else {
-    header("Location: ?action=paginaInicial");
+    header("Location: ?action=categoria");
     exit();
 }
 

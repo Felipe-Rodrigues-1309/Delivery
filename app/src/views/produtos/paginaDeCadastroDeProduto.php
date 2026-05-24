@@ -48,6 +48,9 @@
   <label for="valor">Valor:</label>
   <input type="number" name="valor" step="0.01"><br><br>
 
+    <label for="valor">categoria:</label>
+  <input type="text" name="categoria"><br><br>
+
   <!-- Upload de imagem -->
   <label>Imagem do Produto:</label><br>
   <input type="file" name="imagem" accept="image/*"><br><br>

@@ -175,7 +175,6 @@ if($id_usuario){
         <!-- Mensagem exibida quando não há produtos no carrinho -->
         <div id="carrinho-vazio" style="display: none; text-align: center;">
             <h3>Seu carrinho está vazio</h3>
-            <a href="?action=categoria" class="btn btn-primary mt-3">Continuar Comprando</a>
         </div>
 
         <!-- Aqui o JavaScript injeta os cards dos itens que estiverem no carrinho -->
@@ -198,6 +197,14 @@ if($id_usuario){
                 <h5 id="total-preco">Total da Compra: R$ 0,00</h5>
             </div>
         </div>
+
+            <div class="d-flex justify-content-center">
+                <a href="?action=categoria"
+                    class="btn btn-primary mt-3">
+                    Continuar Comprando
+                </a>
+            </div>
+
 
         <button onclick="enviarWhatsApp()">Finalizar Compra</button>
     </div>

@@ -42,8 +42,8 @@
             <a class="nav-link active" aria-current="page" href="../../Pagina_inicial/Pagina_inicial.html"
               >Pagina inicial</a
             >
-            <a class="nav-link active" href="#">Pedidos</a>
-            <a class="nav-link active" href="#">Suporte</a>
+            <a class="nav-link active" href="?action=perfilCliente">Pedidos</a>
+            <a class="nav-link active" href="?action=carinho">Carrinho</a>
             <a class="nav-link active" aria-disabled="true">Teste</a>
           </div>
         </div>
@@ -71,12 +71,6 @@ $result = $conn->query($sql);
       <div class="item"><?php echo $row['item']; ?></div>
       <!--Cod: <?php echo $row['cod']; ?>-->
       <div class="valor">R$ <?php echo number_format($row['valor'],2,",","."); ?></div>
-      <!--<button class="butao btn-add-carrinho"
-        data-id="<?php echo $row['id']; ?>"
-        data-nome="<?php echo htmlspecialchars($row['item'], ENT_QUOTES); ?>"
-        data-total="<?php echo $row['valor']; ?>">
-        Adicionar ao Carrinho
-      </button>-->
     </div></a>
     <?php endwhile; ?>
   </div>
