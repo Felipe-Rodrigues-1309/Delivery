@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../../config/conexao.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -50,32 +54,48 @@
       </div>
     </nav>
     <!--final nav bar-->
-  
-    <!--inicio produtos-->
 
+
+
+<!--SQL BUSCA CATEGORIAS-->
 <?php
+$sql = "SELECT * FROM categorias ORDER BY id DESC";
+$resultadoCategorias = $conn->query($sql); 
+?>
 
-require_once __DIR__ . '/../../config/conexao.php';
+<?php while($categoria =$resultadoCategorias->fetch_assoc()): ?>
 
-$sql = "SELECT * FROM produtos ORDER BY id DESC"; //seleciona os itens da tabela produtos 
+<!--SQL BUSCA PRODUTOS RELACIONADOS A CATEGORIA-->
+<?php
+$idCategoria = $categoria['id'];
+$sql = "SELECT * FROM produtos WHERE categoria_id = $idCategoria  ORDER BY id DESC"; //seleciona os itens da tabela produtos 
 // se usar a opção de ORDER BY id DESC ira criar um card
 //  para pada item da tabela - tambem e possivel criar um expecifico pelo id ou nome
 $result = $conn->query($sql);
 ?>
 
 <!--inicio container-->
-<div class="container mt-3">  
+<div class="container">
+
+<!--TITULO CATEGORIA-->
+<div class="categoria"><?php echo $categoria['nome'];?></div>
+
+
+<!--PRODUTOS-->
   <div class="row">
-<?php while($row = $result->fetch_assoc()): ?>   
+<?php while($row = $result->fetch_assoc()): ?> 
     <a href="index.php?action=produto&id=<?php echo $row['id']; ?>"><div class="produto1">
       <div class="item"><?php echo $row['item']; ?></div>
-      <!--Cod: <?php echo $row['cod']; ?>-->
+      <div class="descricao"><?php echo $row['descricao'];?></div>
       <div class="valor">R$ <?php echo number_format($row['valor'],2,",","."); ?></div>
+      <div class="imagemProduto"><img src="uploads/<?php echo $row['imagem']; ?>"></div>
     </div></a>
-    <?php endwhile; ?>
   </div>
 </div>
+      <?php endwhile; ?>
+        <?php endwhile; ?>
 <!--final container-->
    <script src="script.js"></script>
   </body>
 </html>
+
