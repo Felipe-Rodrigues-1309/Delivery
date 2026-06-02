@@ -66,7 +66,7 @@ $sql = "INSERT INTO produtos (
     valoradicional1, valoradicional2, valoradicional3, valoradicional4,
     valoradicional5, valoradicional6, valoradicional7, valoradicional8,
     valoradicional9, valoradicional10,
-    imagem, categoria
+    imagem, categoria_id
 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 $stmt = $conn->prepare($sql);

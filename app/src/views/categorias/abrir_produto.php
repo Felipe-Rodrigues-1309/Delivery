@@ -46,7 +46,6 @@
             <a class="nav-link active" href="#">Suporte</a>
             <a class="nav-link active" aria-disabled="true">Teste</a>
           </div>
-          <img src="img/seta.png" alt="">
         </div>
       </div>
     </nav>
@@ -84,7 +83,7 @@
             $precoProduto = $row['valor'];
           
             if(!empty($row['imagem'])) {
-                echo "<img src='/uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";
+                echo "<img src='uploads/" . htmlspecialchars($row['imagem']) . "' alt='" . htmlspecialchars($row['item']) . "' class='img-fluid' style='max-width: 400px;'>";
             }
             echo "<h1 style='color: #ffffff;'>" . $nomeProduto . "</h1>";
             echo "<h6 style='color: #ffffff;'>". htmlspecialchars($row['descricao']) . "</h6>";
