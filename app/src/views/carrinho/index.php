@@ -62,19 +62,37 @@ if($id_usuario){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho de Compras</title>
     <!-- Usamos Bootstrap para layout básico e componentes responsivos. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <!-- Estilos customizados para tornar o carrinho mais legível. -->
     <style>
+      
         body {
-            background-color: #1a1a1a;
-            color: #ffffff;
+            background-image: url(/img/background.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
         }
+
         .container {
-            margin-top: 30px;
+            margin-top: 5px; 
+            backdrop-filter: blur(5px);
+            padding: 1px;
+            margin-top: 25px;
+            margin-bottom: 20px;
+            border-radius: 25px;
         }
         .item-carrinho {
-            background-color: #2a2a2a;
-            border: 1px solid #444;
+            position: relative;
+            color:white;
+            background-color: rgba(0, 0, 0, 0.85);
+            margin-top: 20px;
+            border: 1px solid #0004ff;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 15px;
@@ -84,36 +102,48 @@ if($id_usuario){
         }
         .item-info h6 {
             margin-bottom: 5px;
-        }
-        .item-info small {
-            color: #aaa;
+            
         }
         .item-preco {
-            font-size: 18px;
+            margin-top: 10px;
+            font-size: 20px;
             font-weight: bold;
             color: #1500ff;
         }
         .btn-remover {
-            background-color: #dc3545;
-            color: white;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: transparent;
             border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
+            color: #dc3545;
+            font-size: 22px;
+            font-weight: bold;
             cursor: pointer;
-        }
-        .btn-remover:hover {
-            background-color: #c82333;
+            padding: 0;
+            line-height: 1;
+            margin: 0;
+}
+        
+
+            .btn-remover:hover {
+            color: #ff0000;
         }
         .total-section {
-            background-color: #2a2a2a;
-            border: 2px solid #1500ff;
+            color:white;
+            background-color: rgba(0, 0, 0, 0.85);
+            margin-top: 20px;
+            border: 1px solid #ff0000;
             border-radius: 8px;
-            padding: 20px;
-            margin-top: 30px;
-            text-align: right;
+            padding: 15px;
+            margin-bottom: 15px;
+
+            justify-content: space-between;
+            align-items: center;
         }
-        .total-section h5 {
-            color: #1500ff;
+        .total-section h3 {
+            text-align: center;
+            color: #ff0000;
             font-weight: bold;
         }
 
@@ -134,10 +164,89 @@ if($id_usuario){
         }
 
         .cardEndereco{
-            background-color:#20B2AA;
-            margin-bottom:15px;
+        color: #00ff00;
+        font-style: italic;
+        background-color: rgba(0, 0, 0, 0.85);
+        border: 1px solid #00ff00;
+        padding: 1px;
+        margin-bottom: 2px;
+        border-radius: 8px;
         }
 
+
+
+        .form-select {
+        background-color: rgba(0, 0, 0, 0.85);
+        color: white;
+        border: 1px solid #1500ff;
+        border-radius: 8px;
+        }
+
+        .form-select:focus {
+        background-color: rgba(0, 0, 0, 0.95);
+        color: white;
+        border-color: #1500ff;
+        box-shadow: 0 0 10px rgba(21, 0, 255, 0.5);
+        }
+
+        .form-select option {
+        background-color: #000;
+        color: white;
+        }
+
+    button {
+    display: block;
+    margin: 25px auto;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #00ff00;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    font-weight: bold;
+    transition: all 0.4s ease;
+}
+
+button:hover {
+    background-color: #000000;
+    color: white;
+    box-shadow: 0 0 15px #00ff00;
+}
+
+.btn-finalizar {
+    border: 1px solid #00ff00;
+}
+
+.btn-finalizar:hover {
+    background-color: #00ff00;
+    color: black;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+
+.btn-add-produto {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+
+    background-color: rgba(0, 0, 0, 0.85);
+    border: 2px solid #1500ff;
+    border-radius: 50%;
+
+    color: white;
+    font-size: 24px;
+
+    transition: all 0.3s ease;
+}
+
+.btn-add-produto:hover {
+    background-color: #1500ff;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(21, 0, 255, 0.5);
+}
 
     </style>
 </head>
@@ -165,9 +274,12 @@ if($id_usuario){
             <div class="card cardEndereco">
                 <div class="card-body">
                     <div class="endereco">
-                        <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>
+                        Endereço:
+                        <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>,
+                        Nº <?= $endereco['numero'] ?? '';?> -
+                        <?= $endereco['ponto_de_referencia'] ?? '';?> -
                         <?= $endereco['cidade'] ?? '';?>
-                        <?= $user['nome'] ?? '';?>
+                        <?= $user['nome'] ?? '';?>,
                     </div>
                 </div>
             </div>
@@ -200,8 +312,8 @@ if($id_usuario){
 
             <div class="d-flex justify-content-center">
                 <a href="?action=categoria"
-                    class="btn btn-primary mt-3">
-                    Continuar Comprando
+                    class="btn-add-produto">
+                    <i class="bi bi-plus-lg"></i>
                 </a>
             </div>
 
@@ -256,11 +368,11 @@ if($id_usuario){
             carrinho.forEach((item, index) => {
                 totalGeral += item.precoFinal;
 
-                let produtoHTML = `<small style="display: block; color: #aaa; margin-top: 5px;">✓ Produto (R$ ${(item.precoUnitario * item.quantidade).toFixed(2).replace('.', ',')}) x ${item.quantidade}</small>`;
+                let produtoHTML = `<small style="display: flex; color: #ffffff; margin-top: 5px;">✓(R$ ${(item.precoUnitario * item.quantidade).toFixed(2).replace('.', ',')}) x ${item.quantidade}</small>`;
                 
                 let adicionaisHTML = '';
                 if(item.adicionais && item.adicionais.length > 0) {
-                    adicionaisHTML = '<small style="display: block; color: #aaa;">';
+                    adicionaisHTML = '<small style="display: flex; color: #ffffff;">';
                     item.adicionais.forEach(ad => {
                         adicionaisHTML += '✓ ' + item.quantidade + 'x ' + ad.nome + ' (R$ ' + (ad.valor * item.quantidade).toFixed(2).replace('.', ',') + ')<br>';
                     });
@@ -269,15 +381,13 @@ if($id_usuario){
 
                 const itemHTML = `
                     <div class="item-carrinho">
-                        <div class="item-info" style="flex: 1;">
+                        <div class="item-info">
                             <h6>${item.nome}</h6>
                             ${produtoHTML}
                             ${adicionaisHTML}
-                        </div>
-                        <div style="text-align: right; margin-right: 20px;">
                             <div class="item-preco">R$ ${item.precoFinal.toFixed(2).replace('.', ',')}</div>
                         </div>
-                        <button class="btn-remover" onclick="removerDoCarrinho(${index})">Remover</button>
+                         <button class="btn-remover" onclick="removerDoCarrinho(${index})">X</button>
                     </div>
                 `;
                 carrinhoItens.innerHTML += itemHTML;
@@ -286,7 +396,7 @@ if($id_usuario){
             // Criar seção de total
             const totalHTML = `
                 <div class="total-section">
-                    <h5>Total da Compra: R$ ${totalGeral.toFixed(2).replace('.', ',')}</h5>
+                    <h3>Valor Total : R$ ${totalGeral.toFixed(2).replace('.', ',')}</h3>
                 </div>
             `;
 

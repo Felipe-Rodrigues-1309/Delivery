@@ -49,7 +49,7 @@
         </div>
       </div>
     </nav>
-    <div class="container mt-3">
+    <div class="container mt-3" style="max-width: 900px;">
     <?php
 
    require_once __DIR__ . '/../../config/conexao.php';
@@ -102,7 +102,7 @@
                     $valorAd = floatval($row[$valorAdicionalKey]);
                     echo "<div class='form-check' style='margin-bottom: 10px;'>";
                     echo "<input class='form-check-input adicional-checkbox' type='checkbox' id='adicional" . $i . "' data-valor='" . $valorAd . "' onchange='atualizarPreco()'>";
-                    echo "<label class='form-check-label' for='adicional" . $i . "' style='color: #ffffff;'>";
+                    echo "<label class='form-check-label' for='adicional" . $i . "'>";
                     echo htmlspecialchars($row[$adicionalKey]) . " - R$ " . number_format($valorAd, 2, ",", ".");
                     echo "</label>";
                     echo "</div>";

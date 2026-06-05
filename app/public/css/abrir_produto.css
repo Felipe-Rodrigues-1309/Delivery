@@ -17,6 +17,7 @@ body {
 
 /* ===== TÍTULOS ===== */
 h1 {
+
   padding-top: 15px;
   padding-bottom: 5px;
   color: #ffffff;
@@ -72,6 +73,41 @@ img {
 img:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(76, 0, 255, 0.4);
+}
+
+.form-check-label{
+  background-color: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 1px 12px #00ff00;
+  padding: 1px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+}
+
+#adicionaisContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#adicionaisContainer .form-check {
+    min-width: 250px;
+    
+}
+
+.form-check-label {
+    color: #fff;
+    transition: 0.8s;
+}
+
+.form-check-input:checked + .form-check-label {
+  color: rgba(255, 0, 0, 0.422);
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.422);
+  box-shadow: 0 1px 12px red;
+  padding: 1px;
+  margin-bottom: 2px;
+  border-radius: 5px;
 }
 
 /* ===== MEDIA QUERIES ===== */
