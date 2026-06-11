@@ -110,7 +110,7 @@ require_once __DIR__ . '/../../config/conexao.php';
     <!-- Grid de Produtos -->
     <div class="row g-3">
       <?php while($row = $result->fetch_assoc()): ?>
-        <div class="col-12 col-md-4">
+        <div class="col-5 col-md-2">
           <a href="index.php?action=produto&id=<?php echo $row['id']; ?>" class="produto-link">
             <div class="produto1">
               <!-- Imagem do Produto -->
@@ -123,10 +123,10 @@ require_once __DIR__ . '/../../config/conexao.php';
                 <?php echo $row['item']; ?>
               </div>
 
-              <!-- Descrição -->
+              <!-- Descrição
               <div class="descricao">
                 <?php echo $row['descricao']; ?>
-              </div>
+              </div> -->
 
               <!-- Preço -->
               <div class="valor">

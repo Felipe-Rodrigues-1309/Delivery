@@ -72,7 +72,7 @@ $sql = "INSERT INTO produtos (
 $stmt = $conn->prepare($sql);
 
 $stmt->bind_param(
-    "isdsssssssssssddddddddddss",
+    "isdsssssssssssddddddddddsi",
     $cod, $produto, $valor, $descricao,
     $adicional_nome1, $adicional_nome2, $adicional_nome3, $adicional_nome4,
     $adicional_nome5, $adicional_nome6, $adicional_nome7, $adicional_nome8,

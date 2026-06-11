@@ -68,7 +68,7 @@ if($id_usuario){
     <style>
       
         body {
-            background-image: url(/img/background.jpg);
+            background-image: url(/img/background.png);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
