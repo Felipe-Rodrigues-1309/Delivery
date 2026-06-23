@@ -1,134 +1,203 @@
+<?php
+require_once __DIR__ . '/../../config/conexao.php';
+$sql = "SELECT * FROM categorias ORDER BY id DESC";
+$resultadoCategorias = $conn->query($sql);
+?> 
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Admin Delivery - Cadastro de Produto</title>
 
-    <title>Cadastro</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <style>
-        .grupo { 
-            display: none; 
-            margin-top: 20px; 
-            padding: 1px; 
-            background: #f1f1f1; 
-            border-radius: 5px; 
-        }
-        .linha {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 5px;
-        }
-        input {
-            padding: 1px;
-        }
-    </style>
+  <style>
+    body {
+      background: #05072d;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      height: 100vh;
+      position: fixed;
+      background: #111827;
+      color: #cb1616;
+      padding: 20px;
+    }
+
+    .sidebar h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #08d10b;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .sidebar a:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+
+    /* Conteúdo */
+    .content {
+      margin-left: 260px;
+      padding: 20px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .grupo {
+      display: none;
+      margin-top: 15px;
+    }
+
+    .linha {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input, select {
+      border-radius: 8px !important;
+    }
+
+    .btn-save {
+      background: #22c55e;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .btn-save:hover {
+      background: #16a34a;
+    }
+  </style>
 </head>
+
 <body>
 
-<form action="index.php?action=enviarProduto" method="post" enctype="multipart/form-data">
-  <h1>Cadastro de Produtos</h1>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h3>🍔 Delivery Admin</h3>
+  <a href="#">Produtos</a>  
+  <a href="#">Cadastro de Produtos</a>
+  <a href="#">Relatorios</a>
+  <a href="#"></a>
 
-  <label for="Codigo">Código:</label>
-  <input type="text" name="cod"><br>
+</div>
 
-  <label for="nome">Produto:</label>
-  <input type="text" name="produto"><br>
+<!-- CONTEÚDO -->
+<div class="content">
 
-  <label for="Descricao">Descrição:</label>
-  <input type="text" name="descricao"><br>
+  <div class="card p-4">
+    <h2 class="mb-4">Cadastro de Produto</h2>
 
-  <label for="valor">Valor:</label>
-  <input type="number" name="valor" step="0.01"><br><br>
+    <form action="index.php?action=enviarProduto" method="post" enctype="multipart/form-data">
 
-    <label for="valor">categoria:</label>
-  <input type="text" name="categoria"><br><br>
+      <div class="row">
+        <div class="col-md-2">
+          <label>Código</label>
+          <input class="form-control" type="text" name="cod" required>
+        </div>
 
-  <!-- Upload de imagem -->
-  <label>Imagem do Produto:</label><br>
-  <input type="file" name="imagem" accept="image/*"><br><br>
+        <div class="col-md-4">
+          <label>Produto</label>
+          <input class="form-control" type="text" name="produto" required>
+        </div>
 
+        <div class="col-md-3">
+          <label>Categoria</label>
 
-  <!-- inicio drop adicionais -->
-  <h3>Cadastro de Adicionais</h3>
+  <select class="form-select" name="categoria">
+    <option selected disabled>Selecione uma categoria</option>
 
-  <select id="selectAdd" onchange="mostrar()">
-    <option value="">Selecione...</option>
-    <option value="adicionais">Adicionais</option>
+    <?php while($categoria = $resultadoCategorias->fetch_assoc()): ?>
+      <option value="<?= $categoria['id'] ?>">
+        <?= $categoria['nome'] ?>
+      </option>
+    <?php endwhile; ?>
+
   </select>
+</div>
 
-  <div id="adicionais" class="grupo">
+        <div class="col-md-3">
+          <label>Valor</label>
+          <input class="form-control" type="number" name="valor" step="0.01" required>
+        </div>
+      </div>
 
-    <!-- 10 LINHAS DE INPUTS -->
-    <div class="linha">
-      <input type="text" name="adicional_nome1" placeholder="Nome 1">
-      <input type="number" name="adicional_valor1" step="0.01" placeholder="Valor 1">
-    </div>
+      <div class="mt-3">
+        <label>Descrição</label>
+        <input class="form-control" type="text" name="descricao"required>
+      </div>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome2" placeholder="Nome 2">
-      <input type="number" name="adicional_valor2" step="0.01" placeholder="Valor 2">
-    </div>
+      <div class="mt-3">
+        <label>Imagem do Produto</label>
+        <input class="form-control" type="file" name="imagem">
+      </div>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome3" placeholder="Nome 3">
-      <input type="number" name="adicional_valor3" step="0.01" placeholder="Valor 3">
-    </div>
+      <hr>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome4" placeholder="Nome 4">
-      <input type="number" name="adicional_valor4" step="0.01" placeholder="Valor 4">
-    </div>
+      <h5>Adicionais</h5>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome5" placeholder="Nome 5">
-      <input type="number" name="adicional_valor5" step="0.01" placeholder="Valor 5">
-    </div>
+      <select class="form-select" id="selectAdd" onchange="mostrar()">
+        <option value="">Selecione...</option>
+        <option value="adicionais">Adicionar complementos</option>
+      </select>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome6" placeholder="Nome 6">
-      <input type="number" name="adicional_valor6" step="0.01" placeholder="Valor 6">
-    </div>
+      <div id="adicionais" class="grupo mt-3">
 
-    <div class="linha">
-      <input type="text" name="adicional_nome7" placeholder="Nome 7">
-      <input type="number" name="adicional_valor7" step="0.01" placeholder="Valor 7">
-    </div>
+        <div class="linha">
+          <input class="form-control" type="text" name="adicional_nome1" placeholder="Nome">
+          <input class="form-control" type="number" name="adicional_valor1" placeholder="Valor">
+        </div>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome8" placeholder="Nome 8">
-      <input type="number" name="adicional_valor8" step="0.01" placeholder="Valor 8">
-    </div>
+        <div class="linha">
+          <input class="form-control" type="text" name="adicional_nome2" placeholder="Nome">
+          <input class="form-control" type="number" name="adicional_valor2" placeholder="Valor">
+        </div>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome9" placeholder="Nome 9">
-      <input type="number" name="adicional_valor9" step="0.01" placeholder="Valor 9">
-    </div>
+        <div class="linha">
+          <input class="form-control" type="text" name="adicional_nome3" placeholder="Nome">
+          <input class="form-control" type="number" name="adicional_valor3" placeholder="Valor">
+        </div>
 
-    <div class="linha">
-      <input type="text" name="adicional_nome10" placeholder="Nome 10">
-      <input type="number" name="adicional_valor10" step="0.01" placeholder="Valor 10">
-    </div>
+      </div>
 
+      <div class="mt-4">
+        <button class="btn-save" type="submit">Salvar Produto</button>
+      </div>
+
+    </form>
   </div>
 
-  <script>
-  function mostrar() {
-    document.getElementById("adicionais").style.display =
-      document.getElementById("selectAdd").value === "adicionais" ? "block" : "none";
-  }
-  </script>
-  <!-- final drop adicionais -->
+</div>
 
-  <button type="submit">Salvar</button>
-</form>
+<script>
+function mostrar() {
+  document.getElementById("adicionais").style.display =
+    document.getElementById("selectAdd").value === "adicionais"
+      ? "block"
+      : "none";
+}
+</script>
 
 </body>
 </html>

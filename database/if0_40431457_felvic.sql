@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: sql312.infinityfree.com
--- Tempo de geração: 29/05/2026 às 21:51
+-- Tempo de geração: 16/06/2026 às 22:12
 -- Versão do servidor: 11.4.7-MariaDB
 -- Versão do PHP: 7.2.22
 
@@ -38,9 +38,12 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id`, `nome`) VALUES
-(1, 'teste'),
-(2, 'teste2'),
-(3, 'bebidas');
+(1, 'PIZZAS'),
+(2, 'ENTRADAS'),
+(3, 'CARNES NA BRASA '),
+(4, 'SUSHI'),
+(5, 'SOBREMESAS'),
+(6, 'BEBIDAS');
 
 -- --------------------------------------------------------
 
@@ -65,7 +68,7 @@ CREATE TABLE `endereco` (
 INSERT INTO `endereco` (`id`, `rua`, `numero`, `bairro`, `cidade`, `ponto_de_referencia`, `usuario`) VALUES
 (7, 'teste', '50', 'centro', 'sobral0750', 'ap', 'teste0743'),
 (8, 'teste0808', '50', 'centro', 'sss', '2', 'f5'),
-(2, 'teste', '50', 'centro', 'sobral0750', 'ap1147', 'Felipe'),
+(2, 'Fazenda marrecas', '50', 'centro', 'Groaíras', 'proximo ao valnei', 'Felipe'),
 (9, 'rua 1', '1', 'centro', 'sobral', '1', 'Felipe f5'),
 (11, 'teste', '50', 'centro', 'sobral', '50', 'ggggggteste'),
 (13, 'RANDAL POMPEU DE SABOYA MAGALH', '50', '50', 'Sobral', 'Lp', 'Felipe'),
@@ -246,7 +249,16 @@ INSERT INTO `pedido` (`id`, `usuario`, `item`, `valor`, `data_pedido`, `tempo_pr
 (140, 18, '1x qwerty (R$ 222,00)', '222.00', '2026-05-27 17:21:54', NULL, 0, NULL, 'Dinheiro', 'RANDAL POMPEU DE SABOYA MAGALH', '50', 50, 'Sobral', 'Lp', 'Suporte', 'Recebido', NULL),
 (141, 18, '1x qwerty (R$ 222,00)', '222.00', '2026-05-27 17:24:09', NULL, 0, NULL, 'CartÃ£o', 'Fazenda marrecas ', 'Zona rural ', 50, 'GroaÃ­ras ', 'PrÃ³ximo ao valnei', 'Suporte', 'Recebido', NULL),
 (142, 13, '1x maminha completa (R$ 89,99)', '89.99', '2026-05-27 18:09:57', NULL, 0, NULL, 'Vale Alime', 'RANDAL POMPEU DE SABOYA MAGALH', '50', 50, 'Sobral', 'Lp', 'Felipe', 'Recebido', NULL),
-(143, 18, '3x maminha completa (R$ 269,97)', '269.97', '2026-05-27 18:48:22', NULL, 0, NULL, 'Dinheiro', 'Fazenda marrecas ', 'Zona rural ', 50, 'GroaÃ­ras ', 'PrÃ³ximo ao valnei', 'Suporte', 'Recebido', NULL);
+(143, 18, '3x maminha completa (R$ 269,97)', '269.97', '2026-05-27 18:48:22', NULL, 0, NULL, 'Dinheiro', 'Fazenda marrecas ', 'Zona rural ', 50, 'GroaÃ­ras ', 'PrÃ³ximo ao valnei', 'Suporte', 'Recebido', NULL),
+(144, 16, '2x maminha completa (R$ 179,98)\r\nAdicionais:\r\n - 2x trocar batata (R$ 45,98)', '225.96', '2026-05-30 01:55:20', NULL, 0, NULL, 'Dinheiro', 'groairas', 'paulo malaguias', 50, 'groairas', '50', 'pedro', 'Recebido', NULL),
+(145, 2, '1x maminha completa (R$ 89,99)', '89.99', '2026-06-02 01:08:12', NULL, 0, NULL, 'Dinheiro', 'teste', 'centro', 50, 'sobral0750', 'ap1147', 'Felipe', 'Recebido', NULL),
+(146, 2, '1x mistão a moda (R$ 89,99)\r\nAdicionais:\r\n - 1x trocar batata (R$ 22,99)\r\n\r\n1x qwerty (R$ 50,00)', '162.98', '2026-06-02 01:52:21', NULL, 0, NULL, 'Dinheiro', 'teste', 'centro', 50, 'sobral0750', 'ap1147', 'Felipe', 'Recebido', NULL),
+(147, 2, '1x PRODUTO TESTE 3 (R$ 89,99)\r\nAdicionais:\r\n - 1x TROCA TESTE 1 (R$ 1,99)\r\n - 1x TROCA TESTE 2 (R$ 2,99)\r\n\r\n1x PRODUTO TESTE 3 (R$ 89,99)\r\n\r\n1x PRODUTO TESTE 3 (R$ 89,99)\r\n\r\n1x PRODUTO TESTE 3 (R$ 89,99)', '364.94', '2026-06-03 03:35:59', NULL, 0, NULL, 'Dinheiro', 'teste', 'centro', 50, 'sobral0750', 'ap1147', 'Felipe', 'Recebido', NULL),
+(148, 2, '1x PRODUTO TESTE 3 (R$ 89,99)\r\nAdicionais:\r\n - 1x TROCA TESTE 1 (R$ 1,99)', '91.98', '2026-06-04 15:43:56', NULL, 0, NULL, 'Dinheiro', 'teste', 'centro', 50, 'sobral0750', 'ap1147', 'Felipe', 'Recebido', NULL),
+(149, 2, '1x PRODUTO 4 (R$ 60,99)\r\nAdicionais:\r\n - 1x TROCA TESTE 1 (R$ 1,00)\r\n - 1x TROCA TESTE 2 (R$ 2,00)\r\n - 1x TROCA TESTE 3 (R$ 2,00)\r\n - 1x TROCA TESTE 4 (R$ 4,00)\r\n - 1x TROCA TESTE 5 (R$ 5,00)\r\n - 1x TROCA TESTE 6 (R$ 6,00)', '80.99', '2026-06-05 01:44:22', NULL, 0, NULL, 'Dinheiro', 'teste', 'centro', 50, 'sobral0750', 'ap1147', 'Felipe', 'Recebido', NULL),
+(150, 2, '3x PRODUTO 4 (R$ 182,97)\r\nAdicionais:\r\n - 3x TROCA TESTE 1 (R$ 3,00)', '185.97', '2026-06-05 03:17:49', NULL, 0, NULL, 'Dinheiro', 'teste', 'centro', 50, 'sobral0750', 'ap1147', 'Felipe', 'Recebido', NULL),
+(151, 2, '1x PRODUTO 4 (R$ 60,99)\r\n\r\n1x PRODUTO 4 (R$ 60,99)\r\nAdicionais:\r\n - 1x TROCA TESTE 1 (R$ 1,00)\r\n - 1x TROCA TESTE 2 (R$ 2,00)\r\n - 1x TROCA TESTE 3 (R$ 2,00)\r\n - 1x TROCA TESTE 4 (R$ 4,00)\r\n - 1x TROCA TESTE 5 (R$ 5,00)\r\n - 1x TROCA TESTE 6 (R$ 6,00)\r\n\r\n1x PRODUTO 4 (R$ 60,99)\r\nAdicionais:\r\n - 1x TROCA TESTE 1 (R$ 1,00)\r\n - 1x TROCA TESTE 2 (R$ 2,00)\r\n - 1x TROCA TESTE 3 (R$ 2,00)\r\n - 1x TROCA TESTE 5 (R$ 5,00)', '212.97', '2026-06-05 04:30:42', NULL, 0, NULL, 'Cartão', 'Fazenda marrecas', 'centro', 50, 'Groaíras', 'proximo ao valnei', 'Felipe', 'Recebido', NULL),
+(152, 13, '1x COCA COLA (R$ 59,99)\r\n\r\n1x PUDIM (R$ 3,99)', '63.98', '2026-06-09 04:36:00', NULL, 0, NULL, 'Dinheiro', 'RANDAL POMPEU DE SABOYA MAGALH', '50', 50, 'Sobral', 'Lp', 'Felipe', 'Recebido', NULL);
 
 -- --------------------------------------------------------
 
@@ -289,24 +301,28 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `cod`, `item`, `valor`, `descricao`, `adicional1`, `adicional2`, `adicional3`, `adicional4`, `adicional5`, `adicional6`, `adicional7`, `adicional8`, `adicional9`, `adicional10`, `valoradicional1`, `valoradicional2`, `valoradicional3`, `valoradicional4`, `valoradicional5`, `valoradicional6`, `valoradicional7`, `valoradicional8`, `valoradicional9`, `valoradicional10`, `imagem`, `categoria_id`) VALUES
-(48, '1', 'salgado da aquino', '3.50', 'tem frango ', 'troca 1', 'troca 2', '', '', '', '', '', '', '', '', '5.00', '5.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '69b1c947998ae_background.png', 1),
-(49, '2', 'salgado aquino 2', '5.00', 'servido com frango ', 'troca 1', 'troca 2', '', '', '', '', '', '', '', '', '2.00', '2.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '69b1ca98e9c0d_logo-mktzap.png', 2),
-(50, '30', 'picanha', '59.99', 'baião e batata', 'felipe', '', '', '', '', '', '', '', '', '', '22.99', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a0620b5250d5_Fundo de tela.png', 3),
-(51, '2222', 'qwerty', '50.00', 'qwerty', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a0628deb4120_Captura_de_tela_20260227_105303.png', 1),
-(52, '22223', 'qwerty', '50.00', 'qwerty', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a0629339041a_2026-03-17_16-35.png', 2),
-(53, '222235', 'qwerty', '50.00', 'qwerty', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a06296417aa2_logo-mktzap.png', 3),
-(54, '30', 'qwerty1309', '552.55', '1309', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a062a0e8d586_2026-03-17_16-35.png', 1),
-(55, '30', 'qwerty1309', '552.55', '1309', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a062a42adc98_Captura_de_tela_20260227_105303.png', 2),
-(56, '30', 'qwerty1309', '552.55', '1309', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a062a90708f1_2026-03-17_16-35.png', 3),
-(57, '30', 'qwerty', '222.00', 'qwerty', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a062ab9a3dd1_2026-03-17_16-35.png', 1),
-(58, '30', 'qwerty', '222.00', 'qwerty', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a062adf4b9da_Captura_de_tela_20260227_105303.png', 2),
-(59, '89', 'maminha completa', '89.99', 'baião e batata frita ', 'trocar batata', '', '', '', '', '', '', '', '', '', '22.99', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a062b4bd0d06_Captura_de_tela_20260514_115924.png', 3),
-(60, '89', 'mistão a moda', '89.99', 'baião e batata frita ', 'trocar batata', '', '', '', '', '', '', '', '', '', '22.99', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a062bfd508fb_Captura_de_tela_20260514_115924.png', 2),
-(61, '45', 'Teste celular ', '258.00', 'Gjgjfjfjf', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a07e94a20c3c_IMG-20260513-WA0016.jpg', 1),
-(62, '122', 'CARNE DE SOL1', '50.00', '222222', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, NULL),
-(63, '1', 'pao ', '22.50', 'pao 2', 'sem farinha', '', '', '', '', '', '', '', '', '', '22.50', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, NULL),
-(64, '1221', 'CARNE DE SOL12', '50.00', 'imagem', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a136b6126484_Captura_de_tela_20260524_181845.png', NULL),
-(65, '1221', 'CARNE DE SOL12', '50.00', 'imagem', '2', '', '', '', '', '', '', '', '', '', '22.50', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a136b6aa22ec_Captura_de_tela_20260524_181845.png', NULL);
+(71, '1', 'BOLINHA ', '13.99', 'SERVIDO COM MOLHO ', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a2773580ec84_negra_.jpeg', 2),
+(72, '2', 'BOLINHA 2', '15.99', 'VAI COM MOLHO', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a27738ce597d_3659243441209132.jpeg', 2),
+(73, '3', 'BOLINHA 2', '15.99', 'VAI COM MOLHO', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a27738f7f171_3659243441209132.jpeg', 2),
+(74, '2058', 'COCA COLA', '59.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a27749418e93_17170042320685093.jpeg', 6),
+(75, '2055', 'CAJUINA', '5.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a2774bd70204_Cajuina São Geraldo (@cajuinasaogeraldo) •….jpeg', 6),
+(76, '4585', 'PUDIM', '3.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a277510d98f8_26599454046308337.jpeg', 5),
+(77, '4585', 'AÇAI', '9.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a2775279b366_31525266137621662.jpeg', 5),
+(78, '4585', 'PIZZA MUSSARELA', '29.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a2775698deac_1127166613006722734.jpeg', 1),
+(79, '4586', 'PIZZA CALABRESA', '46.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a27757b0d4fb_50384089576839722.jpeg', 1),
+(80, '4522', 'HOT', '52.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(81, '45222', 'HOT', '52.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(82, '45222', 'HOT', '52.99', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a27763edbbf7_31525266137621662.jpeg', 4),
+(88, '225', 'temaki', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a277763577cb_31525266137621662.jpeg', 4),
+(91, '22523', 'temaki', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(92, '22523', 'temaki', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(93, '225232', 'temaki1', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(94, '225232', 'temaki1', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(95, '225232', 'temaki1', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(96, '225232', 'temaki1', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a2778070f8a0_31525266137621662.jpeg', 4),
+(97, '2252322', 'temaki1', '22.98', '', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', NULL, 4),
+(98, '5544', 'MAMINHA', '99.98', 'SERVIDO COM BAIÃO E BATATA FRITA', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a27784f16c5d_Churrasco.jpeg', 3),
+(102, '554422', 'PICANHA', '2.33', 'SERVIDO COM BAIÃO E BATATA FRITA', '', '', '', '', '', '', '', '', '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '6a2778743d59d_26599454046308337.jpeg', 3);
 
 -- --------------------------------------------------------
 
@@ -343,7 +359,8 @@ INSERT INTO `usuarios` (`id`, `nome`, `senha`, `email`) VALUES
 (15, 'Iasmim Rodrigues', '$2y$10$LpaLLc7HAMzkT1IcF4t.A.7isKHL0ppGCb2Vns7sN7GDfqpLsB2LS', 'franciscaiasm@gmail.com'),
 (16, 'pedro', '$2y$12$OZCyJHLsFsXko8QwV/vVQugx4bdQa2bhTz4CX28HL7bQMfOG87Tya', 'pedro@gmail.com'),
 (17, 'Felipe', '$2y$12$3DCwQ6p87CaiHJn1.AwhDOkfgCCsq00D.SO/qubhePnSEADdeMgOO', 'pedro1309@gmail.com'),
-(18, 'Suporte', '$2y$10$Q539mgKMPDy1mQ2rxIPN5OtHR28PmecwVXJtydZVY5OO1Fg3YA51.', 'suporte@gmail.com');
+(18, 'Suporte', '$2y$10$Q539mgKMPDy1mQ2rxIPN5OtHR28PmecwVXJtydZVY5OO1Fg3YA51.', 'suporte@gmail.com'),
+(19, 'felipe teste', '$2y$10$1yKwDmHwI2txYImRRuDpx.ivdrwuUHxQHkBqGJvDlvCVfronS9Uxq', 'feliphi13091525@gmail.com');
 
 --
 -- Índices de tabelas apagadas
@@ -383,25 +400,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restrições para dumps de tabelas

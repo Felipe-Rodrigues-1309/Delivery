@@ -59,6 +59,14 @@ switch ($action) {
         require __DIR__ . '/../src/views/produtos/enviarProduto.php';
         break;
 
+    case 'atualizarProduto':
+        require __DIR__ . '/../src/views/produtos/atualizarProduto.php';
+        break;
+
+    case 'deletarProduto':
+        require __DIR__ . '/../src/views/produtos/deletarProduto.php';
+        break;
+
     case 'enviarPedido':
         require __DIR__ . '/../src/views/pedidos/enviarPedido.php';
         break;
@@ -75,6 +83,10 @@ switch ($action) {
     case 'perfilCliente':
         require __DIR__ . '/../src/views/auth/perfilCliente.php';
         break;
+    
+    case 'listarProdutos':
+        require __DIR__ . '/../src/views/produtos/listarProdutosCadastrados.php';
+        break;    
 
         default:
         echo "Página não encontrada";
