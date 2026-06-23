@@ -87,6 +87,18 @@ switch ($action) {
     case 'listarProdutos':
         require __DIR__ . '/../src/views/produtos/listarProdutosCadastrados.php';
         break;    
+    
+    case 'pedidos':
+        require __DIR__ . '/../src/views/produtos/pedidos.php';
+        break;
+    
+    case 'verificarNovosPedidos':
+        require __DIR__ . '/../src/views/produtos/verificarNovosPedidos.php';
+        break; 
+        
+    case 'dashboard':
+        require __DIR__ . '/../src/views/produtos/dashboard.php';
+        break;    
 
         default:
         echo "Página não encontrada";

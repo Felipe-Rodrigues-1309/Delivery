@@ -16,9 +16,61 @@ $resultadoCategorias = $conn->query($sql);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+    <style>
+
+        /* Sidebar */
+    .sidebar {
+      width: 240px;
+      height: 100vh;
+      position: fixed;
+      background: #190268;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .sidebar a:hover {
+      background: #1f2937;
+      color: #fff;
+    }
+
+
+            /* Conteúdo */
+    .accordion, .alert {
+      margin-left: 180px;
+      padding: 20px;
+    }
+    </style>
+
+
 <body>
 
-<div class="container mt-4">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h3>🍔 Delivery Admin</h3>
+  <a href="?action=pedidos">Pedidos</a>  
+  <a href="?action=cadastroDeProduto">Cadastro de Produtos</a>
+  <a href="?action=dashboard">Dashboard</a>
+  <a href="?action=listarProdutos">Produto</a>
+
+</div>
+
+
+
+
+<div class="container">
 
   <h4>Produtos</h4>
 

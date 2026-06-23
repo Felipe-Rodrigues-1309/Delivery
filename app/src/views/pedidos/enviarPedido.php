@@ -48,7 +48,7 @@ if (!$id_usuario || !$produto || $valor === null || !$pagamento) {
 // ===============================
 // Geramos timestamp para saber quando o pedido foi feito.
 $data_pedido = date("Y-m-d H:i:s");
-$status = "Recebido";
+$status = null; // Novo pedido começa SEM STATUS (NULL) para aparecer em "Novos"
 
 // Query preparada para evitar injeção SQL.
 // Aqui salvamos o nome/descrição do(s) produto(s) e a forma de pagamento.

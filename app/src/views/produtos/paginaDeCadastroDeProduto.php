@@ -19,7 +19,7 @@ $resultadoCategorias = $conn->query($sql);
 
   <style>
     body {
-      background: #05072d;
+      background: #000000;
     }
 
     /* Sidebar */
@@ -27,8 +27,8 @@ $resultadoCategorias = $conn->query($sql);
       width: 240px;
       height: 100vh;
       position: fixed;
-      background: #111827;
-      color: #cb1616;
+      background: #190268;
+      color: white;
       padding: 20px;
     }
 
@@ -39,7 +39,7 @@ $resultadoCategorias = $conn->query($sql);
 
     .sidebar a {
       display: block;
-      color: #08d10b;
+      color: white;
       padding: 10px;
       text-decoration: none;
       border-radius: 8px;
@@ -96,10 +96,10 @@ $resultadoCategorias = $conn->query($sql);
 <!-- SIDEBAR -->
 <div class="sidebar">
   <h3>🍔 Delivery Admin</h3>
-  <a href="#">Produtos</a>  
-  <a href="#">Cadastro de Produtos</a>
-  <a href="#">Relatorios</a>
-  <a href="#"></a>
+  <a href="?action=pedidos">Pedidos</a>  
+  <a href="?action=cadastroDeProduto">Cadastro de Produtos</a>
+  <a href="?action=dashboard">Dashboard</a>
+  <a href="?action=listarProdutos">Produto</a>
 
 </div>
 

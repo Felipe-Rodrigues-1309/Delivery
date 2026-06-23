@@ -142,19 +142,7 @@ if ($id) {  // faz a busca do usuario no banco para exibir oque for necessario n
         <div class="total">
           Valor total: R$ <?= $pedidos['valor'] ?? 'vazio'; ?>
           <div class="status">Status:
-              <?php
-               $status = $pedidos['status'] ?? 'vazio';
-                
-                if($status == "Recebido"){
-                echo 'Recebido';
-                
-                } else if($status == "Em preparo"){
-                echo "Em preparo";
-                
-                } else if($status == "entregue"){
-                echo "entregue";
-                }
-            ?>
+              <?=$pedidos['status'] ?? 'vazio';?>
           </div>
         </div>
       </div>
