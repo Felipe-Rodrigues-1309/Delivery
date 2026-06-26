@@ -102,10 +102,10 @@ $topValores = array_map(function($produto) use ($produtoValor) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         body {
-            background: #f8f9fa;
+            background: #0e6ac5;
         }
         .dashboard-header {
-            margin: 35px 0 20px;
+            margin: 15px 5 20px;
         }
         .estatistica-card {
             border-radius: 18px;

@@ -54,9 +54,17 @@ if ($result->num_rows > 0) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        .pedido-card {
-            border-left: 5px solid #ffc107;
-            margin-bottom: 15px;
+
+        body{
+            background: #020024
+        }
+        .pedido-card{
+            color:white;
+            background: rgba(15, 23, 42, 0.35);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 1px 15px #00ff00;
+            border: 2px solid #00ff00;
+            margin-bottom: 30px;
         }
         @media print {
             .btn, .no-print { display: none; }
@@ -69,7 +77,7 @@ if ($result->num_rows > 0) {
 
 
 <div class="container mt-4">
-    <h2>📋 Pedidos</h2>
+<h2 style="color:white;">📋Pedidos</h2>
     
     <?php if (isset($mensagem)): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -141,7 +149,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>📍 Endereço de Entrega:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-darck p-2 rounded mt-2">
                                     <?php if ($pedido['rua'] || $pedido['numero'] || $pedido['bairro'] || $pedido['cidade']): ?>
                                         <p class="mb-1">
                                             <?= htmlspecialchars($pedido['rua'] ?? '') ?>, 
@@ -162,7 +170,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>🛒 Produtos:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-darck p-2 rounded mt-2">
                                     <p><?= htmlspecialchars($pedido['item'] ?? 'Sem descrição') ?></p>
                                 </div>
                             </div>
@@ -230,7 +238,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>📍 Endereço de Entrega:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-darck p-2 rounded mt-2">
                                     <?php if ($pedido['rua'] || $pedido['numero'] || $pedido['bairro'] || $pedido['cidade']): ?>
                                         <p class="mb-1">
                                             <?= htmlspecialchars($pedido['rua'] ?? '') ?>, 
@@ -251,7 +259,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>🛒 Produtos:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-darck p-2 rounded mt-2">
                                     <p><?= htmlspecialchars($pedido['item'] ?? 'Sem descrição') ?></p>
                                 </div>
                             </div>
@@ -318,7 +326,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>📍 Endereço de Entrega:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-dack p-2 rounded mt-2">
                                     <?php if ($pedido['rua'] || $pedido['numero'] || $pedido['bairro'] || $pedido['cidade']): ?>
                                         <p class="mb-1">
                                             <?= htmlspecialchars($pedido['rua'] ?? '') ?>, 
@@ -339,7 +347,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>🛒 Produtos:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-darck p-2 rounded mt-2">
                                     <p><?= htmlspecialchars($pedido['item'] ?? 'Sem descrição') ?></p>
                                 </div>
                             </div>
@@ -405,7 +413,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>📍 Endereço de Entrega:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-darck p-2 rounded mt-2">
                                     <?php if ($pedido['rua'] || $pedido['numero'] || $pedido['bairro'] || $pedido['cidade']): ?>
                                         <p class="mb-1">
                                             <?= htmlspecialchars($pedido['rua'] ?? '') ?>, 
@@ -426,7 +434,7 @@ if ($result->num_rows > 0) {
 
                             <div class="mb-3">
                                 <strong>🛒 Produtos:</strong>
-                                <div class="bg-light p-2 rounded mt-2">
+                                <div class="bg-darck p-2 rounded mt-2">
                                     <p><?= htmlspecialchars($pedido['item'] ?? 'Sem descrição') ?></p>
                                 </div>
                             </div>
