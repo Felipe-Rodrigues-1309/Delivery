@@ -98,7 +98,11 @@ switch ($action) {
         
     case 'dashboard':
         require __DIR__ . '/../src/views/produtos/dashboard.php';
-        break;    
+        break;  
+        
+    case 'adicionarCategoria':
+        require __DIR__ . '/../src/views/produtos/adicionarCategoria.php';
+        break;        
 
         default:
         echo "Página não encontrada";

@@ -85,10 +85,12 @@ $stmt->bind_param(
 
 // executar
 if ($stmt->execute()) {
-    echo "Dados salvos com sucesso!";
+    echo '<script>localStorage.removeItem("formulario");alert("Produto cadastrado com sucesso!");window.location.href = document.referrer;</script>';
+    exit;
 } else {
     echo "Erro ao salvar: " . $stmt->error;
 }
+
 
 $stmt->close();
 $conn->close();

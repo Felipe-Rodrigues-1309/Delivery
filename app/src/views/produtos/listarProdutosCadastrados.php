@@ -18,38 +18,68 @@ $resultadoCategorias = $conn->query($sql);
 
     <style>
 
-        /* Sidebar */
-    .sidebar {
-      width: 240px;
-      height: 100vh;
-      position: fixed;
-      background: #190268;
-      color: white;
-      padding: 20px;
-    }
+        :root {
+            --primary-bg: #f4f6f9;
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: #1e293b;
+            --card-border-radius: 16px;
+        }
+        
+        body {
+            background-color: var(--primary-bg);
+            color: #334155;
+        }
 
-    .sidebar h3 {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+        /* Sidebar Moderna */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--sidebar-bg);
+            color: #94a3b8;
+            padding: 18px;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
 
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 10px;
-      text-decoration: none;
-      border-radius: 8px;
-    }
+        .sidebar h3 {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            padding-left: 8px;
+        }
 
-    .sidebar a:hover {
-      background: #1f2937;
-      color: #fff;
-    }
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            color: #94a3b8;
+            padding: 12px 16px;
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar a.active {
+            backdrop-filter: blur(15px);
+            box-shadow: 0 1px 4px white;
+            background: #00ff00;
+            color: black;
+        }
+
+        .sidebar a.active {
+            background: #00ff00;
+            color: black;
+        }
 
 
             /* Conteúdo */
     .accordion, .alert {
-      margin-left: 180px;
+      margin-left: 200px;
       padding: 20px;
     }
     </style>
@@ -63,7 +93,7 @@ $resultadoCategorias = $conn->query($sql);
   <a href="?action=pedidos">Pedidos</a>  
   <a href="?action=cadastroDeProduto">Cadastro de Produtos</a>
   <a href="?action=dashboard">Dashboard</a>
-  <a href="?action=listarProdutos">Produto</a>
+  <a href="?action=listarProdutos"class="active">Produto</a>
 
 </div>
 

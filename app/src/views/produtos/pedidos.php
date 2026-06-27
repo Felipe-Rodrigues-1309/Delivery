@@ -66,11 +66,58 @@ if ($result->num_rows > 0) {
             border: 2px solid #00ff00;
             margin-bottom: 30px;
         }
-        @media print {
-            .btn, .no-print { display: none; }
-            body { padding: 0; }
-            .pedido-card { page-break-inside: avoid; }
-        }
+        @page {
+    size: 58mm auto;
+    margin: 0;
+}
+
+@media print {
+
+    html,
+    body {
+        width: 58mm !important;
+        margin: 0 !important;
+        padding: 2mm !important;
+        background: #fff !important;
+        color: #000 !important;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 11px;
+    }
+
+    .container {
+        width: 58mm !important;
+        max-width: 58mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .pedido-card {
+        width: 100% !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        color: #000 !important;
+        page-break-inside: avoid;
+    }
+
+    .card-header {
+        background: #fff !important;
+        color: #000 !important;
+        border-bottom: 1px dashed #000;
+    }
+
+    .btn,
+    .no-print,
+    .nav,
+    .nav-tabs,
+    h2 {
+        display: none !important;
+    }
+
+    hr {
+        border-top: 1px dashed #000;
+    }
+}
     </style>
 </head>
 <body>
