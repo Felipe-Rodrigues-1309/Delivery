@@ -70,6 +70,7 @@ while ($prod = $resultProdutos->fetch_assoc()) {
 
   <div class="lista-categorias" id="navCategoria">
     <?php foreach ($categorias as $cat): ?>
+      <?php if (empty($cat['produtos'])) continue; ?>
       <a href="#categoria-<?= $cat['id'] ?>" class="navCategoria">
         <?= htmlspecialchars($cat['nome']) ?>
       </a>
@@ -81,6 +82,8 @@ while ($prod = $resultProdutos->fetch_assoc()) {
 
 <!-- ===== CATEGORIAS + PRODUTOS ===== -->
 <?php foreach ($categorias as $cat): ?>
+
+  <?php if (empty($cat['produtos'])) continue; ?>
 
   <div id="categoria-<?= $cat['id'] ?>" class="categoria">
     <?= htmlspecialchars($cat['nome']) ?>

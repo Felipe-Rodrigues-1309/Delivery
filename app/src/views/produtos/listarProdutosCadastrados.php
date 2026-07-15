@@ -121,12 +121,18 @@ $resultadoCategorias = $conn->query($sql);
         $sqlProdutos = "SELECT * FROM produtos WHERE categoria_id = $idCategoria ORDER BY id DESC";
         $result = $conn->query($sqlProdutos);
 
+        // Se a categoria não possui produtos, não exibe o accordion
+        if ($result->num_rows == 0) {
+          continue;
+            }
+
+
         $collapseId = "cat" . $i;
       ?>
 
       <div class="accordion-item">
-
         <h2 class="accordion-header">
+          
           <button class="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
