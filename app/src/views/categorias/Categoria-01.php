@@ -109,10 +109,19 @@ while ($prod = $resultProdutos->fetch_assoc()) {
               <?= htmlspecialchars($row['item']) ?>
             </div>
 
+            <div class="descricao">
+              <?= htmlspecialchars($row['descricao']) ?>
+            </div>
+
+
             <div class="valor">
               R$ <?= number_format($row['valor'], 2, ",", ".") ?>
             </div>
 
+            <div class="promocao">
+              <img src="img/discount.png" alt="promoção" width="30px;">
+            </div>
+            
           </div>
 
         </a>

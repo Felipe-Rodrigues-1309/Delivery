@@ -19,7 +19,7 @@ $resultadoCategorias = $conn->query($sql);
     <style>
 
         :root {
-            --primary-bg: #f4f6f9;
+            --primary-bg: #0f172a;
             --sidebar-bg: #0f172a;
             --sidebar-hover: #1e293b;
             --card-border-radius: 16px;

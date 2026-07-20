@@ -201,14 +201,14 @@ span {
   margin: 0;
 }
 
-/* .descricao {
+.descricao {
   text-align: center;
-  font-size: 12px;
+  font-size: 10px;
   color: #ccc;
   line-height: 1.4;
   word-wrap: break-word;
   margin: 0;
-} */
+} 
 
 .valor {
   text-align: center;
@@ -222,6 +222,12 @@ span {
 .valorTotal {
   color: red;
   font-weight: bold;
+}
+
+.promocao{
+  position: absolute;
+  margin-top: 120%;
+  margin-left: 72%;
 }
 
 /* ===== MEDIA QUERIES - RESPONSIVIDADE ===== */
