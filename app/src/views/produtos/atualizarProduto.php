@@ -13,6 +13,8 @@ $valor = floatval($_POST['valor'] ?? 0);
 $descricao = trim($_POST['descricao'] ?? '');
 $categoria = intval($_POST['categoria'] ?? 0);
 $imagemAtual = trim($_POST['imagem_atual'] ?? '');
+$valorPromocional = floatval($_POST['valorPromocional'] ?? 0);
+$ducaracaoDaPromocao = $_POST['duracaoDaPromocao'] ?? '';
 
 if (!$id || !$cod || !$item || !$valor || !$categoria) {
     header('Location: ../../public/index.php?action=listarProdutos&erro=Preencha+todos+os+campos+obrigat%C3%B3rios');
@@ -41,9 +43,9 @@ if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === 0) {
     }
 }
 
-$sql = "UPDATE produtos SET cod = ?, item = ?, valor = ?, descricao = ?, categoria_id = ?, imagem = ? WHERE id = ?";
+$sql = "UPDATE produtos SET cod = ?, item = ?, valor = ?, descricao = ?, categoria_id = ?, imagem = ?, valor_promocional = ?, duracao_promocao = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param('isdsssi', $cod, $item, $valor, $descricao, $categoria, $novoNomeImagem, $id);
+$stmt->bind_param('isdsssdsi', $cod, $item, $valor, $descricao, $categoria, $novoNomeImagem, $valorPromocional, $ducaracaoDaPromocao, $id);
 
 if ($stmt->execute()) {
     header('Location: ../../public/index.php?action=listarProdutos&sucesso=Produto+atualizado+com+sucesso');

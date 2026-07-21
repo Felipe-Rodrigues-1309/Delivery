@@ -215,6 +215,15 @@ $resultadoCategorias = $conn->query($sql);
               <label class="form-label">Valor</label>
               <input type="number" class="form-control" name="valor" id="modalValor" step="0.01" required>
             </div>
+
+             <div class="col-md-4">
+              <label class="form-label">Valor Promocional</label>
+              <input type="number" class="form-control" name="valorPromocional" id="modalValor" step="0.01" required <?= $row['valor_promocional'] ?>>
+            </div>
+             <div class="col-md-4">
+              <label class="form-label">Duração</label>
+              <input type="date" class="form-control" name="duracaoDaPromocao" id="modalValor" step="0.01" required>
+            </div>            
           </div>
 
           <div class="row mb-3">
