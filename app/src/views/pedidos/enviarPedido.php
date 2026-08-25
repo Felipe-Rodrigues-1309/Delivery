@@ -35,6 +35,7 @@ $numero = $_POST['numero'] ?? '';
 $cidade = $_POST['cidade'] ?? '';
 $ponto_de_referencia = $_POST['ponto_de_referencia'] ?? '';
 $user = $_POST['nome'] ?? '';
+$telefone = $_POST['telefone'] ?? '';
 
 // Checamos se todos os dados obrigatórios estão presentes.
 // Se algo estiver faltando, retornamos erro imediatamente.
@@ -47,18 +48,19 @@ if (!$id_usuario || !$produto || $valor === null || !$pagamento) {
 // 2) Preparar dados para inserir
 // ===============================
 // Geramos timestamp para saber quando o pedido foi feito.
+date_default_timezone_set('America/Fortaleza');
 $data_pedido = date("Y-m-d H:i:s");
 $status = null; // Novo pedido começa SEM STATUS (NULL) para aparecer em "Novos"
 
 // Query preparada para evitar injeção SQL.
 // Aqui salvamos o nome/descrição do(s) produto(s) e a forma de pagamento.
-$sql = "INSERT INTO pedido (status, usuario, item, valor, data_pedido, pagamento, rua, bairro, numero, cidade, ponto_de_referencia, nome) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO pedido (status, usuario, item, valor, data_pedido, pagamento, rua, bairro, numero, cidade, ponto_de_referencia, nome, telefone) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 // Preparação do statement com binding de parâmetros:
 // i = inteiro, s = string, d = número (double)
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sisdssssisss",$status, $id_usuario, $produto, $valor, $data_pedido, $pagamento,$rua, $bairro, $numero, $cidade, $ponto_de_referencia, $user);
+$stmt->bind_param("sisdssssissss",$status, $id_usuario, $produto, $valor, $data_pedido, $pagamento,$rua, $bairro, $numero, $cidade, $ponto_de_referencia, $user, $telefone);
 
 // ===============================
 // 3) Execução e resposta JSON

@@ -1,188 +1,779 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Cadastro</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-/* Fundo original */
-body {
-  background-image: linear-gradient(to left bottom, #000000, #6f00ff);
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
 
-/* CARD GLASS */
-.card-glass {
-    background: rgba(255, 255, 255, 0);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 22px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-    padding: 35px;
-    width: 90%;
-    max-width: 420px;
-    text-align: center;
-    animation: fadeIn 1s ease;
-}
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    boxShadow: {
+                        neon: '0 0 15px rgba(0, 255, 0, 0.35)',
+                        'neon-strong': '0 0 25px rgba(0, 255, 0, 0.55)'
+                    }
+                }
+            }
+        }
+    </script>
 
-/* Inputs */
-.card-glass input {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    border-radius: 12px;
-    color: #fff;
-}
-
-.card-glass input::placeholder {
-    color: #e0e0e0;
-}
-
-.card-glass button {
-    width: 100%;
-    border-radius: 12px;
-    font-weight: bold;
-    background: white;
-    color: #4b0808;
-}
-
-/* Barra de força */
-.strength-container {
-    width: 100%;
-    height: 6px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 20px;
-    margin-top: 8px;
-}
-
-.strength-bar {
-    height: 100%;
-    width: 0%;
-    border-radius: 20px;
-    transition: width 0.4s ease;
-}
-
-.strength-label {
-    color: white;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* Fade */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-15px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-</style>
 </head>
 
-<body>
 
-<div class="card-glass">
+<body class="min-h-screen bg-[#030604] text-white">
 
-    <!-- Ícone -->
-    <div class="lock-icon"><img src="img/cadastro.png" alt="" width="90px"></div>
 
-    <h2 class="text-white mb-3">Cadastro</h2>
+    <!-- =========================
+         FUNDO
+    ========================== -->
 
-<form action="?action=cadastroDeCliente" method="post">
+    <div class="fixed inset-0 -z-10 overflow-hidden">
 
-        <div class="mb-3">
-            <input name="usuario" type="text" class="form-control form-control-lg" placeholder="nome" required>
+        <!-- Brilho superior -->
+        <div
+            class="
+                absolute
+                -top-40
+                -right-40
+                w-96
+                h-96
+                rounded-full
+                bg-green-500/10
+                blur-3xl
+            "
+        ></div>
+
+
+        <!-- Brilho inferior -->
+        <div
+            class="
+                absolute
+                -bottom-40
+                -left-40
+                w-96
+                h-96
+                rounded-full
+                bg-green-500/10
+                blur-3xl
+            "
+        ></div>
+
+
+        <!-- Gradiente -->
+        <div
+            class="
+                absolute
+                inset-0
+                bg-gradient-to-br
+                from-black
+                via-[#071007]
+                to-[#030604]
+            "
+        ></div>
+
+    </div>
+
+
+
+    <!-- =========================
+         CONTAINER
+    ========================== -->
+
+    <main
+        class="
+            min-h-screen
+            flex
+            items-center
+            justify-center
+            px-4
+            py-8
+        "
+    >
+
+        <div class="w-full max-w-md">
+
+
+            <!-- =========================
+                 ÍCONE
+            ========================== -->
+
+            <div class="flex justify-center mb-5">
+
+                <div
+                    class="
+                        w-24
+                        h-24
+                        rounded-full
+                        flex
+                        items-center
+                        justify-center
+                        bg-black/70
+                        border
+                        border-green-500/60
+                        shadow-neon
+                        overflow-hidden
+                    "
+                >
+
+                    <img
+                        src="img/cadastro.png"
+                        alt="Cadastro"
+                        class="
+                            w-16
+                            h-16
+                            object-contain
+                        "
+                    >
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 CARD
+            ========================== -->
+
+            <div
+                class="
+                    relative
+                    bg-black/75
+                    backdrop-blur-xl
+                    border
+                    border-green-500/50
+                    rounded-2xl
+                    p-6
+                    sm:p-8
+                    shadow-neon
+                "
+            >
+
+                <!-- Detalhe neon superior -->
+                <div
+                    class="
+                        absolute
+                        top-0
+                        left-1/2
+                        -translate-x-1/2
+                        w-24
+                        h-[2px]
+                        bg-green-400
+                        shadow-[0_0_12px_#00ff00]
+                    "
+                ></div>
+
+
+
+                <!-- =========================
+                     TÍTULO
+                ========================== -->
+
+                <div class="text-center mb-7">
+
+                    <h1
+                        class="
+                            text-3xl
+                            sm:text-4xl
+                            font-bold
+                            tracking-wide
+                            text-white
+                        "
+                    >
+                        Cadastro
+                    </h1>
+
+                    <p
+                        class="
+                            mt-2
+                            text-sm
+                            text-gray-400
+                        "
+                    >
+                        Crie sua conta para realizar seus pedidos
+                    </p>
+
+                </div>
+
+
+
+                <!-- =========================
+                     FORMULÁRIO
+                ========================== -->
+
+                <form
+                    action="?action=cadastroDeCliente"
+                    method="post"
+                    class="space-y-5"
+                >
+
+
+                    <!-- NOME -->
+
+                    <div>
+
+                        <label
+                            for="usuario"
+                            class="
+                                block
+                                mb-2
+                                text-sm
+                                font-medium
+                                text-gray-300
+                            "
+                        >
+                            Nome
+                        </label>
+
+
+                        <div class="relative">
+
+                            <i
+                                class="
+                                    bi
+                                    bi-person
+                                    absolute
+                                    left-4
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-green-400
+                                "
+                            ></i>
+
+
+                            <input
+                                id="usuario"
+                                name="usuario"
+                                type="text"
+                                placeholder="Digite seu nome"
+                                autocomplete="name"
+                                required
+                                class="
+                                    w-full
+                                    h-12
+                                    pl-11
+                                    pr-4
+                                    rounded-xl
+                                    bg-black/80
+                                    border
+                                    border-gray-700
+                                    text-white
+                                    placeholder-gray-500
+                                    outline-none
+                                    transition
+                                    duration-300
+                                    focus:border-green-500
+                                    focus:ring-2
+                                    focus:ring-green-500/20
+                                    focus:shadow-[0_0_12px_rgba(0,255,0,0.15)]
+                                "
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EMAIL -->
+
+                    <div>
+
+                        <label
+                            for="email"
+                            class="
+                                block
+                                mb-2
+                                text-sm
+                                font-medium
+                                text-gray-300
+                            "
+                        >
+                            E-mail
+                        </label>
+
+
+                        <div class="relative">
+
+                            <i
+                                class="
+                                    bi
+                                    bi-envelope
+                                    absolute
+                                    left-4
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-green-400
+                                "
+                            ></i>
+
+
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="Digite seu e-mail"
+                                autocomplete="email"
+                                required
+                                class="
+                                    w-full
+                                    h-12
+                                    pl-11
+                                    pr-4
+                                    rounded-xl
+                                    bg-black/80
+                                    border
+                                    border-gray-700
+                                    text-white
+                                    placeholder-gray-500
+                                    outline-none
+                                    transition
+                                    duration-300
+                                    focus:border-green-500
+                                    focus:ring-2
+                                    focus:ring-green-500/20
+                                    focus:shadow-[0_0_12px_rgba(0,255,0,0.15)]
+                                "
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SENHA -->
+
+                    <div>
+
+                        <label
+                            for="senha"
+                            class="
+                                block
+                                mb-2
+                                text-sm
+                                font-medium
+                                text-gray-300
+                            "
+                        >
+                            Senha
+                        </label>
+
+
+                        <div class="relative">
+
+                            <i
+                                class="
+                                    bi
+                                    bi-lock
+                                    absolute
+                                    left-4
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-green-400
+                                "
+                            ></i>
+
+
+                            <input
+                                id="senha"
+                                name="senha"
+                                type="password"
+                                placeholder="Crie uma senha"
+                                autocomplete="new-password"
+                                required
+                                class="
+                                    w-full
+                                    h-12
+                                    pl-11
+                                    pr-12
+                                    rounded-xl
+                                    bg-black/80
+                                    border
+                                    border-gray-700
+                                    text-white
+                                    placeholder-gray-500
+                                    outline-none
+                                    transition
+                                    duration-300
+                                    focus:border-green-500
+                                    focus:ring-2
+                                    focus:ring-green-500/20
+                                    focus:shadow-[0_0_12px_rgba(0,255,0,0.15)]
+                                "
+                            >
+
+
+                            <!-- Mostrar senha -->
+
+                            <button
+                                type="button"
+                                id="toggleSenha"
+                                onclick="mostrarSenha()"
+                                class="
+                                    !m-0
+                                    !p-0
+                                    absolute
+                                    right-4
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-gray-400
+                                    hover:text-green-400
+                                    transition
+                                "
+                                aria-label="Mostrar senha"
+                            >
+
+                                <i
+                                    id="iconeSenha"
+                                    class="bi bi-eye"
+                                ></i>
+
+                            </button>
+
+                        </div>
+
+
+
+                        <!-- =========================
+                             FORÇA DA SENHA
+                        ========================== -->
+
+                        <div class="mt-3">
+
+                            <div
+                                class="
+                                    w-full
+                                    h-1.5
+                                    rounded-full
+                                    bg-white/10
+                                    overflow-hidden
+                                "
+                            >
+
+                                <div
+                                    id="strengthBar"
+                                    class="
+                                        h-full
+                                        w-0
+                                        rounded-full
+                                        transition-all
+                                        duration-500
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <p
+                                id="strengthLabel"
+                                class="
+                                    mt-2
+                                    text-xs
+                                    text-gray-400
+                                    min-h-[18px]
+                                "
+                            ></p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- BOTÃO CADASTRAR -->
+
+                    <button
+                        type="submit"
+                        class="
+                            !m-0
+                            w-full
+                            h-12
+                            rounded-xl
+                            border
+                            border-green-500
+                            bg-green-500
+                            text-black
+                            font-bold
+                            text-base
+                            transition-all
+                            duration-300
+                            hover:bg-green-400
+                            hover:shadow-neon-strong
+                            hover:-translate-y-0.5
+                            active:translate-y-0
+                        "
+                    >
+
+                        <i class="bi bi-person-plus mr-2"></i>
+
+                        Cadastrar
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =========================
+                 RODAPÉ
+            ========================== -->
+
+            <div class="text-center mt-5">
+
+                <p class="text-xs text-gray-600">
+
+                    © <?= date('Y') ?> • Sistema de Pedidos
+
+                </p>
+
+            </div>
+
+
         </div>
 
-                <div class="mb-3">
-            <input name="email" type="email" class="form-control form-control-lg" placeholder="E-mail" required>
-        </div>
-
-        <!-- INPUT SENHA + BOTÃO MOSTRAR -->
-        <div class="mb-2 position-relative">
-            <input id="senha" name="senha" type="password" 
-                class="form-control form-control-lg"
-                placeholder="Crie Uma Senha" required>
-
-            <span id="toggleSenha"
-                style="position:absolute; right:15px; top:50%; transform:translateY(-50%);
-                cursor:pointer; color:white; font-size:20px;">
-                👁️
-            </span>
-        </div>
-
-        <!-- Barra de força -->
-        <div class="strength-container">
-            <div id="strengthBar" class="strength-bar"></div>
-        </div>
-        <div id="strengthLabel" class="strength-label"></div>
-
-        <button type="submit" class="btn btn-light mt-3">Cadastrar</button>
-    </form>
-
-</div>
+    </main>
 
 
-<!-- SCRIPT BARRA DE FORÇA + MOSTRAR/OCULTAR -->
-<script>
-const senhaInput = document.getElementById("senha");
-const bar = document.getElementById("strengthBar");
-const label = document.getElementById("strengthLabel");
-const toggleSenha = document.getElementById("toggleSenha");
 
-// Barra de força
-senhaInput.addEventListener("input", function() {
-    let senha = senhaInput.value;
-    let força = 0;
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
-    if (senha.length >= 6) força++;
-    if (/[A-Z]/.test(senha)) força++;
-    if (/[0-9]/.test(senha)) força++;
-    if (/[^A-Za-z0-9]/.test(senha)) força++;
+    <script>
 
-    bar.style.width = força * 25 + "%";
+        const senhaInput =
+            document.getElementById("senha");
 
-    if (força === 0) {
-        bar.style.background = "transparent";
-        label.textContent = "";
-    }
-    else if (força === 1) {
-        bar.style.background = "red";
-        label.textContent = "Senha fraca";
-    }
-    else if (força === 2) {
-        bar.style.background = "orange";
-        label.textContent = "Senha média";
-    }
-    else if (força === 3) {
-        bar.style.background = "yellow";
-        label.textContent = "Senha boa";
-    }
-    else if (força === 4) {
-        bar.style.background = "limegreen";
-        label.textContent = "Senha forte";
-    }
-});
+        const bar =
+            document.getElementById("strengthBar");
 
-// Mostrar / Ocultar senha
-toggleSenha.addEventListener("click", () => {
-    if (senhaInput.type === "password") {
-        senhaInput.type = "text";
-        toggleSenha.textContent = "🙈";
-    } else {
-        senhaInput.type = "password";
-        toggleSenha.textContent = "👁️";
-    }
-});
-</script>
+        const label =
+            document.getElementById("strengthLabel");
+
+        const iconeSenha =
+            document.getElementById("iconeSenha");
+
+
+
+        /*
+        ========================================
+        BARRA DE FORÇA DA SENHA
+        ========================================
+        */
+
+        senhaInput.addEventListener(
+            "input",
+            function () {
+
+                const senha =
+                    senhaInput.value;
+
+                let forca = 0;
+
+
+                if (senha.length >= 6) {
+
+                    forca++;
+
+                }
+
+
+                if (/[A-Z]/.test(senha)) {
+
+                    forca++;
+
+                }
+
+
+                if (/[0-9]/.test(senha)) {
+
+                    forca++;
+
+                }
+
+
+                if (/[^A-Za-z0-9]/.test(senha)) {
+
+                    forca++;
+
+                }
+
+
+
+                /*
+                ================================
+                SEM SENHA
+                ================================
+                */
+
+                if (forca === 0) {
+
+                    bar.style.width = "0%";
+
+                    bar.style.background =
+                        "transparent";
+
+                    label.textContent = "";
+
+                }
+
+
+
+                /*
+                ================================
+                FRACA
+                ================================
+                */
+
+                else if (forca === 1) {
+
+                    bar.style.width = "25%";
+
+                    bar.style.background =
+                        "#ef4444";
+
+                    label.textContent =
+                        "Senha fraca";
+
+                    label.className =
+                        "mt-2 text-xs text-red-400";
+
+                }
+
+
+
+                /*
+                ================================
+                MÉDIA
+                ================================
+                */
+
+                else if (forca === 2) {
+
+                    bar.style.width = "50%";
+
+                    bar.style.background =
+                        "#f97316";
+
+                    label.textContent =
+                        "Senha média";
+
+                    label.className =
+                        "mt-2 text-xs text-orange-400";
+
+                }
+
+
+
+                /*
+                ================================
+                BOA
+                ================================
+                */
+
+                else if (forca === 3) {
+
+                    bar.style.width = "75%";
+
+                    bar.style.background =
+                        "#eab308";
+
+                    label.textContent =
+                        "Senha boa";
+
+                    label.className =
+                        "mt-2 text-xs text-yellow-400";
+
+                }
+
+
+
+                /*
+                ================================
+                FORTE
+                ================================
+                */
+
+                else if (forca === 4) {
+
+                    bar.style.width = "100%";
+
+                    bar.style.background =
+                        "#22c55e";
+
+                    label.textContent =
+                        "Senha forte";
+
+                    label.className =
+                        "mt-2 text-xs text-green-400";
+
+                }
+
+            }
+        );
+
+
+
+        /*
+        ========================================
+        MOSTRAR / OCULTAR SENHA
+        ========================================
+        */
+
+        function mostrarSenha() {
+
+            if (senhaInput.type === "password") {
+
+                senhaInput.type = "text";
+
+                iconeSenha.classList.remove(
+                    "bi-eye"
+                );
+
+                iconeSenha.classList.add(
+                    "bi-eye-slash"
+                );
+
+            }
+
+            else {
+
+                senhaInput.type = "password";
+
+                iconeSenha.classList.remove(
+                    "bi-eye-slash"
+                );
+
+                iconeSenha.classList.add(
+                    "bi-eye"
+                );
+
+            }
+
+        }
+
+    </script>
 
 </body>
+
 </html>

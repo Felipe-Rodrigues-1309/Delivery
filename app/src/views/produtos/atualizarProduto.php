@@ -48,9 +48,9 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param('isdsssdsi', $cod, $item, $valor, $descricao, $categoria, $novoNomeImagem, $valorPromocional, $ducaracaoDaPromocao, $id);
 
 if ($stmt->execute()) {
-    header('Location: ../../public/index.php?action=listarProdutos&sucesso=Produto+atualizado+com+sucesso');
+    header('Location: https://felvix.infinityfreeapp.com/encomendasDutra/app/public/index.php?action=listarProdutos&sucesso=Produto+atualizado+com+sucesso');
 } else {
-    header('Location: ../../public/index.php?action=listarProdutos&erro=Erro+ao+atualizar+produto');
+    header('Location: https://felvix.infinityfreeapp.com/encomendasDutra/app/public/index.php?action=listarProdutos&erro=Erro+ao+atualizar+produto');
 }
 exit;
 ?>

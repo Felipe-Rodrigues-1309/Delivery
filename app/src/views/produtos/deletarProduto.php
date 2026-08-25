@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../../config/conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../../public/index.php?action=listarProdutos');
+    header('Location:https://felvix.infinityfreeapp.com/encomendasDutra/app/public/index.php?action=listarProdutos');
     exit;
 }
 
 $id = intval($_POST['id'] ?? 0);
 if (!$id) {
-    header('Location: ../../public/index.php?action=listarProdutos&erro=ID+inv%C3%A1lido');
+    header('Location: https://felvix.infinityfreeapp.com/encomendasDutra/app/public/index.php?action=listarProdutos');
     exit;
 }
 
@@ -31,9 +31,9 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $id);
 
 if ($stmt->execute()) {
-    header('Location: ../../public/index.php?action=listarProdutos&sucesso=Produto+exclu%C3%ADdo+com+sucesso');
+    header('Location: https://felvix.infinityfreeapp.com/encomendasDutra/app/public/index.php?action=listarProdutos&sucesso=Produto+exclu%C3%ADdo+com+sucesso');
 } else {
-    header('Location: ../../public/index.php?action=listarProdutos&erro=Erro+ao+excluir+produto');
+    header('Location: https://felvix.infinityfreeapp.com/encomendasDutra/app/public/index.php?action=listarProdutos&erro=Erro+ao+excluir+produto');
 }
 exit;
 ?>

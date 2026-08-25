@@ -1,518 +1,1979 @@
+
 <?php
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 require_once __DIR__ . '/../../config/conexao.php';
-// Inicia a sessão do usuário. Isso garante que temos acesso ao ID do usuário logado.
-// Sem sessão, não conseguimos saber quem está fazendo o pedido.
+
 session_start();
 
-// Se não houver usuário logado, redireciona para a página de login.
-// Isso impede que pessoas acessem o carrinho diretamente sem se autenticar.
+/*
+|--------------------------------------------------------------------------
+| DADOS DA SESSÃO
+|--------------------------------------------------------------------------
+*/
 
-/*if (!isset($_SESSION['id_usuario'])) {
-    header("Location: index.php?action=login");
-    exit();
-}*/
-
-
-// Guardamos o ID do usuário para usar no JavaScript e no envio do pedido.
 $id_usuario = $_SESSION['id_usuario'] ?? null;
 $rua = $_SESSION['rua'] ?? null;
 $numero = $_SESSION['numero'] ?? null;
 $bairro = $_SESSION['bairro'] ?? null;
 $cidade = $_SESSION['cidade'] ?? null;
 $ponto_de_referencia = $_SESSION['ponto_de_referencia'] ?? null;
+$telefone = $_SESSION['telefone'] ?? null;
 
 
+/*
+|--------------------------------------------------------------------------
+| BUSCA ENDEREÇO
+|--------------------------------------------------------------------------
+*/
 
+$endereco = null;
 
+if ($id_usuario) {
 
-// busca para mostrar o endereço no front 
-if($id_usuario){  // o $id_usuario venda do start da secão sempre e usada para buscar pelo id da seção 
-$stmt = $conn->prepare(" SELECT rua, numero, bairro, cidade, ponto_de_referencia FROM endereco WHERE id = ?");
-$stmt->bind_param("i", $id_usuario);
-$stmt->execute();
+    $stmt = $conn->prepare("
+        SELECT rua, numero, bairro, cidade, ponto_de_referencia, telefone
+        FROM endereco
+        WHERE id = ?
+    ");
 
-$enderecoUsuario = $stmt->get_result();
-$endereco = $enderecoUsuario->fetch_assoc();
+    if ($stmt) {
+
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+
+        $enderecoUsuario = $stmt->get_result();
+
+        $endereco = $enderecoUsuario->fetch_assoc();
+
+        $stmt->close();
+    }
 }
 
 
-// busca para encontrar o usuario pelo nome na seção 
-if($id_usuario){
+/*
+|--------------------------------------------------------------------------
+| BUSCA USUÁRIO
+|--------------------------------------------------------------------------
+*/
 
-    $stmt = $conn->prepare("SELECT nome FROM usuarios WHERE id = ?");
-    $stmt->bind_param("i", $id_usuario);
-    $stmt->execute();
+$user = null;
 
-    $ResultadoNomeDoUsuario = $stmt->get_result();
-    $user = $ResultadoNomeDoUsuario->fetch_assoc();
+if ($id_usuario) {
+
+    $stmt = $conn->prepare("
+        SELECT nome
+        FROM usuarios
+        WHERE id = ?
+    ");
+
+    if ($stmt) {
+
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+
+        $ResultadoNomeDoUsuario = $stmt->get_result();
+
+        $user = $ResultadoNomeDoUsuario->fetch_assoc();
+
+        $stmt->close();
+    }
 }
+
 ?>
 
 
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Carrinho de Compras</title>
-    <!-- Usamos Bootstrap para layout básico e componentes responsivos. -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <!-- Estilos customizados para tornar o carrinho mais legível. -->
-    <style>
-      
-        body {
-            background-image: url(/img/background.png);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            margin-top: 5px; 
-            backdrop-filter: blur(5px);
-            padding: 1px;
-            margin-top: 25px;
-            margin-bottom: 20px;
-            border-radius: 25px;
-        }
-        .item-carrinho {
-            position: relative;
-            color:white;
-            background-color: rgba(0, 0, 0, 0.85);
-            margin-top: 20px;
-            border: 1px solid #0004ff;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .item-info h6 {
-            margin-bottom: 5px;
-            
-        }
-        .item-preco {
-            margin-top: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #1500ff;
-        }
-        .btn-remover {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: transparent;
-            border: none;
-            color: #dc3545;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            margin: 0;
-}
-        
-
-            .btn-remover:hover {
-            color: #ff0000;
-        }
-        .total-section {
-            color:white;
-            background-color: rgba(0, 0, 0, 0.85);
-            margin-top: 20px;
-            border: 1px solid #ff0000;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-
-            justify-content: space-between;
-            align-items: center;
-        }
-        .total-section h3 {
-            text-align: center;
-            color: #ff0000;
-            font-weight: bold;
-        }
-
-        button {
-        margin-top: 50px;
-        display: block;
-        margin: 25px auto;
-        border-radius: 10px;
-        padding:10px;
-        border: solid 2px black;
-        background-color: #00ff00;
-        color: black;
-        }
-
-        .buttonNavBar{
-        margin: 0px;
-        padding: 5px;
-        }
-
-        .cardEndereco{
-        color: #00ff00;
-        font-style: italic;
-        background-color: rgba(0, 0, 0, 0.85);
-        border: 1px solid #00ff00;
-        padding: 1px;
-        margin-bottom: 2px;
-        border-radius: 8px;
-        }
 
 
-
-        .form-select {
-        background-color: rgba(0, 0, 0, 0.85);
-        color: white;
-        border: 1px solid #1500ff;
-        border-radius: 8px;
-        }
-
-        .form-select:focus {
-        background-color: rgba(0, 0, 0, 0.95);
-        color: white;
-        border-color: #1500ff;
-        box-shadow: 0 0 10px rgba(21, 0, 255, 0.5);
-        }
-
-        .form-select option {
-        background-color: #000;
-        color: white;
-        }
-
-    button {
-    display: block;
-    margin: 25px auto;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: 1px solid #00ff00;
-    background-color: rgba(0, 0, 0, 0.85);
-    color: white;
-    font-weight: bold;
-    transition: all 0.4s ease;
-}
-
-button:hover {
-    background-color: #000000;
-    color: white;
-    box-shadow: 0 0 15px #00ff00;
-}
-
-.btn-finalizar {
-    border: 1px solid #00ff00;
-}
-
-.btn-finalizar:hover {
-    background-color: #00ff00;
-    color: black;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-}
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
 
 
-.btn-add-produto {
-    width: 55px;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-
-    background-color: rgba(0, 0, 0, 0.85);
-    border: 2px solid #1500ff;
-    border-radius: 50%;
-
-    color: white;
-    font-size: 24px;
-
-    transition: all 0.3s ease;
-}
-
-.btn-add-produto:hover {
-    background-color: #1500ff;
-    color: white;
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(21, 0, 255, 0.5);
-}
-
-    </style>
-</head>
-<body>
-    <!-- Navegação superior: links de volta à página inicial e página de pedidos -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="?action=login">voltar</a>
-            <button class="navbar-toggler buttonNavBar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="./Pagina_inicial/Pagina_inicial.html">Pagina inicial</a>
-                    <a class="nav-link active" href="?action=perfilCliente">pedidos</a>
-                    <a class="nav-link active" href="#">Suporte</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    
-    <div class="container">
-        <h2 style="margin-bottom: 30px; color: #1500ff;">🛒 Carrinho de Compras</h2>
-
-            <div class="card cardEndereco">
-                <div class="card-body">
-                    <div class="endereco">
-                        Endereço:
-                        <?= $endereco['rua'] ?? 'Endereço Não Cadastrado';?>,
-                        Nº <?= $endereco['numero'] ?? '';?> -
-                        <?= $endereco['ponto_de_referencia'] ?? '';?> -
-                        <?= $endereco['cidade'] ?? '';?>
-                        <?= $user['nome'] ?? '';?>,
-                    </div>
-                </div>
-            </div>
-
-        <!-- Mensagem exibida quando não há produtos no carrinho -->
-        <div id="carrinho-vazio" style="display: none; text-align: center;">
-            <h3>Seu carrinho está vazio</h3>
-        </div>
-
-        <!-- Aqui o JavaScript injeta os cards dos itens que estiverem no carrinho -->
-        <div id="carrinho-itens">
-            <!-- Os itens serão carregados aqui pelo JavaScript -->
-        </div>
-
-        <div id="carrinho-pagamento" style="display: none; margin-top: 20px;"> <!--usado para nao aparecer a forma de pagamento se o carrinho estiver vazio busca pelo id-->
-            <select id="forma_pagamento" class="form-select" aria-label="Default select example">
-                <option value="" selected>Forma de pagamento</option>
-                <option value="Dinheiro">Dinheiro</option>
-                <option value="Cartão">Cartão</option>
-                <option value="Vale Alimentação">Vale Alimentação</option>
-            </select>
-        </div>
-
-        <!-- Exibe o total do pedido quando houver itens no carrinho -->
-        <div id="carrinho-total" style="display: none;">
-            <div class="total-section">
-                <h5 id="total-preco">Total da Compra: R$ 0,00</h5>
-            </div>
-        </div>
-
-            <div class="d-flex justify-content-center">
-                <a href="?action=categoria"
-                    class="btn-add-produto">
-                    <i class="bi bi-plus-lg"></i>
-                </a>
-            </div>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
 
-        <button onclick="enviarWhatsApp()">Finalizar Compra</button>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    
     <script>
-        // ### Variáveis/passagem de dados do PHP para JS
-        // O PHP passa o ID do usuário logado para o JavaScript usando json_encode.
-        // Isso permite enviar o ID ao servidor quando o pedido for salvo.
-        const idUsuario = <?= json_encode($id_usuario); ?>;
-        const rua = <?=json_encode($rua);?>;
-        const numero = <?=json_encode($numero);?>;
-        const bairro = <?=json_encode($bairro);?>;
-        const cidade = <?=json_encode($cidade);?>;
-        const ponto_de_referencia = <?=json_encode($ponto_de_referencia);?>;
-        const user = <?=json_encode($user);?>;
 
-        // ### Função principal que renderiza o carrinho na página
-        function carregarCarrinho() {
-            // Busca o carrinho salvo no localStorage.
-            // O carrinho é um array de objetos, por exemplo: [{ nome, quantidade, precoUnitario, precoFinal, adicionais }]
-            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+        tailwind.config = {
 
-            // Elementos do DOM usados para renderizar a UI.
-            const carrinhoVazio = document.getElementById('carrinho-vazio');
-            const carrinhoItens = document.getElementById('carrinho-itens');
-            const carrinhoTotal = document.getElementById('carrinho-total');
-            const carrinhoPagamento = document.getElementById('carrinho-pagamento'); //usado para nao aparecer a forma de pagamento se o carrinho estiver vazio
+            theme: {
 
-            if(carrinho.length === 0) {
-                carrinhoVazio.style.display = 'block';
-                carrinhoItens.style.display = 'none';
-                carrinhoTotal.style.display = 'none';
-                carrinhoPagamento.style.display = 'none'; //usado para nao aparecer a forma de pagamento se o carrinho estiver vazio
-                return;
-            }
+                extend: {
 
-            carrinhoVazio.style.display = 'none';
-            carrinhoItens.style.display = 'block';
-            carrinhoTotal.style.display = 'block';
-            carrinhoPagamento.style.display = 'block'; //usado para nao aparecer a forma de pagamento se o carrinho estiver com itens 
+                    colors: {
 
-            // Limpar itens anteriores
-            carrinhoItens.innerHTML = '';
+                        principal: '#1500ff',
 
-            let totalGeral = 0;
+                        verde: '#00ff00'
 
-            carrinho.forEach((item, index) => {
-                totalGeral += item.precoFinal;
+                    },
 
-                let produtoHTML = `<small style="display: flex; color: #ffffff; margin-top: 5px;">✓(R$ ${(item.precoUnitario * item.quantidade).toFixed(2).replace('.', ',')}) x ${item.quantidade}</small>`;
-                
-                let adicionaisHTML = '';
-                if(item.adicionais && item.adicionais.length > 0) {
-                    adicionaisHTML = '<small style="display: flex; color: #ffffff;">';
-                    item.adicionais.forEach(ad => {
-                        adicionaisHTML += '✓ ' + item.quantidade + 'x ' + ad.nome + ' (R$ ' + (ad.valor * item.quantidade).toFixed(2).replace('.', ',') + ')<br>';
-                    });
-                    adicionaisHTML += '</small>';
+                    boxShadow: {
+
+                        neonGreen:
+                            '0 0 15px rgba(0,255,0,.25)',
+
+                        neonBlue:
+                            '0 0 15px rgba(21,0,255,.30)'
+
+                    }
+
                 }
 
-                const itemHTML = `
-                    <div class="item-carrinho">
-                        <div class="item-info">
-                            <h6>${item.nome}</h6>
-                            ${produtoHTML}
-                            ${adicionaisHTML}
-                            <div class="item-preco">R$ ${item.precoFinal.toFixed(2).replace('.', ',')}</div>
-                        </div>
-                         <button class="btn-remover" onclick="removerDoCarrinho(${index})">X</button>
-                    </div>
-                `;
-                carrinhoItens.innerHTML += itemHTML;
-            });
+            }
 
-            // Criar seção de total
-            const totalHTML = `
-                <div class="total-section">
-                    <h3>Valor Total : R$ ${totalGeral.toFixed(2).replace('.', ',')}</h3>
+        };
+
+    </script>
+
+
+    <style>
+
+        /*
+        |--------------------------------------------------------------------------
+        | BODY
+        |--------------------------------------------------------------------------
+        */
+
+        body {
+
+            background:
+
+                radial-gradient(
+                    circle at top right,
+                    #7832b433,
+                    transparent 35%
+                ),
+
+                radial-gradient(
+                    circle at bottom left,
+                    rgba(80, 30, 130, 0.16),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #0a0a0a,
+                    #151515,
+                    #202020
+                );
+
+            min-height: 100vh;
+
+            color: white;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                'Segoe UI',
+                Roboto,
+                sans-serif;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SCROLLBAR
+        |--------------------------------------------------------------------------
+        */
+
+        ::-webkit-scrollbar {
+
+            width: 7px;
+
+        }
+
+
+        ::-webkit-scrollbar-track {
+
+            background: #080808;
+
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background: #1500ff;
+
+            border-radius: 10px;
+
+        }
+
+
+        ::-webkit-scrollbar-thumb:hover {
+
+            background: #321fff;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | GLASS
+        |--------------------------------------------------------------------------
+        */
+
+        .glass {
+
+            background: rgba(0, 0, 0, 0.78);
+
+            backdrop-filter: blur(10px);
+
+            -webkit-backdrop-filter: blur(10px);
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PIX
+        |--------------------------------------------------------------------------
+        */
+
+        #pix-container {
+
+            display: none;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ANIMAÇÃO PIX
+        |--------------------------------------------------------------------------
+        */
+
+        .pix-animation {
+
+            animation: pixAnimation .3s ease;
+
+        }
+
+
+        @keyframes pixAnimation {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(-8px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SPINNER
+        |--------------------------------------------------------------------------
+        */
+
+        .spinner {
+
+            animation: spin 1s linear infinite;
+
+        }
+
+
+        @keyframes spin {
+
+            from {
+
+                transform: rotate(0deg);
+
+            }
+
+            to {
+
+                transform: rotate(360deg);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!--
+|--------------------------------------------------------------------------
+| NAVBAR
+|--------------------------------------------------------------------------
+-->
+
+<nav
+    class="sticky top-0 z-50 border-b border-white/10 bg-black/90 backdrop-blur-xl"
+>
+
+    <div
+        class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3"
+    >
+
+
+        <!-- Voltar -->
+
+        <a
+            href="?action=login"
+            class="flex items-center gap-2 font-semibold text-white transition duration-300 hover:text-blue-500"
+        >
+
+            <i class="bi bi-arrow-left text-lg"></i>
+
+            <span class="hidden sm:inline">
+                Voltar
+            </span>
+
+        </a>
+
+
+        <!-- Menu -->
+
+        <div
+            class="hidden items-center gap-6 md:flex"
+        >
+
+            <a
+                href="index.php?action=categoria"
+                class="text-sm text-gray-300 transition hover:text-white"
+            >
+
+                Página inicial
+
+            </a>
+
+
+            <a
+                href="?action=perfilCliente"
+                class="text-sm text-gray-300 transition hover:text-white"
+            >
+
+                Pedidos
+
+            </a>
+
+
+            <a
+                href="#"
+                class="text-sm text-gray-300 transition hover:text-white"
+            >
+
+                Suporte
+
+            </a>
+
+        </div>
+
+
+        <!-- Carrinho -->
+
+        <div
+            class="flex h-9 w-9 items-center justify-center rounded-full border border-blue-500/40 bg-blue-500/10"
+        >
+
+            <i
+                class="bi bi-cart3 text-lg text-blue-500"
+            ></i>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!--
+|--------------------------------------------------------------------------
+| CONTAINER
+|--------------------------------------------------------------------------
+-->
+
+<main
+    class="mx-auto w-full max-w-4xl px-4 py-6 sm:py-8"
+>
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | CABEÇALHO
+    |--------------------------------------------------------------------------
+    -->
+
+    <div class="mb-7 text-center">
+
+
+        <div
+            class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-black/50 shadow-lg"
+        >
+
+            <i
+                class="bi bi-cart3 text-2xl text-white"
+            ></i>
+
+        </div>
+
+
+        <h1
+            class="text-2xl font-bold text-white sm:text-3xl"
+        >
+
+            🛒 Carrinho de Compras
+
+        </h1>
+
+
+        <p
+            class="mt-2 text-sm text-gray-400"
+        >
+
+            Confira seus produtos antes de finalizar.
+
+        </p>
+
+    </div>
+
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | CARRINHO VAZIO
+    |--------------------------------------------------------------------------
+    -->
+
+    <div
+        id="carrinho-vazio"
+        class="hidden rounded-xl border border-white/20 bg-black/75 p-8 text-center shadow-xl"
+    >
+
+        <div
+            class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/5"
+        >
+
+            <i
+                class="bi bi-cart-x text-3xl text-gray-500"
+            ></i>
+
+        </div>
+
+
+        <h3
+            class="text-xl font-bold text-white"
+        >
+
+            Seu carrinho está vazio
+
+        </h3>
+
+
+        <p
+            class="mt-2 text-sm text-gray-400"
+        >
+
+            Adicione algum produto para continuar.
+
+        </p>
+
+
+        <a
+            href="?action=categoria"
+            class="mx-auto mt-5 inline-flex items-center gap-2 rounded-lg border border-blue-600 bg-black/80 px-5 py-2.5 text-sm font-bold text-white transition duration-300 hover:bg-blue-600 hover:shadow-neonBlue"
+        >
+
+            <i class="bi bi-plus-lg"></i>
+
+            Adicionar produto
+
+        </a>
+
+    </div>
+
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | ITENS DO CARRINHO
+    |--------------------------------------------------------------------------
+    -->
+
+    <div
+        id="carrinho-itens"
+        class="space-y-4"
+    >
+
+    </div>
+
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | FORMA DE PAGAMENTO
+    |--------------------------------------------------------------------------
+    -->
+
+    <div
+        id="carrinho-pagamento"
+        class="mt-5 hidden"
+    >
+
+        <div
+            class="glass rounded-xl border border-white/20 p-4 shadow-lg sm:p-5"
+        >
+
+
+            <div
+                class="mb-4 flex items-center gap-3"
+            >
+
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5"
+                >
+
+                    <i
+                        class="bi bi-credit-card text-lg text-white"
+                    ></i>
+
                 </div>
+
+
+                <div>
+
+                    <h3
+                        class="font-bold text-white"
+                    >
+
+                        Forma de pagamento
+
+                    </h3>
+
+
+                    <p
+                        class="text-xs text-gray-400"
+                    >
+
+                        Escolha uma opção para continuar.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <select
+                id="forma_pagamento"
+                class="w-full rounded-lg border border-white/30 bg-black/85 px-4 py-3 text-sm text-white outline-none transition duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+            >
+
+                <option
+                    value=""
+                    selected
+                >
+
+                    Forma de pagamento
+
+                </option>
+
+
+                <option value="Dinheiro">
+
+                    💵 Dinheiro
+
+                </option>
+
+
+                <option value="Pix">
+
+                    ⚡ Pix
+
+                </option>
+
+
+                <option value="Promissoria">
+
+                    📄 Promissória
+
+                </option>
+
+            </select>
+
+
+            <!--
+            |--------------------------------------------------------------------------
+            | PIX
+            |--------------------------------------------------------------------------
+            -->
+
+            <div
+                id="pix-container"
+                class="mt-4 rounded-xl border border-green-500/40 bg-black/80 p-4 shadow-neonGreen pix-animation"
+            >
+
+                <div
+                    class="mb-3 flex items-center gap-2"
+                >
+
+                    <i
+                        class="bi bi-qr-code text-xl text-green-400"
+                    ></i>
+
+
+                    <span
+                        class="font-bold text-green-400"
+                    >
+
+                        Pagamento via PIX
+
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="flex flex-col gap-2 sm:flex-row"
+                >
+
+                    <input
+                        type="text"
+                        id="pix-chave"
+                        value="88997443499"
+                        readonly
+                        aria-label="Chave PIX"
+                        class="min-w-0 flex-1 rounded-lg border border-green-500/50 bg-black px-3 py-2.5 text-sm text-white outline-none"
+                    >
+
+
+                    <button
+                        type="button"
+                        id="btn-copiar-pix"
+                        class="!m-0 flex items-center justify-center gap-2 rounded-lg border border-green-500 bg-green-500 px-4 py-2.5 font-bold text-black transition duration-300 hover:bg-green-400 hover:shadow-neonGreen"
+                    >
+
+                        <i class="bi bi-copy"></i>
+
+                        Copiar
+
+                    </button>
+
+                </div>
+
+
+                <p
+                    class="mt-3 text-xs text-gray-400"
+                >
+
+                    Após realizar o pagamento favor enviar o comprovante!
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | TOTAL
+    |--------------------------------------------------------------------------
+    -->
+
+    <div
+        id="carrinho-total"
+        class="mt-5 hidden"
+    >
+
+    </div>
+
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | ADICIONAR PRODUTO
+    |--------------------------------------------------------------------------
+    -->
+
+    <div
+        class="mt-5 flex justify-center"
+    >
+
+        <a
+            href="?action=categoria"
+            class="flex h-10 items-center gap-2 rounded-full border border-blue-600 bg-black/70 px-4 text-sm font-semibold text-white transition duration-300 hover:bg-blue-600 hover:shadow-neonBlue"
+        >
+
+            <i class="bi bi-plus-lg"></i>
+
+            Adicionar
+
+        </a>
+
+    </div>
+
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | FINALIZAR
+    |--------------------------------------------------------------------------
+    -->
+
+    <button
+        type="button"
+        onclick="enviarWhatsApp()"
+        class="mx-auto mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-green-500 bg-black/80 px-5 py-3.5 font-bold text-white transition duration-300 hover:bg-green-500 hover:text-black hover:shadow-neonGreen sm:w-auto sm:min-w-[250px]"
+    >
+
+        <i
+            class="bi bi-check-circle-fill"
+        ></i>
+
+        Finalizar Compra
+
+    </button>
+
+
+</main>
+
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"
+></script>
+
+
+
+<script>
+
+/*
+|--------------------------------------------------------------------------
+| DADOS PHP → JAVASCRIPT
+|--------------------------------------------------------------------------
+*/
+
+const idUsuario =
+    <?= json_encode($id_usuario); ?>;
+
+const rua =
+    <?= json_encode($rua); ?>;
+
+const numero =
+    <?= json_encode($numero); ?>;
+
+const bairro =
+    <?= json_encode($bairro); ?>;
+
+const cidade =
+    <?= json_encode($cidade); ?>;
+
+const ponto_de_referencia =
+    <?= json_encode($ponto_de_referencia); ?>;
+
+const user =
+    <?= json_encode($user); ?>;
+
+const telefone =
+    <?= json_encode($telefone); ?>;
+
+
+
+const chavePix = "88997443499";
+
+
+
+/*
+|--------------------------------------------------------------------------
+| CONTROLE DO PIX
+|--------------------------------------------------------------------------
+*/
+
+function controlarPix() {
+
+    const formaPagamento =
+        document.getElementById('forma_pagamento');
+
+    const pixContainer =
+        document.getElementById('pix-container');
+
+    const pixChave =
+        document.getElementById('pix-chave');
+
+
+    if (
+        !formaPagamento ||
+        !pixContainer ||
+        !pixChave
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        formaPagamento.value === 'Pix'
+    ) {
+
+        pixContainer.style.display = 'block';
+
+        pixChave.value = chavePix;
+
+    } else {
+
+        pixContainer.style.display = 'none';
+
+    }
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| COPIAR PIX
+|--------------------------------------------------------------------------
+*/
+
+async function copiarPix() {
+
+    const pixChave =
+        document.getElementById('pix-chave');
+
+    const botao =
+        document.getElementById('btn-copiar-pix');
+
+
+    if (!pixChave) {
+
+        return;
+
+    }
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            pixChave.value
+        );
+
+
+        if (botao) {
+
+            const textoOriginal =
+                botao.innerHTML;
+
+
+            botao.innerHTML =
+
+                '<i class="bi bi-check-lg"></i> Copiado!';
+
+
+            setTimeout(() => {
+
+                botao.innerHTML =
+                    textoOriginal;
+
+            }, 2000);
+
+        }
+
+    }
+
+    catch (error) {
+
+        pixChave.select();
+
+        pixChave.setSelectionRange(
+            0,
+            99999
+        );
+
+
+        document.execCommand('copy');
+
+        alert('Chave PIX copiada!');
+
+    }
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| DOM READY
+|--------------------------------------------------------------------------
+*/
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function() {
+
+
+        const formaPagamento =
+            document.getElementById(
+                'forma_pagamento'
+            );
+
+
+        const botaoCopiarPix =
+            document.getElementById(
+                'btn-copiar-pix'
+            );
+
+
+        if (formaPagamento) {
+
+            formaPagamento.addEventListener(
+                'change',
+                controlarPix
+            );
+
+        }
+
+
+        if (botaoCopiarPix) {
+
+            botaoCopiarPix.addEventListener(
+                'click',
+                copiarPix
+            );
+
+        }
+
+
+        controlarPix();
+
+
+        carregarCarrinho();
+
+    }
+);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| CARREGAR CARRINHO
+|--------------------------------------------------------------------------
+*/
+
+function carregarCarrinho() {
+
+    const carrinho =
+        JSON.parse(
+            localStorage.getItem(
+                'carrinho'
+            ) || '[]'
+        );
+
+
+    const carrinhoVazio =
+        document.getElementById(
+            'carrinho-vazio'
+        );
+
+
+    const carrinhoItens =
+        document.getElementById(
+            'carrinho-itens'
+        );
+
+
+    const carrinhoTotal =
+        document.getElementById(
+            'carrinho-total'
+        );
+
+
+    const carrinhoPagamento =
+        document.getElementById(
+            'carrinho-pagamento'
+        );
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CARRINHO VAZIO
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+        carrinho.length === 0
+    ) {
+
+        carrinhoVazio.style.display =
+            'block';
+
+
+        carrinhoItens.style.display =
+            'none';
+
+
+        carrinhoTotal.style.display =
+            'none';
+
+
+        carrinhoPagamento.style.display =
+            'none';
+
+
+        return;
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CARRINHO COM PRODUTOS
+    |--------------------------------------------------------------------------
+    */
+
+    carrinhoVazio.style.display =
+        'none';
+
+
+    carrinhoItens.style.display =
+        'block';
+
+
+    carrinhoTotal.style.display =
+        'block';
+
+
+    carrinhoPagamento.style.display =
+        'block';
+
+
+
+    carrinhoItens.innerHTML = '';
+
+
+    let totalGeral = 0;
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PRODUTOS
+    |--------------------------------------------------------------------------
+    */
+
+    carrinho.forEach(
+        (item, index) => {
+
+
+            const precoUnitario =
+                Number(
+                    item.precoUnitario || 0
+                );
+
+
+            const quantidade =
+                Number(
+                    item.quantidade || 1
+                );
+
+
+            const precoFinal =
+                Number(
+                    item.precoFinal || 0
+                );
+
+
+            totalGeral += precoFinal;
+
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PRODUTO
+            |--------------------------------------------------------------------------
+            */
+
+            let produtoHTML = `
+
+                <div
+                    class="mt-2 flex items-center gap-2 text-sm text-gray-300"
+                >
+
+                    <i
+                        class="bi bi-check-circle-fill text-green-400"
+                    ></i>
+
+                    <span>
+
+                        ${quantidade}x
+
+                        R$
+                        ${precoUnitario.toFixed(2).replace('.', ',')}
+
+                    </span>
+
+                </div>
+
             `;
 
-            carrinhoTotal.innerHTML = totalHTML;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ADICIONAIS
+            |--------------------------------------------------------------------------
+            */
+
+            let adicionaisHTML = '';
+
+
+            if (
+                item.adicionais &&
+                item.adicionais.length > 0
+            ) {
+
+
+                adicionaisHTML = `
+
+                    <div
+                        class="mt-3 border-t border-white/10 pt-3"
+                    >
+
+                        <p
+                            class="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500"
+                        >
+
+                            Adicionais
+
+                        </p>
+
+                `;
+
+
+                item.adicionais.forEach(
+                    ad => {
+
+
+                        const valorAdicional =
+
+                            Number(ad.valor || 0) *
+                            quantidade;
+
+
+                        adicionaisHTML += `
+
+                            <div
+                                class="flex items-center justify-between gap-3 py-1 text-sm"
+                            >
+
+                                <span
+                                    class="text-gray-300"
+                                >
+
+                                    <span
+                                        class="text-green-400"
+                                    >
+
+                                        ✓
+
+                                    </span>
+
+                                    ${quantidade}x
+                                    ${ad.nome}
+
+                                </span>
+
+
+                                <span
+                                    class="whitespace-nowrap text-gray-400"
+                                >
+
+                                    R$
+                                    ${valorAdicional.toFixed(2).replace('.', ',')}
+
+                                </span>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+                adicionaisHTML += `
+
+                    </div>
+
+                `;
+
+            }
+
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CARD DO PRODUTO
+            |--------------------------------------------------------------------------
+            */
+
+            const itemHTML = `
+
+                <div
+                    class="relative overflow-hidden rounded-xl border border-white/20 bg-black/80 p-4 shadow-lg transition duration-300 hover:border-white/40 sm:p-5"
+                >
+
+
+                    <!-- Barra lateral -->
+
+                    <div
+                        class="absolute left-0 top-0 h-full w-1 bg-white"
+                    ></div>
+
+
+                    <div
+                        class="flex items-start justify-between gap-4"
+                    >
+
+
+                        <div
+                            class="min-w-0 flex-1 pl-2"
+                        >
+
+
+                            <div
+                                class="flex items-center gap-3"
+                            >
+
+
+                                <div
+                                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/5"
+                                >
+
+                                    <i
+                                        class="bi bi-bag text-xl text-white"
+                                    ></i>
+
+                                </div>
+
+
+                                <div
+                                    class="min-w-0"
+                                >
+
+                                    <h6
+                                        class="truncate text-base font-bold text-white sm:text-lg"
+                                    >
+
+                                        ${item.nome}
+
+                                    </h6>
+
+
+                                    ${produtoHTML}
+
+                                </div>
+
+                            </div>
+
+
+                            ${adicionaisHTML}
+
+
+                            <div
+                                class="mt-4"
+                            >
+
+                                <span
+                                    class="text-xl font-bold text-white"
+                                >
+
+                                    R$
+
+                                    ${precoFinal.toFixed(2).replace('.', ',')}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- REMOVER -->
+
+                        <button
+                            type="button"
+                            class="!m-0 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-500/40 bg-black text-red-500 transition duration-300 hover:bg-red-500 hover:text-white"
+                            onclick="removerDoCarrinho(${index})"
+                            title="Remover produto"
+                        >
+
+                            <i
+                                class="bi bi-trash3"
+                            ></i>
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            carrinhoItens.innerHTML +=
+                itemHTML;
+
         }
-
-        // Remove um item do carrinho (por índice) e atualiza o localStorage.
-        // Esse índice corresponde à posição do item na lista exibida.
-        function removerDoCarrinho(index) {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
-            carrinho.splice(index, 1);
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            carregarCarrinho();
-        }
-
-        // Carrega os dados do carrinho assim que a página termina de carregar.
-        // Isso garante que, ao abrir a página, o usuário veja sempre o estado atual.
-        document.addEventListener('DOMContentLoaded', function() {
-            carregarCarrinho();
-        });
+    );
 
 
-// enviar para o whatsapp e salvar pedido no servidor
-function enviarWhatsApp(){
 
-    // 1) Pega os itens atuais do carrinho (armazenados no localStorage do navegador)
-    //    Esse JSON é escrito pela aplicação quando o usuário adiciona itens ao carrinho.
-    const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+    /*
+    |--------------------------------------------------------------------------
+    | TOTAL
+    |--------------------------------------------------------------------------
+    */
 
-    // Se o carrinho estiver vazio, não faz nada e avisa o usuário.
-    if(carrinho.length === 0){
-        alert("Carrinho vazio!");
+    const totalHTML = `
+
+        <div
+            class="rounded-xl border border-white/30 bg-black/85 p-5 shadow-lg"
+        >
+
+            <div
+                class="flex items-center justify-between gap-4"
+            >
+
+                <div>
+
+                    <p
+                        class="text-sm text-gray-400"
+                    >
+
+                        Valor Total
+
+                    </p>
+
+
+                    <p
+                        class="mt-1 text-xs text-gray-600"
+                    >
+
+                        ${carrinho.length}
+
+                        ${carrinho.length === 1
+                            ? 'produto'
+                            : 'produtos'}
+
+                    </p>
+
+                </div>
+
+
+                <h3
+                    class="text-xl font-bold text-white sm:text-2xl"
+                >
+
+                    R$
+
+                    ${totalGeral.toFixed(2).replace('.', ',')}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    carrinhoTotal.innerHTML =
+        totalHTML;
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| REMOVER PRODUTO
+|--------------------------------------------------------------------------
+*/
+
+function removerDoCarrinho(index) {
+
+    const carrinho =
+        JSON.parse(
+            localStorage.getItem(
+                'carrinho'
+            ) || '[]'
+        );
+
+
+    carrinho.splice(
+        index,
+        1
+    );
+
+
+    localStorage.setItem(
+        'carrinho',
+        JSON.stringify(carrinho)
+    );
+
+
+    carregarCarrinho();
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| ENVIAR PEDIDO
+|--------------------------------------------------------------------------
+*/
+
+function enviarWhatsApp() {
+
+
+    const carrinho =
+        JSON.parse(
+            localStorage.getItem(
+                'carrinho'
+            ) || '[]'
+        );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CARRINHO VAZIO
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+        carrinho.length === 0
+    ) {
+
+        alert(
+            "Carrinho vazio!"
+        );
+
         return;
+
     }
 
-        // 🔥 NOVO: verifica login aqui
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGIN
+    |--------------------------------------------------------------------------
+    */
+
     if (!idUsuario) {
-        alert("Você precisa fazer login para finalizar o pedido!");
-        window.location.href = "index.php?action=login&redirect=carrinho";
+
+        alert(
+            "Você precisa fazer login para finalizar o pedido!"
+        );
+
+
+        window.location.href =
+            "index.php?action=login&redirect=carrinho";
+
+
         return;
+
     }
+
 
     if(!rua){
-        alert("Você precisa cadastrar um endereço!");
+        alert("Você precisa cadastrar um endereço para fazer o pedido!");
+
         window.location.href = "index.php?action=cadastroDeEndereco&redirect=carrinho";
+
         return;
+
     }
 
-    // 2) Salva o pedido no servidor (banco de dados)
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TOTAL
+    |--------------------------------------------------------------------------
+    */
+
     let total = 0;
 
-    // Calcula o total
-    carrinho.forEach(item => {
-        total += item.precoFinal;
-    });
 
-    const produtoNome = carrinho
-        .map(item => {
-            let descricao = `${item.quantidade}x ${item.nome} (R$ ${(item.precoUnitario * item.quantidade).toFixed(2).replace('.', ',')})`;
-            if (item.adicionais && item.adicionais.length > 0) {
-                descricao += '\nAdicionais:';
-                descricao += item.adicionais
-                    .map(ad => `\n - ${item.quantidade}x ${ad.nome} (R$ ${(ad.valor * item.quantidade).toFixed(2).replace('.', ',')})`)
-                    .join('');
-            }
-            return descricao;
-        })
-        .join('\n\n');
+    carrinho.forEach(
+        item => {
 
-    const formaPagamentoSelect = document.getElementById('forma_pagamento');
-    const formaPagamento = formaPagamentoSelect ? formaPagamentoSelect.value : '';
+            total +=
+                Number(
+                    item.precoFinal || 0
+                );
+
+        }
+    );
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PRODUTOS
+    |--------------------------------------------------------------------------
+    */
+
+    const produtoNome =
+
+        carrinho
+
+            .map(
+                item => {
+
+
+                    let descricao =
+
+                        `${item.quantidade}x ${item.nome} ` +
+
+                        `(R$ ` +
+
+                        `${(
+                            Number(
+                                item.precoUnitario || 0
+                            ) *
+
+                            Number(
+                                item.quantidade || 1
+                            )
+
+                        ).toFixed(2).replace('.', ',')}` +
+
+                        `)`;
+
+
+                    if (
+                        item.adicionais &&
+                        item.adicionais.length > 0
+                    ) {
+
+                        descricao +=
+                            '\nAdicionais:';
+
+
+                        descricao +=
+
+                            item.adicionais
+
+                                .map(
+                                    ad =>
+
+                                        `\n - ` +
+
+                                        `${item.quantidade}x ` +
+
+                                        `${ad.nome} ` +
+
+                                        `(R$ ` +
+
+                                        `${(
+                                            Number(ad.valor || 0) *
+
+                                            Number(
+                                                item.quantidade || 1
+                                            )
+
+                                        ).toFixed(2).replace('.', ',')}` +
+
+                                        `)`
+
+                                )
+
+                                .join('');
+
+                    }
+
+
+                    return descricao;
+
+                }
+            )
+
+            .join('\n\n');
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PAGAMENTO
+    |--------------------------------------------------------------------------
+    */
+
+    const formaPagamentoSelect =
+        document.getElementById(
+            'forma_pagamento'
+        );
+
+
+    const formaPagamento =
+        formaPagamentoSelect
+            ? formaPagamentoSelect.value
+            : '';
+
+
 
     if (!formaPagamento) {
-        alert('Selecione uma forma de pagamento antes de finalizar o pedido.');
+
+        alert(
+            'Selecione uma forma de pagamento antes de finalizar o pedido.'
+        );
+
+
+        if (formaPagamentoSelect) {
+
+            formaPagamentoSelect.focus();
+
+        }
+
+
         return;
+
     }
 
-    const formData = new FormData();
-    formData.append('id_usuario', idUsuario);
-    formData.append('produto', produtoNome);
-    formData.append('valor', total.toFixed(2));
-    formData.append('pagamento', formaPagamento);
-    formData.append('rua', rua);
-    formData.append('bairro', bairro);
-    formData.append('numero', numero);
-    formData.append('cidade', cidade);
-    formData.append('ponto_de_referencia', ponto_de_referencia);
-    formData.append('nome', user.nome); 
 
-    // Chamada AJAX para endpoint que grava o pedido em DB.
-    // A resposta é JSON contendo success/message.
-    fetch('index.php?action=enviarPedido', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Pedido salvo:', data);
 
-        if (data.success) {
-            // Pedido gravado com sucesso -> esvazia o carrinho local e atualiza interface.
-            localStorage.removeItem('carrinho');
-            alert('Pedido registrado com sucesso!');
-            window.location.href = "index.php?action=perfilCliente&redirect=carrinho";
-            carregarCarrinho();
-        } else {
-            // Caso o backend retorne erro, mostramos para o usuário.
-            alert('Erro ao salvar pedido: ' + (data.message || 'Tente novamente.'));
+    /*
+    |--------------------------------------------------------------------------
+    | FORM DATA
+    |--------------------------------------------------------------------------
+    */
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        'id_usuario',
+        idUsuario
+    );
+
+
+    formData.append(
+        'produto',
+        produtoNome
+    );
+
+
+    formData.append(
+        'valor',
+        total.toFixed(2)
+    );
+
+
+    formData.append(
+        'pagamento',
+        formaPagamento
+    );
+
+
+    formData.append(
+        'rua',
+        rua || ''
+    );
+
+
+    formData.append(
+        'bairro',
+        bairro || ''
+    );
+
+
+    formData.append(
+        'numero',
+        numero || ''
+    );
+
+
+    formData.append(
+        'cidade',
+        cidade || ''
+    );
+
+
+    formData.append(
+        'ponto_de_referencia',
+        ponto_de_referencia || ''
+    );
+
+    formData.append(
+        'telefone',
+        telefone || ''
+    );
+
+
+    formData.append(
+        'nome',
+        user && user.nome
+            ? user.nome
+            : ''
+    );
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BOTÃO FINALIZAR
+    |--------------------------------------------------------------------------
+    */
+
+    const botaoFinalizar =
+        document.querySelector(
+            'button[onclick="enviarWhatsApp()"]'
+        );
+
+
+    if (botaoFinalizar) {
+
+        botaoFinalizar.disabled =
+            true;
+
+
+        botaoFinalizar.classList.add(
+            'cursor-not-allowed',
+            'opacity-70'
+        );
+
+
+        botaoFinalizar.innerHTML = `
+
+            <i
+                class="bi bi-arrow-repeat spinner"
+            ></i>
+
+            Enviando pedido...
+
+        `;
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | AJAX
+    |--------------------------------------------------------------------------
+    */
+
+    fetch(
+        'index.php?action=enviarPedido',
+        {
+
+            method: 'POST',
+
+            body: formData
+
         }
-    })
-    .catch(error => {
-        // Qualquer falha de rede é capturada aqui.
-        console.error('Erro ao enviar pedido:', error);
-        alert('Erro ao enviar pedido. Verifique sua conexão e tente novamente.');
-    });
+    )
+
+
+    .then(
+        response => {
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    'Erro HTTP: ' +
+                    response.status
+                );
+
+            }
+
+
+            return response.json();
+
+        }
+    )
+
+
+    .then(
+        data => {
+
+
+            console.log(
+                'Pedido salvo:',
+                data
+            );
+
+
+            if (data.success) {
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | LIMPA CARRINHO
+                |--------------------------------------------------------------------------
+                */
+
+                localStorage.removeItem(
+                    'carrinho'
+                );
+
+
+                alert(
+                    'Pedido registrado com sucesso!'
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | REDIRECIONA
+                |--------------------------------------------------------------------------
+                */
+
+                window.location.href =
+                    "index.php?action=perfilCliente&redirect=carrinho";
+
+
+            } else {
+
+
+                alert(
+                    'Erro ao salvar pedido: ' +
+
+                    (
+                        data.message ||
+                        'Tente novamente.'
+                    )
+                );
+
+
+                restaurarBotao();
+
+            }
+
+        }
+    )
+
+
+    .catch(
+        error => {
+
+
+            console.error(
+                'Erro ao enviar pedido:',
+                error
+            );
+
+
+            alert(
+                'Erro ao enviar pedido. ' +
+                'Verifique sua conexão e tente novamente.'
+            );
+
+
+            restaurarBotao();
+
+        }
+    );
+
 }
-   </script>
+
+
+
+/*
+|--------------------------------------------------------------------------
+| RESTAURAR BOTÃO
+|--------------------------------------------------------------------------
+*/
+
+function restaurarBotao() {
+
+    const botaoFinalizar =
+        document.querySelector(
+            'button[onclick="enviarWhatsApp()"]'
+        );
+
+
+    if (botaoFinalizar) {
+
+        botaoFinalizar.disabled =
+            false;
+
+
+        botaoFinalizar.classList.remove(
+            'cursor-not-allowed',
+            'opacity-70'
+        );
+
+
+        botaoFinalizar.innerHTML = `
+
+            <i
+                class="bi bi-check-circle-fill"
+            ></i>
+
+            Finalizar Compra
+
+        `;
+
+    }
+
+}
+
+</script>
+
+
 </body>
+
 </html>
+

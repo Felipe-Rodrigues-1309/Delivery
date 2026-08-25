@@ -4,8 +4,26 @@
 }
 
 body {
-  background-color: black;
-  background-image: url("/img/background.png");
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(120, 50, 180, 0.20),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(80, 30, 130, 0.16),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0a0a0a,
+            #151515,
+            #202020
+        );
+
+    min-height: 100vh;
+  /*background-image: url("/img/background.jpg");*/
   backdrop-filter: blur(3px);
   background-size: cover;
   background-position: center;
@@ -240,6 +258,12 @@ span {
     padding: 15px;
     width: 350px;
   }
+
+.promocao{
+  position: absolute;
+  margin-top: 99%;
+  margin-left: 68%;
+}
 
   .row {
     gap: 15px;

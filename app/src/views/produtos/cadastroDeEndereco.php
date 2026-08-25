@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     // pega os dados do front
+    $telefone = $_POST['telefone'] ?? '';
     $rua = $_POST['rua'] ?? '';   // ?? ''usado para verificar se a variavel existe 
     $numero = $_POST['numero'] ?? '';
     $bairro = $_POST['bairro'] ?? '';
@@ -28,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Salva o endereço na sessão para validação no carrinho
+    $_SESSION['telefone'] = $telefone;
     $_SESSION['rua'] = $rua;  // $_SESSION['rua'] = $rua; é usado para salvar o dado vindo do banco na seccão
     $_SESSION['numero'] = $numero;
     $_SESSION['bairro'] = $bairro;
@@ -35,19 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['ponto_de_referencia'] = $ponto_de_referencia;
 
     //insere no banco
-    $sql = "INSERT INTO endereco (id, usuario, rua, numero, bairro, cidade, ponto_de_referencia)
-            VALUES (?,?,?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO endereco (id, usuario, rua, numero, bairro, cidade, ponto_de_referencia, telefone)
+            VALUES (?,?,?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql);
 
-    $stmt->bind_param("issssss", 
+    $stmt->bind_param("isssssss", 
         $id_usuario,
         $usuario,
         $rua, 
         $numero, 
         $bairro, 
         $cidade, 
-        $ponto_de_referencia
+        $ponto_de_referencia,
+        $telefone
     );
 
     if ($stmt->execute()) {

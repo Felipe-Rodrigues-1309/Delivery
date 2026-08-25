@@ -8,7 +8,7 @@
     <style>
         /* Fundo com gradiente */
         body {
-            background-image: linear-gradient(to left bottom, #000000, #6f00ff);
+            background-image: linear-gradient(to left bottom, #000000, #401962dc);
             margin: 0;
             padding: 0;
             height: 105vh;
@@ -26,7 +26,7 @@
             border-radius: 22px;
             border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            padding: 19px;
+            padding: 15px;
             width: 90%;
             max-width: 420px;
             text-align: center;
@@ -60,7 +60,7 @@
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 1px;
             text-align: left;
         }
 
@@ -81,6 +81,11 @@
         <h2>Cadastro de Endereço</h2>
         
         <form method="post" action="?action=enviarEndereco&redirect=carrinho">
+            <div class="form-group">
+                <label for="telefone">Telefone para contato</label>
+                <input type="text" class="form-control form-control-lg" id="telefone" name="telefone" placeholder="(88)9.8888-8888" required>
+            </div>
+
             <div class="form-group">
                 <label for="rua">Rua</label>
                 <input type="text" class="form-control form-control-lg" id="rua" name="rua" placeholder="Rua Exemplo" required>
