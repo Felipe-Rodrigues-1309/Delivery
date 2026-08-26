@@ -103,7 +103,6 @@ if ($id) {
 </head>
 <body>
 
-<?php while ($endereco = $resultEndereco->fetch_assoc()): ?>
 
     <div class="card-glass">
         <h2>Cadastro de Endereço</h2>
@@ -111,36 +110,36 @@ if ($id) {
         <form method="post" action="?action=enviarEndereco&redirect=carrinho">
             <div class="form-group">
                 <label for="telefone">Telefone para contato</label>
-                <input type="text" class="form-control form-control-lg" id="telefone" name="telefone" placeholder="(88)9.8888-8888" required>
+                <input type="text" class="form-control form-control-lg" id="telefone" name="telefone" placeholder="(88)9.8888-8888" required     value="<?= htmlspecialchars($endereco['telefone'] ?? '') ?>">
             </div>
 
             <div class="form-group">
                 <label for="rua">Rua</label>
-                <input type="text" class="form-control form-control-lg" id="rua" name="rua" placeholder="Rua Exemplo" required>
+                <input type="text" class="form-control form-control-lg" id="rua" name="rua" placeholder="Rua Exemplo" required value="<?= htmlspecialchars($endereco['rua'] ?? '') ?>">
             </div>
 
             <div class="form-group">
                 <label for="numero">Número</label>
-                <input type="text" class="form-control form-control-lg" id="numero" name="numero" placeholder="123" required>
+                <input type="text" class="form-control form-control-lg" id="numero" name="numero" placeholder="123" required value="<?= htmlspecialchars($endereco['numero'] ?? '') ?>">
             </div>
 
             <div class="form-group">
                 <label for="bairro">Bairro</label>
-                <input type="text" class="form-control form-control-lg" id="bairro" name="bairro" placeholder="Centro" required>
+                <input type="text" class="form-control form-control-lg" id="bairro" name="bairro" placeholder="Centro" required value="<?= htmlspecialchars($endereco['bairro'] ?? '') ?>">
             </div>
 
             <div class="form-group">
                 <label for="cidade">Cidade</label>
-                <input type="text" class="form-control form-control-lg" id="cidade" name="cidade" placeholder="São Paulo" required>
+                <input type="text" class="form-control form-control-lg" id="cidade" name="cidade" placeholder="São Paulo" required value="<?= htmlspecialchars($endereco['cidade'] ?? '') ?>">
             </div>
 
             <div class="form-group">
                 <label for="ponto_de_referencia">Ponto de Referência</label>
-                <input type="text" class="form-control form-control-lg" id="ponto_de_referencia" name="ponto_de_referencia" placeholder="Apto 101 / Bloco B">
+                <input type="text" class="form-control form-control-lg" id="ponto_de_referencia" name="ponto_de_referencia" placeholder="Apto 101 / Bloco B" value="<?= htmlspecialchars($endereco['ponto_de_referencia'] ?? '') ?>">
             </div>
 
             <button type="submit" class="btn btn-light mt-3">Salvar Endereço</button>
-                        <?php endwhile; ?>
+
         </form>
     </div>
 
