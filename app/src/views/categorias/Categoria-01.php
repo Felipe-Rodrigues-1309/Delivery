@@ -412,14 +412,14 @@ while ($prod = $resultProdutos->fetch_assoc()) {
                 translateY(-5px);
 
             border-color:
-                rgba(0, 255, 0, 0.65);
+                #1900ff;
 
             box-shadow:
                 0 8px 25px
                 rgba(0, 0, 0, 0.45),
 
                 0 0 15px
-                rgba(0, 255, 0, 0.12);
+                #1900ff;
         }
 
 
@@ -776,6 +776,23 @@ while ($prod = $resultProdutos->fetch_assoc()) {
                 </a>
 
                 <a
+                    href="index.php?action=alterarEndereco"
+                    class="
+                        text-white
+                        no-underline
+                        px-4
+                        py-3
+                        rounded-lg
+                        hover:bg-white/10
+                        transition
+                    "
+                >
+                    <i class="bi bi-person mr-2"></i>
+                    Alterar Endereço
+                </a>
+
+
+                                <a
                     href="index.php?action=carrinho"
                     class="
                         text-white

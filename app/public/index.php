@@ -83,6 +83,10 @@ switch ($action) {
     case 'perfilCliente':
         require __DIR__ . '/../src/views/auth/perfilCliente.php';
         break;
+
+    case 'alterarEndereco':
+        require __DIR__ . '/../src/views/auth/alterarEnderecoCadastrado.php';
+        break;
     
     case 'listarProdutos':
         require __DIR__ . '/../src/views/produtos/listarProdutosCadastrados.php';

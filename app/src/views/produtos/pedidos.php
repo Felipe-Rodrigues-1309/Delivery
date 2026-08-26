@@ -215,7 +215,7 @@ if ($result && $result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <a
-    href="https://felvix.infinityfreeapp.com/encomendasDutra/app/public/index.php?action=dashboard"
+    href="index.php?action=dashboard"
     class="btn btn-menu no-print"
 >
     🏠 Ir para o Menu

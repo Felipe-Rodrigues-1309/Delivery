@@ -1,0 +1,151 @@
+<?php
+require_once __DIR__ . '/../../config/conexao.php';
+
+session_start();
+
+$id = $_SESSION['id_usuario'] ?? null;
+
+$endereco = null;
+
+if ($id) {
+    $stmt = $conn->prepare("
+        SELECT usuario, rua, numero, bairro, cidade, ponto_de_referencia, telefone
+        FROM endereco 
+        WHERE id = ?
+    ");
+
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    $resultEndereco = $stmt->get_result();
+    $endereco = $resultEndereco->fetch_assoc();
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Endereço</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        /* Fundo com gradiente */
+        body {
+            background-image: linear-gradient(to left bottom, #000000, #401962dc);
+            margin: 0;
+            padding: 0;
+            height: 105vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* CARD GLASS */
+        .card-glass {
+            background: rgba(255, 255, 255, 0);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            padding: 15px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        /* Inputs */
+        .card-glass input {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+        }
+
+        .card-glass input::placeholder {
+            color: #e0e0e0;
+        }
+
+        .card-glass button {
+            width: 100%;
+            border-radius: 12px;
+            font-weight: bold;
+            background: white;
+            color: #4b0808;
+        }
+
+        .card-glass label {
+            color: #e0e0e0;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 1px;
+            text-align: left;
+        }
+
+        /* Fade */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<?php while ($endereco = $resultEndereco->fetch_assoc()): ?>
+
+    <div class="card-glass">
+        <h2>Cadastro de Endereço</h2>
+        
+        <form method="post" action="?action=enviarEndereco&redirect=carrinho">
+            <div class="form-group">
+                <label for="telefone">Telefone para contato</label>
+                <input type="text" class="form-control form-control-lg" id="telefone" name="telefone" placeholder="(88)9.8888-8888" required>
+            </div>
+
+            <div class="form-group">
+                <label for="rua">Rua</label>
+                <input type="text" class="form-control form-control-lg" id="rua" name="rua" placeholder="Rua Exemplo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="numero">Número</label>
+                <input type="text" class="form-control form-control-lg" id="numero" name="numero" placeholder="123" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bairro">Bairro</label>
+                <input type="text" class="form-control form-control-lg" id="bairro" name="bairro" placeholder="Centro" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cidade">Cidade</label>
+                <input type="text" class="form-control form-control-lg" id="cidade" name="cidade" placeholder="São Paulo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ponto_de_referencia">Ponto de Referência</label>
+                <input type="text" class="form-control form-control-lg" id="ponto_de_referencia" name="ponto_de_referencia" placeholder="Apto 101 / Bloco B">
+            </div>
+
+            <button type="submit" class="btn btn-light mt-3">Salvar Endereço</button>
+                        <?php endwhile; ?>
+        </form>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

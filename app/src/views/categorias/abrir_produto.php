@@ -330,7 +330,7 @@ if (isset($_GET['id'])) {
 
             box-shadow:
                 0 0 25px
-                rgba(0, 255, 0, 0.15);
+                #1900ff91;
 
         }
 
