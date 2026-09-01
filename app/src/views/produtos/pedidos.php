@@ -1390,7 +1390,7 @@ if ($result && $result->num_rows > 0) {
                                         <div class="col-12 col-md-4">
 
                                             <label class="form-label">
-                                                Situação do pagamento
+                                                Situação do pagamento.
                                             </label>
 
                                             <div class="form-check form-switch">
